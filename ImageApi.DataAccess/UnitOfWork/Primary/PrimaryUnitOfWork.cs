@@ -18,6 +18,8 @@ using ImageApi.DataAccess.Repository.Primary.RefreshToken;
 using ImageApi.DataAccess.Repository.Primary.RefreshToken.Interface;
 using ImageApi.DataAccess.Repository.Primary.User;
 using ImageApi.DataAccess.Repository.Primary.User.Interface;
+using ImageApi.DataAccess.Repository.Primary.ValidationCode;
+using ImageApi.DataAccess.Repository.Primary.ValidationCode.Interface;
 using ImageApi.DataAccess.UnitOfWork.Primary.Interface;
 
 namespace ImageApi.DataAccess.UnitOfWork.Primary
@@ -33,6 +35,7 @@ namespace ImageApi.DataAccess.UnitOfWork.Primary
         private LoginDetailRepository loginDetailRepository;
         private RefreshTokenRepository refreshTokenRepository;
         private UserRepository userRepository;
+        private ValidationCodeRepository validationCodeRepository;
 
         public PrimaryUnitOfWork(PrimaryContext context) : base(context) { }
 
@@ -54,5 +57,7 @@ namespace ImageApi.DataAccess.UnitOfWork.Primary
         public IRefreshTokenRepository RefreshTokenRepository { get => refreshTokenRepository ??= new(context); }
 
         public IUserRepository UserRepository { get => userRepository ??= new(context); }
+
+        public IValidationCodeRepository ValidationCodeRepository { get => validationCodeRepository ??= new(context); }
     }
 }

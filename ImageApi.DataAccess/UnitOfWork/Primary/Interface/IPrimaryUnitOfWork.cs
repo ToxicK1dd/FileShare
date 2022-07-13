@@ -8,6 +8,7 @@ using ImageApi.DataAccess.Repository.Primary.Login.Interface;
 using ImageApi.DataAccess.Repository.Primary.LoginDetail.Interface;
 using ImageApi.DataAccess.Repository.Primary.RefreshToken.Interface;
 using ImageApi.DataAccess.Repository.Primary.User.Interface;
+using ImageApi.DataAccess.Repository.Primary.ValidationCode.Interface;
 
 namespace ImageApi.DataAccess.UnitOfWork.Primary.Interface
 {
@@ -30,5 +31,7 @@ namespace ImageApi.DataAccess.UnitOfWork.Primary.Interface
         IRefreshTokenRepository RefreshTokenRepository { get; }
 
         IUserRepository UserRepository { get; }
+
+        IValidationCodeRepository ValidationCodeRepository { get; }
     }
 }
