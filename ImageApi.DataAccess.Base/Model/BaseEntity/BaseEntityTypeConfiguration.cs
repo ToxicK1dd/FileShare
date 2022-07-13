@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
 
-namespace ImageApi.DataAccess.Models
+namespace ImageApi.DataAccess.Base.Model.BaseEntity
 {
     /// <summary>
     /// Base entity type configuration for database models.

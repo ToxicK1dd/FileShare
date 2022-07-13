@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageApi", "ImageApi\ImageA
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageApi.DataAccess", "ImageApi.DataAccess\ImageApi.DataAccess.csproj", "{676D071C-7283-4E8D-89FA-F20E44A47949}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageApi.DataAccess.Base", "ImageApi.DataAccess.Base\ImageApi.DataAccess.Base.csproj", "{81B2B932-6DD3-40B0-ADD9-E9EBBE963D45}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{676D071C-7283-4E8D-89FA-F20E44A47949}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{676D071C-7283-4E8D-89FA-F20E44A47949}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{676D071C-7283-4E8D-89FA-F20E44A47949}.Release|Any CPU.Build.0 = Release|Any CPU
+		{81B2B932-6DD3-40B0-ADD9-E9EBBE963D45}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{81B2B932-6DD3-40B0-ADD9-E9EBBE963D45}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{81B2B932-6DD3-40B0-ADD9-E9EBBE963D45}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{81B2B932-6DD3-40B0-ADD9-E9EBBE963D45}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

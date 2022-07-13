@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using ImageApi.DataAccess.Base.Model;
+using Microsoft.EntityFrameworkCore;
 
 namespace ImageApi.DataAccess.Models.Primary
 {

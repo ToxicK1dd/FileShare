@@ -1,4 +1,4 @@
-﻿using ImageApi.DataAccess.Dto;
+﻿using ImageApi.DataAccess.Base.Dto;
 using ImageApi.DataAccess.Models.Primary;
 using Mapster;
 using MapsterMapper;

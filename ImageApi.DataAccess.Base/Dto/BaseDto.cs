@@ -1,7 +1,7 @@
-﻿using ImageApi.DataAccess.Models;
+﻿using ImageApi.DataAccess.Base.Model.BaseEntity;
 using Mapster;
 
-namespace ImageApi.DataAccess.Dto
+namespace ImageApi.DataAccess.Base.Dto
 {
     public abstract class BaseDto<TDto, TModel> : BaseEntity, IRegister
            where TDto : BaseEntity

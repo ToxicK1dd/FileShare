@@ -1,4 +1,4 @@
-﻿namespace ImageApi.DataAccess.Models
+﻿namespace ImageApi.DataAccess.Base.Model.BaseEntity
 {
     /// <summary>
     /// Base class for all database models

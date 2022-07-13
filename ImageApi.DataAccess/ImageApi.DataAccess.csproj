@@ -22,8 +22,12 @@
 
   <ItemGroup>
     <Folder Include="Migrations\" />
-    <Folder Include="UnitOfWork\" />
-    <Folder Include="Repository\" />
+    <Folder Include="Repository\Primary\" />
+    <Folder Include="UnitOfWork\Primary\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ImageApi.DataAccess.Base\ImageApi.DataAccess.Base.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿using ImageApi.DataAccess.Base.Model.BaseEntity;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace ImageApi.DataAccess.Models.Primary.User
 {

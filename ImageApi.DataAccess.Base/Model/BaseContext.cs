@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace ImageApi.DataAccess.Models
+namespace ImageApi.DataAccess.Base.Model
 {
     public abstract class BaseContext<TContext> : DbContext
             where TContext : DbContext
@@ -20,7 +20,7 @@ namespace ImageApi.DataAccess.Models
             // Apply type configurations only from this namespace
             modelBuilder.ApplyConfigurationsFromAssembly(
                 GetType().Assembly,
-                t => t.Namespace!.Contains(GetType().Namespace!));
+                t => t.Namespace.Contains(GetType().Namespace));
         }
     }
 }
