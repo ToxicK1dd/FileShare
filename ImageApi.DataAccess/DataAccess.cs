@@ -7,6 +7,7 @@ using MapsterMapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using System.Reflection;
 
 namespace ImageApi.DataAccess
@@ -35,7 +36,10 @@ namespace ImageApi.DataAccess
                     maxRetryCount: 10,
                     maxRetryDelay: TimeSpan.FromSeconds(5),
                     errorNumbersToAdd: null);
-                });
+                })
+                .LogTo(Console.WriteLine, LogLevel.Information)
+                .EnableSensitiveDataLogging()
+                .EnableDetailedErrors();
             });
 
             services.AddScoped<IPrimaryUnitOfWork, PrimaryUnitOfWork>();

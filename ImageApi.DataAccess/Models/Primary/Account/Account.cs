@@ -51,6 +51,11 @@ namespace ImageApi.DataAccess.Models.Primary.Account
         /// Share navigation property
         /// </summary>
         public ICollection<Share.Share> Shares { get; set; }
+
+        /// <summary>
+        /// Share navigation property
+        /// </summary>
+        public ICollection<Share.Share> Shared { get; set; }
         #endregion
     }
 

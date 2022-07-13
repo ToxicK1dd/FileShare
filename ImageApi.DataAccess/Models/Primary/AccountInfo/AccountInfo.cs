@@ -78,7 +78,7 @@ namespace ImageApi.DataAccess.Models.Primary.AccountInfo
                 .IsRequired(false);
 
             builder.Property(x => x.DateOfBirth)
-                .IsRequired(false);
+                .IsRequired();
 
             builder.Property(x => x.Nationality)
                 .HasMaxLength(128)

@@ -1,6 +1,9 @@
 ﻿using ImageApi.DataAccess.Base.Model.BaseEntity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Newtonsoft.Json;
+using System.Text.Json;
 using System.Text.Json.Nodes;
 
 namespace ImageApi.DataAccess.Models.Primary.Document
@@ -56,7 +59,10 @@ namespace ImageApi.DataAccess.Models.Primary.Document
                 .HasColumnType("LONGBLOB")
                 .IsRequired();
 
-            builder.Property(x => x.Content)
+            builder.Property(e => e.Content)
+                .HasConversion(
+                    value => value == null ? "" : JsonConvert.SerializeObject(value),
+                    value => JsonConvert.DeserializeObject<JsonObject>(value))
                 .IsRequired(false);
 
             builder.HasOne(x => x.Account)

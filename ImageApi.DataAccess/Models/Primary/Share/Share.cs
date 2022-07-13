@@ -61,7 +61,7 @@ namespace ImageApi.DataAccess.Models.Primary.Share
                 .HasForeignKey(x => x.AccountId);
 
             builder.HasOne(x => x.SharedWithAccount)
-                .WithMany(x => x.Shares)
+                .WithMany(x => x.Shared)
                 .HasForeignKey(x => x.SharedWithAccountId);
         }
     }

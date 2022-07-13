@@ -44,7 +44,7 @@ namespace ImageApi.DataAccess.Models.Primary.LoginDetail
                 .IsRequired();
 
             builder.Property(x => x.DeviceType)
-                .IsRequired(false);
+                .IsRequired();
 
             builder.Property(x => x.Time)
                 .IsRequired();
