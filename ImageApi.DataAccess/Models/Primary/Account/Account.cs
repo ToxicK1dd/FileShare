@@ -14,13 +14,13 @@ namespace ImageApi.DataAccess.Models.Primary.Account
         /// </summary>
         public bool Enabled { get; set; }
 
-        /// <summary>
-        /// Mail used for sending messages
-        /// </summary>
-        public string Email { get; set; }
-
 
         #region Navigation Properties
+        /// <summary>
+        /// Account info navigation property
+        /// </summary>
+        public AccountInfo.AccountInfo AccountInfo { get; set; }
+
         /// <summary>
         /// Admin navigation property
         /// </summary>
@@ -48,10 +48,6 @@ namespace ImageApi.DataAccess.Models.Primary.Account
                 .IsRequired();
 
             builder.Property(x => x.Enabled)
-                .IsRequired();
-
-            builder.Property(x => x.Email)
-                .HasMaxLength(256)
                 .IsRequired();
         }
     }

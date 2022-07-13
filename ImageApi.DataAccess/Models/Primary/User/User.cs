@@ -4,12 +4,6 @@ namespace ImageApi.DataAccess.Models.Primary.User
 {
     public class User : BaseEntity
     {
-        /// <summary>
-        /// Full name of the user
-        /// </summary>
-        public string FullName { get; set; }
-
-
         #region Navigation Properties
         /// <summary>
         /// Account foreign key
@@ -33,9 +27,6 @@ namespace ImageApi.DataAccess.Models.Primary.User
         public override void Configure(EntityTypeBuilder<User> builder)
         {
             base.Configure(builder);
-
-            builder.Property(x => x.FullName)
-                .HasMaxLength(128);
 
             builder.HasOne(x => x.Account)
                 .WithOne(x => x.User)

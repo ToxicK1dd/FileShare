@@ -2,12 +2,25 @@
 
 namespace ImageApi.DataAccess.Models.Primary.Admin
 {
-    public class Admin : User.User
+    public class Admin : BaseEntity
     {
         /// <summary>
         /// The level of power the admin has
         /// </summary>
         public AdminRoleType RoleType { get; set; }
+
+
+        #region Navigation Properties
+        /// <summary>
+        /// Account foreign key
+        /// </summary>
+        public Guid? AccountId { get; set; }
+
+        /// <summary>
+        /// Account navigation property
+        /// </summary>
+        public Account.Account Account { get; set; }
+        #endregion
     }
 
     public class AdminEntityTypeConfiguration : BaseEntityTypeConfiguration<Admin>
@@ -18,9 +31,6 @@ namespace ImageApi.DataAccess.Models.Primary.Admin
 
             builder.Property(x => x.RoleType)
                 .IsRequired();
-
-            builder.Property(x => x.FullName)
-                .HasMaxLength(128);
 
             builder.HasOne(x => x.Account)
                 .WithOne(x => x.Admin)
