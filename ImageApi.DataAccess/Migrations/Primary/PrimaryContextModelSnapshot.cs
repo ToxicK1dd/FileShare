@@ -117,9 +117,6 @@ namespace ImageApi.DataAccess.Migrations.Primary
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
-                    b.Property<Guid>("AccountId")
-                        .HasColumnType("char(36)");
-
                     b.Property<int>("Type")
                         .HasColumnType("int");
 

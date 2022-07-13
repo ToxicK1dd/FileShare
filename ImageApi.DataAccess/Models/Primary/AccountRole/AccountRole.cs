@@ -13,11 +13,6 @@ namespace ImageApi.DataAccess.Models.Primary.AccountRole
 
         #region Navigation Properties
         /// <summary>
-        /// Account foreign key
-        /// </summary>
-        public Guid AccountId { get; set; }
-
-        /// <summary>
         /// Account navigation property
         /// </summary>
         public ICollection<Account.Account> Accounts { get; set; }
