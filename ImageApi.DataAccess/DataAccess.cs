@@ -1,5 +1,7 @@
 ﻿using ImageApi.DataAccess.Base.Dto;
 using ImageApi.DataAccess.Models.Primary;
+using ImageApi.DataAccess.UnitOfWork.Primary;
+using ImageApi.DataAccess.UnitOfWork.Primary.Interface;
 using Mapster;
 using MapsterMapper;
 using Microsoft.EntityFrameworkCore;
@@ -35,6 +37,8 @@ namespace ImageApi.DataAccess
                     errorNumbersToAdd: null);
                 });
             });
+
+            services.AddScoped<IPrimaryUnitOfWork, PrimaryUnitOfWork>();
         }
 
         public static void AddMapster(this IServiceCollection services)
