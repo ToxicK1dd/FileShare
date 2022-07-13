@@ -5,11 +5,6 @@ namespace ImageApi.DataAccess.Models.Primary.Account
     public class Account : BaseEntity
     {
         /// <summary>
-        /// What type of account this is
-        /// </summary>
-        public AccountType Type { get; set; }
-
-        /// <summary>
         /// Toggles the ability to authenticate
         /// </summary>
         public bool Enabled { get; set; }
@@ -34,7 +29,7 @@ namespace ImageApi.DataAccess.Models.Primary.Account
         /// <summary>
         /// Login navigation property
         /// </summary>
-        public Login.Login Login { get; set; } 
+        public Login.Login Login { get; set; }
         #endregion
     }
 
@@ -44,17 +39,8 @@ namespace ImageApi.DataAccess.Models.Primary.Account
         {
             base.Configure(builder);
 
-            builder.Property(x => x.Type)
-                .IsRequired();
-
             builder.Property(x => x.Enabled)
                 .IsRequired();
         }
-    }
-
-    public enum AccountType
-    {
-        Admin = 1,
-        User = 2,
     }
 }
