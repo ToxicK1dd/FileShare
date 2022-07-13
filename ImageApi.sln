@@ -9,7 +9,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageApi.DataAccess", "Imag
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageApi.DataAccess.Base", "ImageApi.DataAccess.Base\ImageApi.DataAccess.Base.csproj", "{81B2B932-6DD3-40B0-ADD9-E9EBBE963D45}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageApi.Services", "ImageApi.Services\ImageApi.Services.csproj", "{CC1649BF-FF32-4439-9812-26A16904AA79}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageApi.Services", "ImageApi.Services\ImageApi.Services.csproj", "{CC1649BF-FF32-4439-9812-26A16904AA79}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{7873A044-A9ED-4F56-BFAE-351660ADDFCF}"
+	ProjectSection(SolutionItems) = preProject
+		structure.drawio = structure.drawio
+		structure.png = structure.png
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -6,19 +6,29 @@ namespace ImageApi.DataAccess.Models.Primary.AccountInfo
     public class AccountInfo : BaseEntity
     {
         /// <summary>
-        /// Full name of the user
+        /// The firstname of the account
         /// </summary>
-        public string FullName { get; set; }
+        public string Firstname { get; set; }
 
         /// <summary>
-        /// Mail for which to send emails to
+        /// All middle names of the account
         /// </summary>
-        public string Email { get; set; }
+        public string MiddleNames { get; set; }
 
         /// <summary>
-        /// Number for which to send sms messages to
+        /// The lastname of the account
         /// </summary>
-        public string PhoneNumber { get; set; }
+        public string Lastname { get; set; }
+
+        /// <summary>
+        /// The date of which the account was born
+        /// </summary>
+        public DateTimeOffset DateOfBirth { get; set; }
+
+        /// <summary>
+        /// The country of which the account resides
+        /// </summary>
+        public string Nationality { get; set; }
 
 
         #region Navigation Properties
@@ -31,6 +41,21 @@ namespace ImageApi.DataAccess.Models.Primary.AccountInfo
         /// Account navigation property
         /// </summary>
         public Account.Account Account { get; set; }
+
+        /// <summary>
+        /// Contact info navigation property
+        /// </summary>
+        public ContactInfo.ContactInfo ContactInfo { get; set; }
+
+        /// <summary>
+        /// Social security number navigation property
+        /// </summary>
+        public ICollection<SocialSecurityNumber.SocialSecurityNumber> SocialSecurityNumbers { get; set; } 
+
+        /// <summary>
+        /// Address navigation property
+        /// </summary>
+        public ICollection<Address.Address> Addresses { get; set; }
         #endregion
     }
 
@@ -40,14 +65,24 @@ namespace ImageApi.DataAccess.Models.Primary.AccountInfo
         {
             base.Configure(builder);
 
-            builder.Property(x => x.FullName)
-                .HasMaxLength(128);
+            builder.Property(x => x.Firstname)
+                .HasMaxLength(64)
+                .IsRequired(false);
 
-            builder.Property(x => x.Email)
-                .HasMaxLength(128);
+            builder.Property(x => x.MiddleNames)
+                .HasMaxLength(768)
+                .IsRequired(false);
 
-            builder.Property(x => x.PhoneNumber)
-                .HasMaxLength(32);
+            builder.Property(x => x.Lastname)
+                .HasMaxLength(64)
+                .IsRequired(false);
+
+            builder.Property(x => x.DateOfBirth)
+                .IsRequired(false);
+
+            builder.Property(x => x.Nationality)
+                .HasMaxLength(128)
+                .IsRequired(false);
 
             builder.HasOne(x => x.Account)
                 .WithOne(x => x.AccountInfo)

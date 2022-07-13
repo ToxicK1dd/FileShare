@@ -45,6 +45,8 @@ namespace ImageApi.DataAccess.Models.Primary.Login
         {
             base.Configure(builder);
 
+            builder.HasIndex(x => x.Username)
+                .IsUnique();
             builder.Property(x => x.Username)
                 .HasMaxLength(64)
                 .IsRequired();

@@ -6,14 +6,14 @@ namespace ImageApi.DataAccess.Models.Primary.DocumentDetail
     public class DocumentDetail : BaseEntity
     {
         /// <summary>
-        /// The time of when the document was accessed
+        /// Document format, eg .png
         /// </summary>
-        public DateTimeOffset Accessed { get; set; }
+        public string Format { get; set; }
 
         /// <summary>
-        /// The user who accessed the document
+        /// Document size in bytes
         /// </summary>
-        public Guid AccessedBy { get; set; }
+        public int ByteSize { get; set; }
 
 
         #region Navigation Properties
@@ -35,15 +35,16 @@ namespace ImageApi.DataAccess.Models.Primary.DocumentDetail
         {
             base.Configure(builder);
 
-            builder.Property(x => x.Accessed)
+            builder.Property(x => x.Format)
+                .HasMaxLength(128)
                 .IsRequired();
 
-            builder.Property(x => x.AccessedBy)
+            builder.Property(x => x.ByteSize)
                 .IsRequired();
 
             builder.HasOne(x => x.Document)
-                .WithMany(x => x.Details)
-                .HasForeignKey(x => x.DocumentId);
+                .WithOne(x => x.Detail)
+                .HasForeignKey<DocumentDetail>(x => x.DocumentId);
         }
     }
 }

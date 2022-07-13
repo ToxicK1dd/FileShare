@@ -1,6 +1,7 @@
 ﻿using ImageApi.DataAccess.Base.Model.BaseEntity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System.Text.Json.Nodes;
 
 namespace ImageApi.DataAccess.Models.Primary.Document
 {
@@ -12,26 +13,36 @@ namespace ImageApi.DataAccess.Models.Primary.Document
         public byte[] Blob { get; set; }
 
         /// <summary>
-        /// Document format, eg .png
+        /// Document contents in raw json format
         /// </summary>
-        public string Format { get; set; }
+        public JsonObject Content { get; set; }
 
 
         #region Navigation Properties
         /// <summary>
-        /// User foreign key
+        /// Account foreign key
         /// </summary>
-        public Guid UserId { get; set; }
+        public Guid AccountId { get; set; }
 
         /// <summary>
-        /// User navigation property
+        /// Account navigation property
         /// </summary>
-        public User.User User { get; set; }
+        public Account.Account Account { get; set; }
 
         /// <summary>
-        /// Document details navigation property
+        /// Document detail navigation property
         /// </summary>
-        public ICollection<DocumentDetail.DocumentDetail> Details { get; set; }
+        public DocumentDetail.DocumentDetail Detail { get; set; }
+
+        /// <summary>
+        /// Document signature navigation property
+        /// </summary>
+        public ICollection<DocumentSignature.DocumentSignature> Signatures { get; set; }
+
+        /// <summary>
+        /// Share navigation property
+        /// </summary>
+        public ICollection<Share.Share> Shares { get; set; }
         #endregion
     }
 
@@ -45,13 +56,12 @@ namespace ImageApi.DataAccess.Models.Primary.Document
                 .HasColumnType("LONGBLOB")
                 .IsRequired();
 
-            builder.Property(x => x.Format)
-                .HasMaxLength(64)
-                .IsRequired();
+            builder.Property(x => x.Content)
+                .IsRequired(false);
 
-            builder.HasOne(x => x.User)
+            builder.HasOne(x => x.Account)
                 .WithMany(x => x.Documents)
-                .HasForeignKey(x => x.UserId);
+                .HasForeignKey(x => x.AccountId);
         }
     }
 }

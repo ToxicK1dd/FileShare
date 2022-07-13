@@ -1,13 +1,11 @@
 ﻿using ImageApi.DataAccess.Base.UnitOfWork.Interface;
 using ImageApi.DataAccess.Repository.Primary.Account.Interface;
 using ImageApi.DataAccess.Repository.Primary.AccountInfo.Interface;
-using ImageApi.DataAccess.Repository.Primary.Admin.Interface;
 using ImageApi.DataAccess.Repository.Primary.Document.Interface;
 using ImageApi.DataAccess.Repository.Primary.DocumentDetail.Interface;
 using ImageApi.DataAccess.Repository.Primary.Login.Interface;
 using ImageApi.DataAccess.Repository.Primary.LoginDetail.Interface;
 using ImageApi.DataAccess.Repository.Primary.RefreshToken.Interface;
-using ImageApi.DataAccess.Repository.Primary.User.Interface;
 using ImageApi.DataAccess.Repository.Primary.ValidationCode.Interface;
 
 namespace ImageApi.DataAccess.UnitOfWork.Primary.Interface
@@ -18,8 +16,6 @@ namespace ImageApi.DataAccess.UnitOfWork.Primary.Interface
 
         IAccountInfoRepository AccountInfoRepository { get; }
 
-        IAdminRepository AdminRepository { get; }
-
         IDocumentRepository DocumentRepository { get; }
 
         IDocumentDetailRepository DocumentDetailRepository { get; }
@@ -29,8 +25,6 @@ namespace ImageApi.DataAccess.UnitOfWork.Primary.Interface
         ILoginDetailRepository LoginDetailRepository { get; }
 
         IRefreshTokenRepository RefreshTokenRepository { get; }
-
-        IUserRepository UserRepository { get; }
 
         IValidationCodeRepository ValidationCodeRepository { get; }
     }
