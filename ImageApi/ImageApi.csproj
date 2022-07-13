@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ImageApi.DataAccess\ImageApi.DataAccess.csproj" />
+    <ProjectReference Include="..\ImageApi.Service\ImageApi.Service.csproj" />
   </ItemGroup>
 
 </Project>
