@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ImageApi.DataAccess.Base.Repository
 {
-    public abstract class RepositoryBase<TModel, TDto, TContext> : IRepositoryBase<TModel>
+    public abstract class RepositoryBase<TModel, TContext> : IRepositoryBase<TModel>
         where TModel : BaseEntity
         where TContext : DbContext, new()
     {
