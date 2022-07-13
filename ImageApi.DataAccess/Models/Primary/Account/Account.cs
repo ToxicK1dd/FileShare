@@ -10,6 +10,11 @@ namespace ImageApi.DataAccess.Models.Primary.Account
         /// </summary>
         public bool Enabled { get; set; }
 
+        /// <summary>
+        /// Whether or not the account has been validated using email
+        /// </summary>
+        public bool Validated { get; set; }
+
 
         #region Navigation Properties
         /// <summary>
@@ -31,6 +36,11 @@ namespace ImageApi.DataAccess.Models.Primary.Account
         /// Login navigation property
         /// </summary>
         public Login.Login Login { get; set; }
+
+        /// <summary>
+        /// Validation code navigation property
+        /// </summary>
+        public ValidationCode.ValidationCode ValidationCode { get; set; }
         #endregion
     }
 
