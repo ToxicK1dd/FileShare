@@ -1,7 +1,21 @@
-﻿namespace ImageApi.DataAccess.Models.Primary.Login
+﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
+namespace ImageApi.DataAccess.Models.Primary.Login
 {
     public class Login : BaseEntity
     {
+        /// <summary>
+        /// Name used for authentication
+        /// </summary>
+        public string Username { get; set; }
+
+        /// <summary>
+        /// Password used for authentication
+        /// </summary>
+        public string Password { get; set; }
+
+
+        #region Navigation Properties
         /// <summary>
         /// Account foreign key
         /// </summary>
@@ -13,13 +27,34 @@
         public Account.Account Account { get; set; }
 
         /// <summary>
-        /// Name used for authentication
+        /// Login details navigation property
         /// </summary>
-        public string Username { get; set; }
+        public ICollection<LoginDetail.LoginDetail> LoginDetails { get; set; } 
 
         /// <summary>
-        /// Password used for authentication
+        /// Refresh token navigation properties
         /// </summary>
-        public string Password { get; set; }
+        public ICollection<RefreshToken.RefreshToken> RefreshTokens { get; set; }
+        #endregion
+    }
+
+    public class LoginEntityTypeConfiguration : BaseEntityTypeConfiguration<Login>
+    {
+        public override void Configure(EntityTypeBuilder<Login> builder)
+        {
+            base.Configure(builder);
+
+            builder.Property(x => x.Username)
+                .HasMaxLength(64)
+                .IsRequired();
+
+            builder.Property(x => x.Password)
+                .HasMaxLength(128)
+                .IsRequired();
+
+            builder.HasOne(x => x.Account)
+                .WithOne(x => x.Login)
+                .HasForeignKey<Login>(x => x.AccountId);
+        }
     }
 }
