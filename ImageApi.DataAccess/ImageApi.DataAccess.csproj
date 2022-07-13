@@ -23,12 +23,6 @@
   <ItemGroup>
     <Folder Include="Migrations\" />
     <Folder Include="Dto\" />
-    <Folder Include="Models\Primary\LoginDetail\" />
-    <Folder Include="Models\Primary\Admin\" />
-    <Folder Include="Models\Primary\Document\" />
-    <Folder Include="Models\Primary\DocumentDetail\" />
-    <Folder Include="Models\Primary\User\" />
-    <Folder Include="Models\Primary\RefreshToken\" />
     <Folder Include="UnitOfWork\" />
     <Folder Include="Repository\" />
   </ItemGroup>

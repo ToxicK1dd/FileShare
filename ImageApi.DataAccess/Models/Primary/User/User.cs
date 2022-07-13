@@ -1,6 +1,6 @@
-﻿namespace ImageApi.DataAccess.Models.Primary.Login
+﻿namespace ImageApi.DataAccess.Models.Primary.User
 {
-    public class Login : BaseEntity
+    public class User : BaseEntity
     {
         /// <summary>
         /// Account foreign key
@@ -13,13 +13,8 @@
         public Account.Account Account { get; set; }
 
         /// <summary>
-        /// Name used for authentication
+        /// Full name of the user
         /// </summary>
-        public string Username { get; set; }
-
-        /// <summary>
-        /// Password used for authentication
-        /// </summary>
-        public string Password { get; set; }
+        public string FullName { get; set; }
     }
 }
