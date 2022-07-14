@@ -1,9 +1,9 @@
 ﻿using ImageApi.Service.Services.Account.Interface;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ImageApi.Controllers.V1._0.Account
+namespace ImageApi.Controllers.V2._0.Account
 {
-    [ApiVersion("1.0")]
+    [ApiVersion("2.0")]
     public class AccountController : BaseController
     {
         private readonly ILogger<AccountController> _logger;

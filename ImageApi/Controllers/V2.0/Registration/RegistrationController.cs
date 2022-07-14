@@ -5,9 +5,9 @@ using ImageApi.Service.Services.Token.Interface;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ImageApi.Controllers.V1._0.Registration
+namespace ImageApi.Controllers.V2._0.Registration
 {
-    [ApiVersion("1.0")]
+    [ApiVersion("2.0")]
     public class RegistrationController : BaseController
     {
         private readonly HttpContext _httpContext;
@@ -40,7 +40,6 @@ namespace ImageApi.Controllers.V1._0.Registration
         [Route("register")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        [Obsolete("Replaced by newer version.")]
         public async Task<IActionResult> Register([FromBody] RegistrationDto dto)
         {
             var (loginId, accountId) = await _registrationService.Register(dto, _httpContext.RequestAborted);

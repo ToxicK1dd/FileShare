@@ -62,8 +62,6 @@ builder.Services.AddVersionedApiExplorer(options =>
 {
     options.GroupNameFormat = "'v'VVV";
     options.SubstituteApiVersionInUrl = true;
-    options.DefaultApiVersion = new ApiVersion(1, 0);
-    options.AssumeDefaultVersionWhenUnspecified = true;
 });
 
 builder.Services.AddApiVersioning(options =>
@@ -116,7 +114,7 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger(options => options.RouteTemplate = "swagger/{documentName}/swagger.json");
+    app.UseSwagger(options => options.RouteTemplate = "/{documentName}/swagger.json");
     app.UseSwaggerUI(options =>
     {
         options.DocumentTitle = "Image API";
@@ -129,8 +127,8 @@ if (app.Environment.IsDevelopment())
         options.DisplayRequestDuration();
         options.DefaultModelsExpandDepth(-1);
 
-        options.SwaggerEndpoint($"/swagger/v1/swagger.json", $"ImageAPI - v1");
-        options.SwaggerEndpoint($"/swagger/v2/swagger.json", $"ImageAPI - v2");
+        options.SwaggerEndpoint($"/v2/swagger.json", $"ImageAPI - v2");
+        options.SwaggerEndpoint($"/v1/swagger.json", $"ImageAPI - v1");
 
     });
     app.UseDeveloperExceptionPage();
