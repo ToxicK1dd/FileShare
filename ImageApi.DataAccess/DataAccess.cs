@@ -40,7 +40,7 @@ namespace ImageApi.DataAccess
                 .LogTo(Console.WriteLine, LogLevel.Information)
                 .EnableSensitiveDataLogging()
                 .EnableDetailedErrors();
-            });
+            }, ServiceLifetime.Scoped);
 
             services.AddScoped<IPrimaryUnitOfWork, PrimaryUnitOfWork>();
         }
