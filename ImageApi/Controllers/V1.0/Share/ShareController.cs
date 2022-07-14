@@ -1,6 +1,7 @@
 ﻿using ImageApi.Service.Services.Share.Interface;
+using Microsoft.AspNetCore.Mvc;
 
-namespace ImageApi.Controllers.Share
+namespace ImageApi.Controllers.V1._0.Share
 {
     public class ShareController : BaseController
     {

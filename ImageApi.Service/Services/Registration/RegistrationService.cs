@@ -4,6 +4,7 @@ using ImageApi.Service.Dto.Registration;
 using ImageApi.Service.Services.Registration.Interface;
 using MapsterMapper;
 using Microsoft.AspNet.Identity;
+using System.ComponentModel.DataAnnotations;
 
 namespace ImageApi.Service.Services.Registration
 {
@@ -21,6 +22,18 @@ namespace ImageApi.Service.Services.Registration
 
         public async Task<(Guid loginId, Guid accountId)> Register(RegistrationDto dto, CancellationToken cancellationToken)
         {
+            var isEmailValid = IsValidEmailAddress(dto.Email);
+            if (isEmailValid is not true)
+                throw new Exception("Email is not in a valid format.");
+
+            var isUsernameTaken = await _unitOfWork.LoginRepository.ExistsFromUsernameAsync(dto.Username, cancellationToken);
+            if (isUsernameTaken)
+                throw new Exception("Username is already being used.");
+
+            var isEmailTaken = await _unitOfWork.ContactInfoRepository.ExistsFromEmail(dto.Email, cancellationToken);
+            if (isEmailTaken)
+                throw new Exception("Email is already being used.");
+
             var accountId = Guid.NewGuid();
             var loginId = Guid.NewGuid();
             var hashedPassword = new PasswordHasher().HashPassword(dto.Password);
@@ -37,11 +50,29 @@ namespace ImageApi.Service.Services.Registration
                     AccountId = accountId,
                     Username = dto.Username,
                     Password = hashedPassword
+                },
+                AccountInfo = new()
+                {
+                    ContactInfo = new()
+                    {
+                        Email = dto.Email,
+                    }
                 }
             };
             await _unitOfWork.AccountRepository.AddAsync(account, cancellationToken);
 
             return (loginId, accountId);
         }
+
+
+        #region Helpers
+        public bool IsValidEmailAddress(string email)
+        {
+            if (!string.IsNullOrEmpty(email) && new EmailAddressAttribute().IsValid(email))
+                return true;
+            else
+                return false;
+        }
+        #endregion
     }
 }

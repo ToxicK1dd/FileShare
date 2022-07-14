@@ -5,8 +5,9 @@ using ImageApi.Service.Services.Token.Interface;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ImageApi.Controllers.Registration
+namespace ImageApi.Controllers.V1._0.Registration
 {
+    [ApiVersion("1.0")]
     public class RegistrationController : BaseController
     {
         private readonly HttpContext _httpContext;
@@ -29,9 +30,16 @@ namespace ImageApi.Controllers.Registration
             _tokenService = tokenService;
         }
 
-
+        /// <summary>
+        /// Registers a new account.
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
         [HttpPost]
         [AllowAnonymous]
+        [Route("register")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Register([FromBody] RegistrationDto dto)
         {
             var (loginId, accountId) = await _registrationService.Register(dto, _httpContext.RequestAborted);

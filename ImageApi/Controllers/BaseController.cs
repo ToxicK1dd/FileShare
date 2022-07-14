@@ -4,7 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 namespace ImageApi.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
+    [Produces("application/json")]
     [Authorize(Policy = "User")]
     public class BaseController : ControllerBase { }
 }

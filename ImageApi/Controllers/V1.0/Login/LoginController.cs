@@ -1,7 +1,9 @@
 ﻿using ImageApi.Service.Services.Login.Interface;
+using Microsoft.AspNetCore.Mvc;
 
-namespace ImageApi.Controllers.Login
+namespace ImageApi.Controllers.V1._0.Login
 {
+    [ApiVersion("1.0")]
     public class LoginController : BaseController
     {
         private readonly ILogger<LoginController> _logger;
