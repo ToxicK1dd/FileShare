@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.SwaggerUI;
 using System.Reflection;
 using System.Text;
 
@@ -128,6 +129,7 @@ if (app.Environment.IsDevelopment())
         options.EnableFilter();
         options.DisplayRequestDuration();
         options.DefaultModelsExpandDepth(-1);
+        options.DocExpansion(DocExpansion.None);
 
         options.SwaggerEndpoint($"/v2/swagger.json", $"ImageAPI - v2");
         options.SwaggerEndpoint($"/v1/swagger.json", $"ImageAPI - v1");
