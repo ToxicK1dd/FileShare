@@ -11,12 +11,12 @@ namespace ImageApi.Service.Services.Token
 {
     public class TokenService : ITokenService
     {
-        private readonly IPrimaryUnitOfWork _primaryUnitOfWork;
+        private readonly IPrimaryUnitOfWork _unitOfWork;
         private readonly IConfiguration _configuration;
 
         public TokenService(IPrimaryUnitOfWork primaryUnitOfWork, IConfiguration configuration)
         {
-            _primaryUnitOfWork = primaryUnitOfWork;
+            _unitOfWork = primaryUnitOfWork;
             _configuration = configuration;
         }
 
@@ -46,6 +46,20 @@ namespace ImageApi.Service.Services.Token
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
+        public async Task<string> GetAccessTokenFromUsernameAsync(string username, CancellationToken cancellationToken)
+        {
+            var accountId = await _unitOfWork.LoginRepository.GetIdFromUsername(username, cancellationToken);
+
+            return GetAccessToken(accountId);
+        }
+
+        public async Task<string> GetRefreshTokenFromUsernameAsync(string username, CancellationToken cancellationToken)
+        {
+            var loginId = await _unitOfWork.LoginRepository.GetIdFromUsername(username, cancellationToken);
+
+            return await GetRefreshTokenAsync(loginId, cancellationToken);
+        }
+
         public async Task<string> GetRefreshTokenAsync(Guid loginId, CancellationToken cancellationToken)
         {
             var refreshTokenString = GenerateRefreshToken();
@@ -53,9 +67,10 @@ namespace ImageApi.Service.Services.Token
             var refreshToken = new DataAccess.Models.Primary.RefreshToken.RefreshToken()
             {
                 Token = refreshTokenString,
+                Expiration = DateTimeOffset.UtcNow.AddDays(30),
                 LoginId = loginId
             };
-            await _primaryUnitOfWork.RefreshTokenRepository.AddAsync(refreshToken, cancellationToken);
+            await _unitOfWork.RefreshTokenRepository.AddAsync(refreshToken, cancellationToken);
 
             return refreshTokenString;
         }

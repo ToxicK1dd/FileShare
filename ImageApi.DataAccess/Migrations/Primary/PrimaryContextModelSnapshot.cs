@@ -350,6 +350,9 @@ namespace ImageApi.DataAccess.Migrations.Primary
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
+                    b.Property<DateTimeOffset>("Expiration")
+                        .HasColumnType("datetime(6)");
+
                     b.Property<Guid>("LoginId")
                         .HasColumnType("char(36)");
 

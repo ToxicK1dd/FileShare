@@ -11,6 +11,11 @@ namespace ImageApi.DataAccess.Repository.Primary.Login
         public LoginRepository(PrimaryContext context) : base(context) { }
 
 
+        public async Task<Guid> GetIdFromUsername(string username, CancellationToken cancellationToken = default)
+        {
+            return await context.Set<Model>().Where(x => x.Username == username).Select(x => x.Id).FirstOrDefaultAsync(cancellationToken);
+        }
+
         public async Task<Model> GetFromUsernameAsync(string username, CancellationToken cancellationToken = default)
         {
             return await context.Set<Model>().FirstOrDefaultAsync(x => x.Username == username, cancellationToken);

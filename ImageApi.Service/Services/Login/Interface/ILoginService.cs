@@ -2,5 +2,6 @@
 {
     public interface ILoginService
     {
+        Task<bool> ValidateCredentials(string username, string password, CancellationToken cancellationToken);
     }
 }

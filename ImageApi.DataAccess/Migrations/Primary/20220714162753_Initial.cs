@@ -332,6 +332,7 @@ namespace ImageApi.DataAccess.Migrations.Primary
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     Token = table.Column<string>(type: "varchar(512)", maxLength: 512, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
+                    Expiration = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
                     LoginId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
                 },
                 constraints: table =>

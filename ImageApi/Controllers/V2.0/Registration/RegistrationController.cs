@@ -48,7 +48,7 @@ namespace ImageApi.Controllers.V2._0.Registration
 
             await _unitOfWork.SaveChangesAsync(_httpContext.RequestAborted);
 
-            return Ok(new
+            return Created(string.Empty, new
             {
                 token,
                 refreshToken

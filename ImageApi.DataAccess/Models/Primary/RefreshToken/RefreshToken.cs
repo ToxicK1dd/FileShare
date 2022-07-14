@@ -10,6 +10,11 @@ namespace ImageApi.DataAccess.Models.Primary.RefreshToken
         /// </summary>
         public string Token { get; set; }
 
+        /// <summary>
+        /// When the token expires
+        /// </summary>
+        public DateTimeOffset Expiration { get; set; }
+
 
         #region Navigation Properties
         /// <summary>
@@ -32,6 +37,9 @@ namespace ImageApi.DataAccess.Models.Primary.RefreshToken
 
             builder.Property(x => x.Token)
                 .HasMaxLength(512)
+                .IsRequired();
+
+            builder.Property(x => x.Expiration)
                 .IsRequired();
 
             builder.HasOne(x => x.Login)

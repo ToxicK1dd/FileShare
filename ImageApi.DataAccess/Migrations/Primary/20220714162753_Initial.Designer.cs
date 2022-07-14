@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ImageApi.DataAccess.Migrations.Primary
 {
     [DbContext(typeof(PrimaryContext))]
-    [Migration("20220713215133_Initial")]
+    [Migration("20220714162753_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -351,6 +351,9 @@ namespace ImageApi.DataAccess.Migrations.Primary
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
+
+                    b.Property<DateTimeOffset>("Expiration")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<Guid>("LoginId")
                         .HasColumnType("char(36)");
