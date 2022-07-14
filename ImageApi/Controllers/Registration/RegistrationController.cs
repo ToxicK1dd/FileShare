@@ -1,5 +1,4 @@
-﻿using ImageApi.Controllers.Share;
-using ImageApi.Service.Services.Registration.Interface;
+﻿using ImageApi.Service.Services.Registration.Interface;
 
 namespace ImageApi.Controllers.Registration
 {
