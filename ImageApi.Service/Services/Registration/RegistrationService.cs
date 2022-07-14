@@ -3,7 +3,7 @@ using ImageApi.DataAccess.UnitOfWork.Primary.Interface;
 using ImageApi.Service.Dto.Registration;
 using ImageApi.Service.Services.Registration.Interface;
 using MapsterMapper;
-using Microsoft.AspNet.Identity;
+using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
 
 namespace ImageApi.Service.Services.Registration
@@ -36,7 +36,7 @@ namespace ImageApi.Service.Services.Registration
 
             var accountId = Guid.NewGuid();
             var loginId = Guid.NewGuid();
-            var hashedPassword = new PasswordHasher().HashPassword(dto.Password);
+            var hashedPassword = new PasswordHasher<object>().HashPassword(null, dto.Password);
 
             var account = new DataAccess.Models.Primary.Account.Account()
             {
