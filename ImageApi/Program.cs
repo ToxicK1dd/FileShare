@@ -2,6 +2,7 @@ using ImageApi.DataAccess;
 using ImageApi.Service;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -57,6 +58,22 @@ builder.Services.AddSwaggerGen(options =>
 
 builder.Services.AddControllers();
 
+builder.Services.AddVersionedApiExplorer(options =>
+{
+    options.GroupNameFormat = "'v'VVV";
+    options.SubstituteApiVersionInUrl = true;
+    options.DefaultApiVersion = new ApiVersion(1, 0);
+    options.AssumeDefaultVersionWhenUnspecified = true;
+});
+
+builder.Services.AddApiVersioning(options =>
+{
+    options.ReportApiVersions = true;
+    options.DefaultApiVersion = new ApiVersion(1, 0);
+    options.ApiVersionReader = new UrlSegmentApiVersionReader();
+    options.AssumeDefaultVersionWhenUnspecified = true;
+});
+
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
 {
@@ -105,17 +122,24 @@ if (app.Environment.IsDevelopment())
         options.DocumentTitle = "Image API";
         options.RoutePrefix = string.Empty;
 
+        options.InjectStylesheet("/swagger-ui/custom.css");
+        options.InjectJavascript("/swagger-ui/custom.js");
+
         options.EnableFilter();
         options.DisplayRequestDuration();
+        options.DefaultModelsExpandDepth(-1);
 
-        options.SwaggerEndpoint($"/swagger/v1/swagger.json", $"v1");
-        options.SwaggerEndpoint($"/swagger/v2/swagger.json", $"v2");
+        options.SwaggerEndpoint($"/swagger/v1/swagger.json", $"ImageAPI - v1");
+        options.SwaggerEndpoint($"/swagger/v2/swagger.json", $"ImageAPI - v2");
 
     });
     app.UseDeveloperExceptionPage();
 }
 
 app.UseHttpsRedirection();
+app.UseStaticFiles();
+
+app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
