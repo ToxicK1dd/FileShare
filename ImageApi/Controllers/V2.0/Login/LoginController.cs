@@ -54,11 +54,31 @@ namespace ImageApi.Controllers.V2._0.Login
             });
         }
 
-        [HttpPost]
+        [HttpDelete]
         [AllowAnonymous]
-        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ActionName("RefreshToken")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> RefreshToken([FromQuery] string refreshToken)
+        public async Task<IActionResult> DeleteRefreshToken([FromQuery] string refreshToken)
+        {
+            var token = await _unitOfWork.RefreshTokenRepository.GetFromTokenAsync(refreshToken, _httpContext.RequestAborted);
+            if (token is null)
+                return NotFound();
+
+            _unitOfWork.RefreshTokenRepository.Remove(token);
+            await _unitOfWork.SaveChangesAsync(_httpContext.RequestAborted);
+
+            return NoContent();
+        }
+
+        [HttpPut]
+        [AllowAnonymous]
+        [ActionName("RefreshToken")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> UpdateRefreshToken([FromQuery] string refreshToken)
         {
             var newRefreshToken = await _loginService.ValidateRefreshToken(refreshToken, _httpContext.RequestAborted);
             if (newRefreshToken is null)
