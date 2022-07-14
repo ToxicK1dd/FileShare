@@ -37,7 +37,6 @@ namespace ImageApi.Controllers.V2._0.Registration
         /// <returns></returns>
         [HttpPost]
         [AllowAnonymous]
-        [Route("register")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Register([FromBody] RegistrationDto dto)

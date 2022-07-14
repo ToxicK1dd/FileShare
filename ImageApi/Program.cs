@@ -49,8 +49,9 @@ builder.Services.AddSwaggerGen(options =>
     });
 
     var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-    options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
 
+    options.EnableAnnotations();
+    options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
     options.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
 });
 
@@ -112,7 +113,10 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger(options => options.RouteTemplate = "/{documentName}/swagger.json");
+    app.UseSwagger(options => 
+    { 
+        options.RouteTemplate = "/{documentName}/swagger.json";
+    });
     app.UseSwaggerUI(options =>
     {
         options.DocumentTitle = "Image API";
