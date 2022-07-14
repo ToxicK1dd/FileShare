@@ -1,5 +1,6 @@
 ﻿using ImageApi.DataAccess.UnitOfWork.Primary.Interface;
 using ImageApi.Service.Services.Token.Interface;
+using ImageApi.Utilities;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -62,7 +63,7 @@ namespace ImageApi.Service.Services.Token
 
         public async Task<string> GetRefreshTokenAsync(Guid loginId, CancellationToken cancellationToken)
         {
-            var refreshTokenString = GenerateRefreshToken();
+            var refreshTokenString = RandomStringGenerator.Generate();
 
             var refreshToken = new DataAccess.Models.Primary.RefreshToken.RefreshToken()
             {
@@ -72,21 +73,7 @@ namespace ImageApi.Service.Services.Token
             };
             await _unitOfWork.RefreshTokenRepository.AddAsync(refreshToken, cancellationToken);
 
-            return refreshTokenString;
+            return refreshToken.Token;
         }
-
-
-        #region Helpers
-        private static string GenerateRefreshToken(int length = 64)
-        {
-            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!#¤%&/()=?~^*-_<>\\";
-            Random random = new();
-
-            var randomString = new string(Enumerable.Repeat(chars, length)
-                .Select(s => s[random.Next(s.Length)]).ToArray());
-
-            return Convert.ToBase64String(Encoding.UTF8.GetBytes(randomString));
-        }
-        #endregion
     }
 }

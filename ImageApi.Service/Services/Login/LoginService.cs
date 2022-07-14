@@ -1,5 +1,6 @@
 ﻿using ImageApi.DataAccess.UnitOfWork.Primary.Interface;
 using ImageApi.Service.Services.Login.Interface;
+using ImageApi.Utilities;
 using MapsterMapper;
 using Microsoft.AspNetCore.Identity;
 
@@ -24,6 +25,18 @@ namespace ImageApi.Service.Services.Login
             var verificationResult = new PasswordHasher<object>().VerifyHashedPassword(null, login.Password, password);
 
             return verificationResult is PasswordVerificationResult.Success;
+        }
+
+        public async Task<string> ValidateRefreshToken(string oldRefreshToken, CancellationToken cancellationToken)
+        {
+            var refreshToken = await _unitOfWork.RefreshTokenRepository.GetFromTokenAsync(oldRefreshToken, cancellationToken);
+            if (refreshToken is null)
+                return null;
+
+            refreshToken.Token = RandomStringGenerator.Generate();
+            refreshToken.Expiration = DateTimeOffset.UtcNow.AddDays(30);
+
+            return refreshToken.Token;
         }
     }
 }

@@ -16,5 +16,14 @@ namespace ImageApi.DataAccess.Repository.Primary.RefreshToken
             return await context.Set<Model>()
                 .FirstOrDefaultAsync(x => x.Token == token, cancellationToken);
         }
+
+        public async Task<Guid> GetAccountIdFromToken(string token, CancellationToken cancellation = default)
+        {
+            return await context.Set<Model>()
+                .Where(x => x.Token == token)
+                .Include(x => x.Login)
+                .Select(x => x.Login.AccountId)
+                .FirstOrDefaultAsync(cancellation);
+        }
     }
 }

@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ImageApi.DataAccess\ImageApi.DataAccess.csproj" />
+    <ProjectReference Include="..\ImageApi.Utilities\ImageApi.Utilities.csproj" />
   </ItemGroup>
 
 </Project>

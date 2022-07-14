@@ -60,7 +60,20 @@ namespace ImageApi.Controllers.V2._0.Login
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> RefreshToken([FromQuery] string refreshToken)
         {
-            return Created(string.Empty, "12345678");
+            var newRefreshToken = await _loginService.ValidateRefreshToken(refreshToken, _httpContext.RequestAborted);
+            if (newRefreshToken is null)
+                return NotFound();
+
+            var accountId = await _unitOfWork.RefreshTokenRepository.GetAccountIdFromToken(refreshToken, _httpContext.RequestAborted);
+            var token = _tokenService.GetAccessToken(accountId);
+
+            await _unitOfWork.SaveChangesAsync(_httpContext.RequestAborted);
+
+            return Created(string.Empty, new
+            {
+                token,
+                newRefreshToken
+            });
         }
     }
 }
