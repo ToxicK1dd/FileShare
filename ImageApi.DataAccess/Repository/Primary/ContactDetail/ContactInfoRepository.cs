@@ -1,12 +1,12 @@
 ﻿using ImageApi.DataAccess.Base.Repository;
 using ImageApi.DataAccess.Models.Primary;
-using ImageApi.DataAccess.Repository.Primary.ContactInfo.Interface;
+using ImageApi.DataAccess.Repository.Primary.ContactDetail.Interface;
 using Microsoft.EntityFrameworkCore;
-using Model = ImageApi.DataAccess.Models.Primary.ContactInfo.ContactInfo;
+using Model = ImageApi.DataAccess.Models.Primary.ContactDetail.ContactDetail;
 
-namespace ImageApi.DataAccess.Repository.Primary.ContactInfo
+namespace ImageApi.DataAccess.Repository.Primary.ContactDetail
 {
-    public class ContactInfoRepository : RepositoryBase<Model, PrimaryContext>, IContactInfoRepository
+    public class ContactInfoRepository : RepositoryBase<Model, PrimaryContext>, IContactDetailRepository
     {
         public ContactInfoRepository(PrimaryContext context) : base(context) { }
 

@@ -17,15 +17,11 @@ namespace ImageApi.DataAccess.Models.Primary.SocialSecurityNumber
 
 
         #region Navigation Properties
-        /// <summary>
-        /// Account info foreign key
-        /// </summary>
-        public Guid AccountInfoId { get; set; }
 
-        /// <summary>
-        /// Account info navigation propertu
-        /// </summary>
-        public AccountInfo.AccountInfo AccountInfo { get; set; }
+        public Guid AccountId { get; set; }
+
+        public Account.Account Account { get; set; }
+
         #endregion
     }
 
@@ -42,9 +38,9 @@ namespace ImageApi.DataAccess.Models.Primary.SocialSecurityNumber
                 .HasMaxLength(128)
                 .IsRequired();
 
-            builder.HasOne(x => x.AccountInfo)
+            builder.HasOne(x => x.Account)
                 .WithMany(x => x.SocialSecurityNumbers)
-                .HasForeignKey(x => x.AccountInfoId);
+                .HasForeignKey(x => x.AccountId);
         }
     }
 

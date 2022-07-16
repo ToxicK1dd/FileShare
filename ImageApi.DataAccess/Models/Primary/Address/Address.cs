@@ -37,15 +37,11 @@ namespace ImageApi.DataAccess.Models.Primary.Address
 
 
         #region Navigation Properties
-        /// <summary>
-        /// Account info foreign key
-        /// </summary>
-        public Guid AccountInfoId { get; set; }
 
-        /// <summary>
-        /// Account info navigation propertu
-        /// </summary>
-        public AccountInfo.AccountInfo AccountInfo { get; set; }
+        public Guid AccountId { get; set; }
+
+        public Account.Account Account { get; set; }
+
         #endregion
     }
 
@@ -79,9 +75,9 @@ namespace ImageApi.DataAccess.Models.Primary.Address
                 .HasMaxLength(256)
                 .IsRequired();
 
-            builder.HasOne(x => x.AccountInfo)
-                .WithMany(x => x.Addresses)
-                .HasForeignKey(x => x.AccountInfoId);
+            builder.HasOne(x => x.Account)
+                .WithOne(x => x.Address)
+                .HasForeignKey<Address>(x => x.AccountId);
         }
     }
 }

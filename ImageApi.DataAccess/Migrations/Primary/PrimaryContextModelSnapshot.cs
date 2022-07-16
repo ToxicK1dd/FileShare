@@ -19,7 +19,7 @@ namespace ImageApi.DataAccess.Migrations.Primary
                 .HasAnnotation("ProductVersion", "6.0.7")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
-            modelBuilder.Entity("AccountAccountRole", b =>
+            modelBuilder.Entity("AccountRole", b =>
                 {
                     b.Property<Guid>("AccountsId")
                         .HasColumnType("char(36)");
@@ -31,7 +31,7 @@ namespace ImageApi.DataAccess.Migrations.Primary
 
                     b.HasIndex("RolesId");
 
-                    b.ToTable("AccountAccountRole");
+                    b.ToTable("AccountRole");
                 });
 
             modelBuilder.Entity("DocumentShare", b =>
@@ -72,69 +72,13 @@ namespace ImageApi.DataAccess.Migrations.Primary
                     b.ToTable("Account");
                 });
 
-            modelBuilder.Entity("ImageApi.DataAccess.Models.Primary.AccountInfo.AccountInfo", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
-
-                    b.Property<Guid>("AccountId")
-                        .HasColumnType("char(36)");
-
-                    b.Property<DateTimeOffset>("DateOfBirth")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<string>("Firstname")
-                        .HasMaxLength(64)
-                        .HasColumnType("varchar(64)");
-
-                    b.Property<string>("Lastname")
-                        .HasMaxLength(64)
-                        .HasColumnType("varchar(64)");
-
-                    b.Property<string>("MiddleNames")
-                        .HasMaxLength(768)
-                        .HasColumnType("varchar(768)");
-
-                    b.Property<string>("Nationality")
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AccountId")
-                        .IsUnique();
-
-                    b.HasIndex("Id")
-                        .IsUnique();
-
-                    b.ToTable("AccountInfo");
-                });
-
-            modelBuilder.Entity("ImageApi.DataAccess.Models.Primary.AccountRole.AccountRole", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
-
-                    b.Property<int>("Type")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Id")
-                        .IsUnique();
-
-                    b.ToTable("AccountRole");
-                });
-
             modelBuilder.Entity("ImageApi.DataAccess.Models.Primary.Address.Address", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
-                    b.Property<Guid>("AccountInfoId")
+                    b.Property<Guid>("AccountId")
                         .HasColumnType("char(36)");
 
                     b.Property<string>("AdditionalStreet")
@@ -167,7 +111,8 @@ namespace ImageApi.DataAccess.Migrations.Primary
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AccountInfoId");
+                    b.HasIndex("AccountId")
+                        .IsUnique();
 
                     b.HasIndex("Id")
                         .IsUnique();
@@ -175,13 +120,13 @@ namespace ImageApi.DataAccess.Migrations.Primary
                     b.ToTable("Address");
                 });
 
-            modelBuilder.Entity("ImageApi.DataAccess.Models.Primary.ContactInfo.ContactInfo", b =>
+            modelBuilder.Entity("ImageApi.DataAccess.Models.Primary.ContactDetail.ContactDetail", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
-                    b.Property<Guid>("AccountInfoId")
+                    b.Property<Guid>("AccountId")
                         .HasColumnType("char(36)");
 
                     b.Property<string>("Email")
@@ -195,7 +140,7 @@ namespace ImageApi.DataAccess.Migrations.Primary
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AccountInfoId")
+                    b.HasIndex("AccountId")
                         .IsUnique();
 
                     b.HasIndex("Email")
@@ -207,7 +152,34 @@ namespace ImageApi.DataAccess.Migrations.Primary
                     b.HasIndex("PhoneNumber")
                         .IsUnique();
 
-                    b.ToTable("ContactInfo");
+                    b.ToTable("ContactDetail");
+                });
+
+            modelBuilder.Entity("ImageApi.DataAccess.Models.Primary.DeviceToken.DeviceToken", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("LoginId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("Token")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256)");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Id")
+                        .IsUnique();
+
+                    b.HasIndex("LoginId");
+
+                    b.ToTable("DeviceToken");
                 });
 
             modelBuilder.Entity("ImageApi.DataAccess.Models.Primary.Document.Document", b =>
@@ -344,6 +316,48 @@ namespace ImageApi.DataAccess.Migrations.Primary
                     b.ToTable("LoginDetail");
                 });
 
+            modelBuilder.Entity("ImageApi.DataAccess.Models.Primary.PersonalDetail.PersonalDetail", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("AccountId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTimeOffset>("DateOfBirth")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Firstname")
+                        .HasMaxLength(64)
+                        .HasColumnType("varchar(64)");
+
+                    b.Property<string>("Lastname")
+                        .HasMaxLength(64)
+                        .HasColumnType("varchar(64)");
+
+                    b.Property<string>("Middlenames")
+                        .HasMaxLength(768)
+                        .HasColumnType("varchar(768)");
+
+                    b.Property<string>("Nationality")
+                        .HasMaxLength(128)
+                        .HasColumnType("varchar(128)");
+
+                    b.Property<int>("Sex")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AccountId")
+                        .IsUnique();
+
+                    b.HasIndex("Id")
+                        .IsUnique();
+
+                    b.ToTable("PersonalDetail");
+                });
+
             modelBuilder.Entity("ImageApi.DataAccess.Models.Primary.RefreshToken.RefreshToken", b =>
                 {
                     b.Property<Guid>("Id")
@@ -371,6 +385,23 @@ namespace ImageApi.DataAccess.Migrations.Primary
                     b.ToTable("RefreshToken");
                 });
 
+            modelBuilder.Entity("ImageApi.DataAccess.Models.Primary.Role.Role", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Id")
+                        .IsUnique();
+
+                    b.ToTable("Role");
+                });
+
             modelBuilder.Entity("ImageApi.DataAccess.Models.Primary.Share.Share", b =>
                 {
                     b.Property<Guid>("Id")
@@ -383,17 +414,12 @@ namespace ImageApi.DataAccess.Migrations.Primary
                     b.Property<DateTimeOffset>("Expiration")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<Guid>("SharedWithAccountId")
-                        .HasColumnType("char(36)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("AccountId");
 
                     b.HasIndex("Id")
                         .IsUnique();
-
-                    b.HasIndex("SharedWithAccountId");
 
                     b.ToTable("Share");
                 });
@@ -431,7 +457,7 @@ namespace ImageApi.DataAccess.Migrations.Primary
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
-                    b.Property<Guid>("AccountInfoId")
+                    b.Property<Guid>("AccountId")
                         .HasColumnType("char(36)");
 
                     b.Property<string>("Number")
@@ -444,7 +470,7 @@ namespace ImageApi.DataAccess.Migrations.Primary
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AccountInfoId");
+                    b.HasIndex("AccountId");
 
                     b.HasIndex("Id")
                         .IsUnique();
@@ -452,7 +478,7 @@ namespace ImageApi.DataAccess.Migrations.Primary
                     b.ToTable("SocialSecurityNumber");
                 });
 
-            modelBuilder.Entity("ImageApi.DataAccess.Models.Primary.ValidationCode.ValidationCode", b =>
+            modelBuilder.Entity("ImageApi.DataAccess.Models.Primary.ValidationCode.VerificationCode", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -474,10 +500,10 @@ namespace ImageApi.DataAccess.Migrations.Primary
                     b.HasIndex("Id")
                         .IsUnique();
 
-                    b.ToTable("ValidationCode");
+                    b.ToTable("VerificationCode");
                 });
 
-            modelBuilder.Entity("AccountAccountRole", b =>
+            modelBuilder.Entity("AccountRole", b =>
                 {
                     b.HasOne("ImageApi.DataAccess.Models.Primary.Account.Account", null)
                         .WithMany()
@@ -485,7 +511,7 @@ namespace ImageApi.DataAccess.Migrations.Primary
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ImageApi.DataAccess.Models.Primary.AccountRole.AccountRole", null)
+                    b.HasOne("ImageApi.DataAccess.Models.Primary.Role.Role", null)
                         .WithMany()
                         .HasForeignKey("RolesId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -507,37 +533,37 @@ namespace ImageApi.DataAccess.Migrations.Primary
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ImageApi.DataAccess.Models.Primary.AccountInfo.AccountInfo", b =>
+            modelBuilder.Entity("ImageApi.DataAccess.Models.Primary.Address.Address", b =>
                 {
                     b.HasOne("ImageApi.DataAccess.Models.Primary.Account.Account", "Account")
-                        .WithOne("AccountInfo")
-                        .HasForeignKey("ImageApi.DataAccess.Models.Primary.AccountInfo.AccountInfo", "AccountId")
+                        .WithOne("Address")
+                        .HasForeignKey("ImageApi.DataAccess.Models.Primary.Address.Address", "AccountId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Account");
                 });
 
-            modelBuilder.Entity("ImageApi.DataAccess.Models.Primary.Address.Address", b =>
+            modelBuilder.Entity("ImageApi.DataAccess.Models.Primary.ContactDetail.ContactDetail", b =>
                 {
-                    b.HasOne("ImageApi.DataAccess.Models.Primary.AccountInfo.AccountInfo", "AccountInfo")
-                        .WithMany("Addresses")
-                        .HasForeignKey("AccountInfoId")
+                    b.HasOne("ImageApi.DataAccess.Models.Primary.Account.Account", "Account")
+                        .WithOne("ContactDetail")
+                        .HasForeignKey("ImageApi.DataAccess.Models.Primary.ContactDetail.ContactDetail", "AccountId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("AccountInfo");
+                    b.Navigation("Account");
                 });
 
-            modelBuilder.Entity("ImageApi.DataAccess.Models.Primary.ContactInfo.ContactInfo", b =>
+            modelBuilder.Entity("ImageApi.DataAccess.Models.Primary.DeviceToken.DeviceToken", b =>
                 {
-                    b.HasOne("ImageApi.DataAccess.Models.Primary.AccountInfo.AccountInfo", "AccountInfo")
-                        .WithOne("ContactInfo")
-                        .HasForeignKey("ImageApi.DataAccess.Models.Primary.ContactInfo.ContactInfo", "AccountInfoId")
+                    b.HasOne("ImageApi.DataAccess.Models.Primary.Login.Login", "Login")
+                        .WithMany("DeviceTokens")
+                        .HasForeignKey("LoginId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("AccountInfo");
+                    b.Navigation("Login");
                 });
 
             modelBuilder.Entity("ImageApi.DataAccess.Models.Primary.Document.Document", b =>
@@ -595,6 +621,17 @@ namespace ImageApi.DataAccess.Migrations.Primary
                     b.Navigation("Login");
                 });
 
+            modelBuilder.Entity("ImageApi.DataAccess.Models.Primary.PersonalDetail.PersonalDetail", b =>
+                {
+                    b.HasOne("ImageApi.DataAccess.Models.Primary.Account.Account", "Account")
+                        .WithOne("PersonalDetail")
+                        .HasForeignKey("ImageApi.DataAccess.Models.Primary.PersonalDetail.PersonalDetail", "AccountId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Account");
+                });
+
             modelBuilder.Entity("ImageApi.DataAccess.Models.Primary.RefreshToken.RefreshToken", b =>
                 {
                     b.HasOne("ImageApi.DataAccess.Models.Primary.Login.Login", "Login")
@@ -614,15 +651,7 @@ namespace ImageApi.DataAccess.Migrations.Primary
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ImageApi.DataAccess.Models.Primary.Account.Account", "SharedWithAccount")
-                        .WithMany("Shared")
-                        .HasForeignKey("SharedWithAccountId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Account");
-
-                    b.Navigation("SharedWithAccount");
                 });
 
             modelBuilder.Entity("ImageApi.DataAccess.Models.Primary.ShareDetail.ShareDetail", b =>
@@ -638,20 +667,20 @@ namespace ImageApi.DataAccess.Migrations.Primary
 
             modelBuilder.Entity("ImageApi.DataAccess.Models.Primary.SocialSecurityNumber.SocialSecurityNumber", b =>
                 {
-                    b.HasOne("ImageApi.DataAccess.Models.Primary.AccountInfo.AccountInfo", "AccountInfo")
+                    b.HasOne("ImageApi.DataAccess.Models.Primary.Account.Account", "Account")
                         .WithMany("SocialSecurityNumbers")
-                        .HasForeignKey("AccountInfoId")
+                        .HasForeignKey("AccountId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("AccountInfo");
+                    b.Navigation("Account");
                 });
 
-            modelBuilder.Entity("ImageApi.DataAccess.Models.Primary.ValidationCode.ValidationCode", b =>
+            modelBuilder.Entity("ImageApi.DataAccess.Models.Primary.ValidationCode.VerificationCode", b =>
                 {
                     b.HasOne("ImageApi.DataAccess.Models.Primary.Account.Account", "Account")
-                        .WithOne("ValidationCode")
-                        .HasForeignKey("ImageApi.DataAccess.Models.Primary.ValidationCode.ValidationCode", "AccountId")
+                        .WithOne("VerificationCode")
+                        .HasForeignKey("ImageApi.DataAccess.Models.Primary.ValidationCode.VerificationCode", "AccountId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -660,26 +689,21 @@ namespace ImageApi.DataAccess.Migrations.Primary
 
             modelBuilder.Entity("ImageApi.DataAccess.Models.Primary.Account.Account", b =>
                 {
-                    b.Navigation("AccountInfo");
+                    b.Navigation("Address");
+
+                    b.Navigation("ContactDetail");
 
                     b.Navigation("Documents");
 
                     b.Navigation("Login");
 
-                    b.Navigation("Shared");
+                    b.Navigation("PersonalDetail");
 
                     b.Navigation("Shares");
 
-                    b.Navigation("ValidationCode");
-                });
-
-            modelBuilder.Entity("ImageApi.DataAccess.Models.Primary.AccountInfo.AccountInfo", b =>
-                {
-                    b.Navigation("Addresses");
-
-                    b.Navigation("ContactInfo");
-
                     b.Navigation("SocialSecurityNumbers");
+
+                    b.Navigation("VerificationCode");
                 });
 
             modelBuilder.Entity("ImageApi.DataAccess.Models.Primary.Document.Document", b =>
@@ -691,6 +715,8 @@ namespace ImageApi.DataAccess.Migrations.Primary
 
             modelBuilder.Entity("ImageApi.DataAccess.Models.Primary.Login.Login", b =>
                 {
+                    b.Navigation("DeviceTokens");
+
                     b.Navigation("LoginDetails");
 
                     b.Navigation("RefreshTokens");

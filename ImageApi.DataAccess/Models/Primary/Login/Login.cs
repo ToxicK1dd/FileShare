@@ -17,25 +17,18 @@ namespace ImageApi.DataAccess.Models.Primary.Login
 
 
         #region Navigation Properties
-        /// <summary>
-        /// Account foreign key
-        /// </summary>
+
         public Guid AccountId { get; set; }
 
-        /// <summary>
-        /// Account navigation property
-        /// </summary>
         public Account.Account Account { get; set; }
 
-        /// <summary>
-        /// Login details navigation property
-        /// </summary>
+
         public ICollection<LoginDetail.LoginDetail> LoginDetails { get; set; } 
 
-        /// <summary>
-        /// Refresh token navigation properties
-        /// </summary>
         public ICollection<RefreshToken.RefreshToken> RefreshTokens { get; set; }
+
+        public ICollection<DeviceToken.DeviceToken> DeviceTokens { get; set; }
+
         #endregion
     }
 

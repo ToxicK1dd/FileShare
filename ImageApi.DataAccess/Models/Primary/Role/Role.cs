@@ -1,9 +1,9 @@
 ﻿using ImageApi.DataAccess.Base.Model.BaseEntity;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace ImageApi.DataAccess.Models.Primary.AccountRole
+namespace ImageApi.DataAccess.Models.Primary.Role
 {
-    public class AccountRole : BaseEntity
+    public class Role : BaseEntity
     {
         /// <summary>
         /// Type of account role
@@ -12,16 +12,15 @@ namespace ImageApi.DataAccess.Models.Primary.AccountRole
 
 
         #region Navigation Properties
-        /// <summary>
-        /// Account navigation property
-        /// </summary>
+
         public ICollection<Account.Account> Accounts { get; set; }
+
         #endregion
     }
 
-    public class AccountRoleEntityTypeConfiguration : BaseEntityTypeConfiguration<AccountRole>
+    public class RoleEntityTypeConfiguration : BaseEntityTypeConfiguration<Role>
     {
-        public override void Configure(EntityTypeBuilder<AccountRole> builder)
+        public override void Configure(EntityTypeBuilder<Role> builder)
         {
             base.Configure(builder);
 

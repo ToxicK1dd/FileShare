@@ -17,15 +17,11 @@ namespace ImageApi.DataAccess.Models.Primary.RefreshToken
 
 
         #region Navigation Properties
-        /// <summary>
-        /// Login foreign key
-        /// </summary>
+
         public Guid LoginId { get; set; }
 
-        /// <summary>
-        /// Login navigation property
-        /// </summary>
         public Login.Login Login { get; set; } 
+
         #endregion
     }
 

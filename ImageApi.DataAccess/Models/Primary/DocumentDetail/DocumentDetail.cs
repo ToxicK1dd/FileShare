@@ -17,15 +17,11 @@ namespace ImageApi.DataAccess.Models.Primary.DocumentDetail
 
 
         #region Navigation Properties
-        /// <summary>
-        /// Document foreign key
-        /// </summary>
+
         public Guid DocumentId { get; set; }
 
-        /// <summary>
-        /// Document navigation property
-        /// </summary>
         public Document.Document Document { get; set; } 
+
         #endregion
     }
 

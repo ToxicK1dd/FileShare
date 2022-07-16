@@ -17,15 +17,11 @@ namespace ImageApi.DataAccess.Models.Primary.ShareDetail
 
 
         #region Navigation Properties
-        /// <summary>
-        /// Share foreign key
-        /// </summary>
+
         public Guid ShareId { get; set; }
 
-        /// <summary>
-        /// Share navigation property
-        /// </summary>
         public Share.Share Share { get; set; }
+
         #endregion
     }
 

@@ -1,9 +1,9 @@
 ﻿using ImageApi.DataAccess.Base.Model.BaseEntity;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace ImageApi.DataAccess.Models.Primary.ContactInfo
+namespace ImageApi.DataAccess.Models.Primary.ContactDetail
 {
-    public class ContactInfo : BaseEntity
+    public class ContactDetail : BaseEntity
     {
         /// <summary>
         /// Mail for which to send emails to
@@ -17,21 +17,17 @@ namespace ImageApi.DataAccess.Models.Primary.ContactInfo
 
 
         #region Navigation Properties
-        /// <summary>
-        /// Account info foreign key
-        /// </summary>
-        public Guid AccountInfoId { get; set; }
 
-        /// <summary>
-        /// Account info navigation property
-        /// </summary>
-        public AccountInfo.AccountInfo AccountInfo { get; set; }
+        public Guid AccountId { get; set; }
+
+        public Account.Account Account { get; set; }
+
         #endregion
     }
 
-    public class ContactInfoEntityTypeConfiguration : BaseEntityTypeConfiguration<ContactInfo>
+    public class ContactDetailEntityTypeConfiguration : BaseEntityTypeConfiguration<ContactDetail>
     {
-        public override void Configure(EntityTypeBuilder<ContactInfo> builder)
+        public override void Configure(EntityTypeBuilder<ContactDetail> builder)
         {
             base.Configure(builder);
 
@@ -47,9 +43,9 @@ namespace ImageApi.DataAccess.Models.Primary.ContactInfo
                 .HasMaxLength(32)
                 .IsRequired(false);
 
-            builder.HasOne(x => x.AccountInfo)
-                .WithOne(x => x.ContactInfo)
-                .HasForeignKey<ContactInfo>(x => x.AccountInfoId);
+            builder.HasOne(x => x.Account)
+                .WithOne(x => x.ContactDetail)
+                .HasForeignKey<ContactDetail>(x => x.AccountId);
         }
     }
 }

@@ -22,15 +22,11 @@ namespace ImageApi.DataAccess.Models.Primary.LoginDetail
 
 
         #region Navigation Properties
-        /// <summary>
-        /// Login forein key
-        /// </summary>
+
         public Guid LoginId { get; set; }
 
-        /// <summary>
-        /// Login navigation property
-        /// </summary>
         public Login.Login Login { get; set; } 
+
         #endregion
     }
 

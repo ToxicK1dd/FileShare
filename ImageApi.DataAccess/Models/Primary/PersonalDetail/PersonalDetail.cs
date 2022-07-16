@@ -1,9 +1,9 @@
 ﻿using ImageApi.DataAccess.Base.Model.BaseEntity;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace ImageApi.DataAccess.Models.Primary.AccountInfo
+namespace ImageApi.DataAccess.Models.Primary.PersonalDetail
 {
-    public class AccountInfo : BaseEntity
+    public class PersonalDetail : BaseEntity
     {
         /// <summary>
         /// The firstname of the account
@@ -13,7 +13,7 @@ namespace ImageApi.DataAccess.Models.Primary.AccountInfo
         /// <summary>
         /// All middle names of the account
         /// </summary>
-        public string MiddleNames { get; set; }
+        public string Middlenames { get; set; }
 
         /// <summary>
         /// The lastname of the account
@@ -30,38 +30,24 @@ namespace ImageApi.DataAccess.Models.Primary.AccountInfo
         /// </summary>
         public string Nationality { get; set; }
 
+        /// <summary>
+        /// The sex of the account
+        /// </summary>
+        public SexType Sex { get; set; }
+
 
         #region Navigation Properties
-        /// <summary>
-        /// Account foreign key
-        /// </summary>
+
         public Guid AccountId { get; set; }
 
-        /// <summary>
-        /// Account navigation property
-        /// </summary>
         public Account.Account Account { get; set; }
 
-        /// <summary>
-        /// Contact info navigation property
-        /// </summary>
-        public ContactInfo.ContactInfo ContactInfo { get; set; }
-
-        /// <summary>
-        /// Social security number navigation property
-        /// </summary>
-        public ICollection<SocialSecurityNumber.SocialSecurityNumber> SocialSecurityNumbers { get; set; } 
-
-        /// <summary>
-        /// Address navigation property
-        /// </summary>
-        public ICollection<Address.Address> Addresses { get; set; }
         #endregion
     }
 
-    public class AccountInfoEntityTypeConfiguration : BaseEntityTypeConfiguration<AccountInfo>
+    public class PersonalDetailEntityTypeConfiguration : BaseEntityTypeConfiguration<PersonalDetail>
     {
-        public override void Configure(EntityTypeBuilder<AccountInfo> builder)
+        public override void Configure(EntityTypeBuilder<PersonalDetail> builder)
         {
             base.Configure(builder);
 
@@ -69,7 +55,7 @@ namespace ImageApi.DataAccess.Models.Primary.AccountInfo
                 .HasMaxLength(64)
                 .IsRequired(false);
 
-            builder.Property(x => x.MiddleNames)
+            builder.Property(x => x.Middlenames)
                 .HasMaxLength(768)
                 .IsRequired(false);
 
@@ -84,9 +70,19 @@ namespace ImageApi.DataAccess.Models.Primary.AccountInfo
                 .HasMaxLength(128)
                 .IsRequired(false);
 
+            builder.Property(x => x.Sex)
+                .IsRequired();
+
             builder.HasOne(x => x.Account)
-                .WithOne(x => x.AccountInfo)
-                .HasForeignKey<AccountInfo>(x => x.AccountId);
+                .WithOne(x => x.PersonalDetail)
+                .HasForeignKey<PersonalDetail>(x => x.AccountId);
         }
+    }
+
+    public enum SexType
+    {
+        Male = 1,
+        Female = 2,
+        Other = 3
     }
 }

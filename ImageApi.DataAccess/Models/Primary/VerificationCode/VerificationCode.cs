@@ -1,9 +1,9 @@
 ﻿using ImageApi.DataAccess.Base.Model.BaseEntity;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace ImageApi.DataAccess.Models.Primary.ValidationCode
+namespace ImageApi.DataAccess.Models.Primary.VerificationCode
 {
-    public class ValidationCode : BaseEntity
+    public class VerificationCode : BaseEntity
     {
         /// <summary>
         /// The code used for validating an account
@@ -12,21 +12,17 @@ namespace ImageApi.DataAccess.Models.Primary.ValidationCode
 
 
         #region Navigation Properties
-        /// <summary>
-        /// Account foreign key
-        /// </summary>
+
         public Guid AccountId { get; set; }
 
-        /// <summary>
-        /// Account navigation property
-        /// </summary>
         public Account.Account Account { get; set; }
+
         #endregion
     }
 
-    public class ValidationCodeEntityTypeConfiguration : BaseEntityTypeConfiguration<ValidationCode>
+    public class VerificationCodeEntityTypeConfiguration : BaseEntityTypeConfiguration<VerificationCode>
     {
-        public override void Configure(EntityTypeBuilder<ValidationCode> builder)
+        public override void Configure(EntityTypeBuilder<VerificationCode> builder)
         {
             base.Configure(builder);
 
@@ -35,8 +31,8 @@ namespace ImageApi.DataAccess.Models.Primary.ValidationCode
                 .IsRequired();
 
             builder.HasOne(x => x.Account)
-                .WithOne(x => x.ValidationCode)
-                .HasForeignKey<ValidationCode>(x => x.AccountId);
+                .WithOne(x => x.VerificationCode)
+                .HasForeignKey<VerificationCode>(x => x.AccountId);
         }
     }
 }

@@ -22,40 +22,26 @@ namespace ImageApi.DataAccess.Models.Primary.Account
 
 
         #region Navigation Properties
-        /// <summary>
-        /// Account info navigation property
-        /// </summary>
-        public AccountInfo.AccountInfo AccountInfo { get; set; }
 
-        /// <summary>
-        /// Login navigation property
-        /// </summary>
-        public Login.Login Login { get; set; }
-
-        /// <summary>
-        /// Validation code navigation property
-        /// </summary>
-        public ValidationCode.ValidationCode ValidationCode { get; set; }
-
-        /// <summary>
-        /// Document navigation property
-        /// </summary>
         public ICollection<Document.Document> Documents { get; set; }
 
-        /// <summary>
-        /// Account role navigation property
-        /// </summary>
-        public ICollection<AccountRole.AccountRole> Roles { get; set; }
+        public ICollection<Role.Role> Roles { get; set; }
 
-        /// <summary>
-        /// Share navigation property
-        /// </summary>
         public ICollection<Share.Share> Shares { get; set; }
 
-        /// <summary>
-        /// Share navigation property
-        /// </summary>
-        public ICollection<Share.Share> Shared { get; set; }
+        public ICollection<SocialSecurityNumber.SocialSecurityNumber> SocialSecurityNumbers { get; set; }
+
+
+        public Address.Address Address { get; set; }
+
+        public ContactDetail.ContactDetail ContactDetail { get; set; }
+
+        public Login.Login Login { get; set; }
+
+        public PersonalDetail.PersonalDetail PersonalDetail { get; set; }
+
+        public VerificationCode.VerificationCode VerificationCode { get; set; }
+
         #endregion
     }
 

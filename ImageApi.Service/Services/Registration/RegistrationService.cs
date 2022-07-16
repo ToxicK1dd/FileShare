@@ -30,7 +30,7 @@ namespace ImageApi.Service.Services.Registration
             if (isUsernameTaken)
                 throw new Exception("Username is already being used.");
 
-            var isEmailTaken = await _unitOfWork.ContactInfoRepository.ExistsFromEmail(dto.Email, cancellationToken);
+            var isEmailTaken = await _unitOfWork.ContactDetailRepository.ExistsFromEmail(dto.Email, cancellationToken);
             if (isEmailTaken)
                 throw new Exception("Email is already being used.");
 
@@ -51,12 +51,9 @@ namespace ImageApi.Service.Services.Registration
                     Username = dto.Username,
                     Password = hashedPassword
                 },
-                AccountInfo = new()
+                ContactDetail = new()
                 {
-                    ContactInfo = new()
-                    {
-                        Email = dto.Email,
-                    }
+                    Email = dto.Email,
                 }
             };
             await _unitOfWork.AccountRepository.AddAsync(account, cancellationToken);
@@ -66,7 +63,7 @@ namespace ImageApi.Service.Services.Registration
 
 
         #region Helpers
-        public bool IsValidEmailAddress(string email)
+        public static bool IsValidEmailAddress(string email)
         {
             if (!string.IsNullOrEmpty(email) && new EmailAddressAttribute().IsValid(email))
                 return true;
