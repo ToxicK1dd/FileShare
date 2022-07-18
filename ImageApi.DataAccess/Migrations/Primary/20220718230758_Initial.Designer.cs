@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ImageApi.DataAccess.Migrations.Primary
 {
     [DbContext(typeof(PrimaryContext))]
-    [Migration("20220718220931_Initial")]
+    [Migration("20220718230758_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -292,6 +292,9 @@ namespace ImageApi.DataAccess.Migrations.Primary
                     b.HasIndex("AccountId")
                         .IsUnique();
 
+                    b.HasIndex("Address")
+                        .IsUnique();
+
                     b.HasIndex("Id")
                         .IsUnique();
 
@@ -449,6 +452,9 @@ namespace ImageApi.DataAccess.Migrations.Primary
                         .IsUnique();
 
                     b.HasIndex("Id")
+                        .IsUnique();
+
+                    b.HasIndex("Number")
                         .IsUnique();
 
                     b.ToTable("PhoneNumber");

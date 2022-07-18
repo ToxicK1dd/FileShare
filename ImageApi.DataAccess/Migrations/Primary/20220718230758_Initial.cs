@@ -554,6 +554,12 @@ namespace ImageApi.DataAccess.Migrations.Primary
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_Email_Address",
+                table: "Email",
+                column: "Address",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Email_Id",
                 table: "Email",
                 column: "Id",
@@ -616,6 +622,12 @@ namespace ImageApi.DataAccess.Migrations.Primary
                 name: "IX_PhoneNumber_Id",
                 table: "PhoneNumber",
                 column: "Id",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PhoneNumber_Number",
+                table: "PhoneNumber",
+                column: "Number",
                 unique: true);
 
             migrationBuilder.CreateIndex(

@@ -34,6 +34,8 @@ namespace ImageApi.DataAccess.Models.Primary.PhoneNumber
         {
             base.Configure(builder);
 
+            builder.HasIndex(x => x.Number)
+                .IsUnique();
             builder.Property(x => x.Number)
                 .HasMaxLength(256)
                 .IsRequired();

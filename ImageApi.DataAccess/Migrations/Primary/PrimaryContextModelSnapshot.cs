@@ -290,6 +290,9 @@ namespace ImageApi.DataAccess.Migrations.Primary
                     b.HasIndex("AccountId")
                         .IsUnique();
 
+                    b.HasIndex("Address")
+                        .IsUnique();
+
                     b.HasIndex("Id")
                         .IsUnique();
 
@@ -447,6 +450,9 @@ namespace ImageApi.DataAccess.Migrations.Primary
                         .IsUnique();
 
                     b.HasIndex("Id")
+                        .IsUnique();
+
+                    b.HasIndex("Number")
                         .IsUnique();
 
                     b.ToTable("PhoneNumber");

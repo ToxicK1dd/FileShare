@@ -34,6 +34,8 @@ namespace ImageApi.DataAccess.Models.Primary.Email
         {
             base.Configure(builder);
 
+            builder.HasIndex(e => e.Address)
+                .IsUnique();
             builder.Property(x => x.Address)
                 .HasMaxLength(256)
                 .IsRequired();

@@ -50,7 +50,8 @@ namespace ImageApi.DataAccess.Models.Primary.Login
 
             builder.HasOne(x => x.Account)
                 .WithOne(x => x.Login)
-                .HasForeignKey<Login>(x => x.AccountId);
+                .HasForeignKey<Login>(x => x.AccountId)
+                .IsRequired(true);
         }
     }
 }
