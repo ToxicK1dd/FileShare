@@ -21,6 +21,8 @@ namespace ImageApi.Service.Services.Login
         public async Task<bool> ValidateCredentials(string username, string password, CancellationToken cancellationToken)
         {
             var login = await _unitOfWork.LoginRepository.GetFromUsernameAsync(username, cancellationToken);
+            if (login is null)
+                return false;
 
             var verificationResult = new PasswordHasher<object>().VerifyHashedPassword(null, login.Password, password);
 

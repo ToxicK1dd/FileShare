@@ -15,6 +15,9 @@ namespace ImageApi.DataAccess.Base.Model.BaseEntity
             // Configure primary key, and index
             builder.HasKey(x => x.Id);
             builder.HasIndex(x => x.Id).IsUnique();
+
+            // Soft delete query filter
+            builder.HasQueryFilter(x => !x.Deleted);
         }
     }
 }

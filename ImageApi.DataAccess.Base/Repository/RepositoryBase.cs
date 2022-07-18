@@ -25,7 +25,7 @@ namespace ImageApi.DataAccess.Base.Repository
         // Read
         public virtual async Task<TModel> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
         {
-            return await context.Set<TModel>().AsNoTracking().FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
+            return await context.Set<TModel>().FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
         }
 
         // Update

@@ -19,7 +19,10 @@ namespace ImageApi.DataAccess.Migrations.Primary
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     Type = table.Column<int>(type: "int", nullable: false),
                     Enabled = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    Verified = table.Column<bool>(type: "tinyint(1)", nullable: false)
+                    Verified = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    Created = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
+                    Changed = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
+                    Deleted = table.Column<bool>(type: "tinyint(1)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -44,7 +47,10 @@ namespace ImageApi.DataAccess.Migrations.Primary
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Country = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    AccountId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
+                    AccountId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    Created = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
+                    Changed = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
+                    Deleted = table.Column<bool>(type: "tinyint(1)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -66,7 +72,10 @@ namespace ImageApi.DataAccess.Migrations.Primary
                     Blob = table.Column<byte[]>(type: "LONGBLOB", nullable: false),
                     Content = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    AccountId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
+                    AccountId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    Created = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
+                    Changed = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
+                    Deleted = table.Column<bool>(type: "tinyint(1)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -88,7 +97,10 @@ namespace ImageApi.DataAccess.Migrations.Primary
                     Address = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Verified = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    AccountId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
+                    AccountId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    Created = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
+                    Changed = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
+                    Deleted = table.Column<bool>(type: "tinyint(1)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -111,7 +123,10 @@ namespace ImageApi.DataAccess.Migrations.Primary
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Password = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    AccountId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
+                    AccountId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    Created = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
+                    Changed = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
+                    Deleted = table.Column<bool>(type: "tinyint(1)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -133,7 +148,10 @@ namespace ImageApi.DataAccess.Migrations.Primary
                     Number = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Verified = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    AccountId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
+                    AccountId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    Created = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
+                    Changed = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
+                    Deleted = table.Column<bool>(type: "tinyint(1)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -153,7 +171,10 @@ namespace ImageApi.DataAccess.Migrations.Primary
                 {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     Expiration = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
-                    AccountId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
+                    AccountId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    Created = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
+                    Changed = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
+                    Deleted = table.Column<bool>(type: "tinyint(1)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -175,7 +196,10 @@ namespace ImageApi.DataAccess.Migrations.Primary
                     Type = table.Column<int>(type: "int", nullable: false),
                     Number = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    AccountId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
+                    AccountId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    Created = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
+                    Changed = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
+                    Deleted = table.Column<bool>(type: "tinyint(1)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -204,7 +228,10 @@ namespace ImageApi.DataAccess.Migrations.Primary
                     Nationality = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Sex = table.Column<int>(type: "int", nullable: false),
-                    AccountId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
+                    AccountId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    Created = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
+                    Changed = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
+                    Deleted = table.Column<bool>(type: "tinyint(1)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -226,7 +253,10 @@ namespace ImageApi.DataAccess.Migrations.Primary
                     Format = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     ByteSize = table.Column<int>(type: "int", nullable: false),
-                    DocumentId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
+                    DocumentId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    Created = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
+                    Changed = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
+                    Deleted = table.Column<bool>(type: "tinyint(1)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -245,7 +275,10 @@ namespace ImageApi.DataAccess.Migrations.Primary
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    DocumentId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
+                    DocumentId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    Created = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
+                    Changed = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
+                    Deleted = table.Column<bool>(type: "tinyint(1)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -267,7 +300,10 @@ namespace ImageApi.DataAccess.Migrations.Primary
                     Code = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     EmailId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    AccountId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
+                    AccountId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    Created = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
+                    Changed = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
+                    Deleted = table.Column<bool>(type: "tinyint(1)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -295,7 +331,10 @@ namespace ImageApi.DataAccess.Migrations.Primary
                     DeviceType = table.Column<int>(type: "int", nullable: false),
                     Token = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    LoginId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
+                    LoginId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    Created = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
+                    Changed = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
+                    Deleted = table.Column<bool>(type: "tinyint(1)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -317,7 +356,10 @@ namespace ImageApi.DataAccess.Migrations.Primary
                     Success = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     DeviceType = table.Column<int>(type: "int", nullable: false),
                     Time = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
-                    LoginId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
+                    LoginId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    Created = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
+                    Changed = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
+                    Deleted = table.Column<bool>(type: "tinyint(1)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -339,7 +381,10 @@ namespace ImageApi.DataAccess.Migrations.Primary
                     Token = table.Column<string>(type: "varchar(512)", maxLength: 512, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Expiration = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
-                    LoginId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
+                    LoginId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    Created = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
+                    Changed = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
+                    Deleted = table.Column<bool>(type: "tinyint(1)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -361,7 +406,10 @@ namespace ImageApi.DataAccess.Migrations.Primary
                     Code = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     PhoneNumberId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    AccountId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
+                    AccountId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    Created = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
+                    Changed = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
+                    Deleted = table.Column<bool>(type: "tinyint(1)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -414,7 +462,10 @@ namespace ImageApi.DataAccess.Migrations.Primary
                     Type = table.Column<int>(type: "int", nullable: false),
                     Description = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    ShareId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
+                    ShareId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    Created = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
+                    Changed = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
+                    Deleted = table.Column<bool>(type: "tinyint(1)", nullable: false)
                 },
                 constraints: table =>
                 {

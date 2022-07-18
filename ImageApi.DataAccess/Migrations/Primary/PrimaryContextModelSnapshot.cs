@@ -40,6 +40,15 @@ namespace ImageApi.DataAccess.Migrations.Primary
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
+                    b.Property<DateTimeOffset>("Changed")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTimeOffset>("Created")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("tinyint(1)");
+
                     b.Property<bool>("Enabled")
                         .HasColumnType("tinyint(1)");
 
@@ -71,6 +80,9 @@ namespace ImageApi.DataAccess.Migrations.Primary
                         .HasMaxLength(256)
                         .HasColumnType("varchar(256)");
 
+                    b.Property<DateTimeOffset>("Changed")
+                        .HasColumnType("datetime(6)");
+
                     b.Property<string>("City")
                         .IsRequired()
                         .HasMaxLength(256)
@@ -78,6 +90,12 @@ namespace ImageApi.DataAccess.Migrations.Primary
 
                     b.Property<string>("Country")
                         .HasColumnType("longtext");
+
+                    b.Property<DateTimeOffset>("Created")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<string>("PostalCode")
                         .IsRequired()
@@ -110,6 +128,15 @@ namespace ImageApi.DataAccess.Migrations.Primary
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
+
+                    b.Property<DateTimeOffset>("Changed")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTimeOffset>("Created")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<int>("DeviceType")
                         .HasColumnType("int");
@@ -145,8 +172,17 @@ namespace ImageApi.DataAccess.Migrations.Primary
                         .IsRequired()
                         .HasColumnType("LONGBLOB");
 
+                    b.Property<DateTimeOffset>("Changed")
+                        .HasColumnType("datetime(6)");
+
                     b.Property<string>("Content")
                         .HasColumnType("longtext");
+
+                    b.Property<DateTimeOffset>("Created")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("tinyint(1)");
 
                     b.HasKey("Id");
 
@@ -166,6 +202,15 @@ namespace ImageApi.DataAccess.Migrations.Primary
 
                     b.Property<int>("ByteSize")
                         .HasColumnType("int");
+
+                    b.Property<DateTimeOffset>("Changed")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTimeOffset>("Created")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<Guid>("DocumentId")
                         .HasColumnType("char(36)");
@@ -191,6 +236,15 @@ namespace ImageApi.DataAccess.Migrations.Primary
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
+
+                    b.Property<DateTimeOffset>("Changed")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTimeOffset>("Created")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<Guid>("DocumentId")
                         .HasColumnType("char(36)");
@@ -219,6 +273,15 @@ namespace ImageApi.DataAccess.Migrations.Primary
                         .HasMaxLength(256)
                         .HasColumnType("varchar(256)");
 
+                    b.Property<DateTimeOffset>("Changed")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTimeOffset>("Created")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("tinyint(1)");
+
                     b.Property<bool>("Verified")
                         .HasColumnType("tinyint(1)");
 
@@ -242,10 +305,19 @@ namespace ImageApi.DataAccess.Migrations.Primary
                     b.Property<Guid>("AccountId")
                         .HasColumnType("char(36)");
 
+                    b.Property<DateTimeOffset>("Changed")
+                        .HasColumnType("datetime(6)");
+
                     b.Property<string>("Code")
                         .IsRequired()
                         .HasMaxLength(128)
                         .HasColumnType("varchar(128)");
+
+                    b.Property<DateTimeOffset>("Created")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<Guid>("EmailId")
                         .HasColumnType("char(36)");
@@ -272,6 +344,15 @@ namespace ImageApi.DataAccess.Migrations.Primary
 
                     b.Property<Guid>("AccountId")
                         .HasColumnType("char(36)");
+
+                    b.Property<DateTimeOffset>("Changed")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTimeOffset>("Created")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<string>("Password")
                         .IsRequired()
@@ -302,6 +383,15 @@ namespace ImageApi.DataAccess.Migrations.Primary
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
+
+                    b.Property<DateTimeOffset>("Changed")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTimeOffset>("Created")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<int>("DeviceType")
                         .HasColumnType("int");
@@ -334,6 +424,15 @@ namespace ImageApi.DataAccess.Migrations.Primary
                     b.Property<Guid>("AccountId")
                         .HasColumnType("char(36)");
 
+                    b.Property<DateTimeOffset>("Changed")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTimeOffset>("Created")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("tinyint(1)");
+
                     b.Property<string>("Number")
                         .IsRequired()
                         .HasMaxLength(256)
@@ -362,10 +461,19 @@ namespace ImageApi.DataAccess.Migrations.Primary
                     b.Property<Guid>("AccountId")
                         .HasColumnType("char(36)");
 
+                    b.Property<DateTimeOffset>("Changed")
+                        .HasColumnType("datetime(6)");
+
                     b.Property<string>("Code")
                         .IsRequired()
                         .HasMaxLength(128)
                         .HasColumnType("varchar(128)");
+
+                    b.Property<DateTimeOffset>("Created")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<Guid>("PhoneNumberId")
                         .HasColumnType("char(36)");
@@ -389,6 +497,15 @@ namespace ImageApi.DataAccess.Migrations.Primary
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
+
+                    b.Property<DateTimeOffset>("Changed")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTimeOffset>("Created")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<DateTimeOffset>("Expiration")
                         .HasColumnType("datetime(6)");
@@ -420,6 +537,15 @@ namespace ImageApi.DataAccess.Migrations.Primary
                     b.Property<Guid>("AccountId")
                         .HasColumnType("char(36)");
 
+                    b.Property<DateTimeOffset>("Changed")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTimeOffset>("Created")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("tinyint(1)");
+
                     b.Property<DateTimeOffset>("Expiration")
                         .HasColumnType("datetime(6)");
 
@@ -438,6 +564,15 @@ namespace ImageApi.DataAccess.Migrations.Primary
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
+
+                    b.Property<DateTimeOffset>("Changed")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTimeOffset>("Created")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -469,6 +604,15 @@ namespace ImageApi.DataAccess.Migrations.Primary
                     b.Property<Guid>("AccountId")
                         .HasColumnType("char(36)");
 
+                    b.Property<DateTimeOffset>("Changed")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTimeOffset>("Created")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("tinyint(1)");
+
                     b.Property<string>("Number")
                         .IsRequired()
                         .HasMaxLength(128)
@@ -496,8 +640,17 @@ namespace ImageApi.DataAccess.Migrations.Primary
                     b.Property<Guid>("AccountId")
                         .HasColumnType("char(36)");
 
+                    b.Property<DateTimeOffset>("Changed")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTimeOffset>("Created")
+                        .HasColumnType("datetime(6)");
+
                     b.Property<DateTimeOffset>("DateOfBirth")
                         .HasColumnType("datetime(6)");
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<string>("Firstname")
                         .HasMaxLength(64)
