@@ -16,7 +16,6 @@ using ImageApi.DataAccess.Repository.Primary.Share.Interface;
 using ImageApi.DataAccess.Repository.Primary.ShareDetail.Interface;
 using ImageApi.DataAccess.Repository.Primary.SocialSecurityNumber.Interface;
 using ImageApi.DataAccess.Repository.Primary.User.Interface;
-using ImageApi.DataAccess.Repository.Primary.ValidationCode.Interface;
 
 namespace ImageApi.DataAccess.UnitOfWork.Primary.Interface
 {
@@ -55,7 +54,5 @@ namespace ImageApi.DataAccess.UnitOfWork.Primary.Interface
         ISocialSecurityNumberRepository SocialSecurityNumberRepository { get; }
 
         IUserRepository UserRepository { get; }
-
-        IVerificationCodeRepository VerificationCodeRepository { get; }
     }
 }

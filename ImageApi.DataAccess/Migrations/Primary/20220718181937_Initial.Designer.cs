@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ImageApi.DataAccess.Migrations.Primary
 {
     [DbContext(typeof(PrimaryContext))]
-    [Migration("20220718180012_Initial")]
+    [Migration("20220718181937_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -48,7 +48,7 @@ namespace ImageApi.DataAccess.Migrations.Primary
                     b.Property<int>("Type")
                         .HasColumnType("int");
 
-                    b.Property<bool>("Validated")
+                    b.Property<bool>("Verified")
                         .HasColumnType("tinyint(1)");
 
                     b.HasKey("Id");
@@ -113,6 +113,9 @@ namespace ImageApi.DataAccess.Migrations.Primary
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
+                    b.Property<int>("DeviceType")
+                        .HasColumnType("int");
+
                     b.Property<Guid>("LoginId")
                         .HasColumnType("char(36)");
 
@@ -120,9 +123,6 @@ namespace ImageApi.DataAccess.Migrations.Primary
                         .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("varchar(256)");
-
-                    b.Property<int>("Type")
-                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -531,31 +531,6 @@ namespace ImageApi.DataAccess.Migrations.Primary
                     b.ToTable("User");
                 });
 
-            modelBuilder.Entity("ImageApi.DataAccess.Models.Primary.VerificationCode.VerificationCode", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
-
-                    b.Property<Guid>("AccountId")
-                        .HasColumnType("char(36)");
-
-                    b.Property<string>("Code")
-                        .IsRequired()
-                        .HasMaxLength(16)
-                        .HasColumnType("varchar(16)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AccountId")
-                        .IsUnique();
-
-                    b.HasIndex("Id")
-                        .IsUnique();
-
-                    b.ToTable("VerificationCode");
-                });
-
             modelBuilder.Entity("DocumentShare", b =>
                 {
                     b.HasOne("ImageApi.DataAccess.Models.Primary.Document.Document", null)
@@ -763,17 +738,6 @@ namespace ImageApi.DataAccess.Migrations.Primary
                     b.Navigation("Account");
                 });
 
-            modelBuilder.Entity("ImageApi.DataAccess.Models.Primary.VerificationCode.VerificationCode", b =>
-                {
-                    b.HasOne("ImageApi.DataAccess.Models.Primary.Account.Account", "Account")
-                        .WithOne("VerificationCode")
-                        .HasForeignKey("ImageApi.DataAccess.Models.Primary.VerificationCode.VerificationCode", "AccountId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Account");
-                });
-
             modelBuilder.Entity("ImageApi.DataAccess.Models.Primary.Account.Account", b =>
                 {
                     b.Navigation("Address");
@@ -795,8 +759,6 @@ namespace ImageApi.DataAccess.Migrations.Primary
                     b.Navigation("SocialSecurityNumbers");
 
                     b.Navigation("User");
-
-                    b.Navigation("VerificationCode");
                 });
 
             modelBuilder.Entity("ImageApi.DataAccess.Models.Primary.Document.Document", b =>

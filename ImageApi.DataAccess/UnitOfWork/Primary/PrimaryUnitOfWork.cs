@@ -28,8 +28,6 @@ using ImageApi.DataAccess.Repository.Primary.SocialSecurityNumber.Interface;
 using ImageApi.DataAccess.Repository.Primary.SocialSecurityNumber;
 using ImageApi.DataAccess.Repository.Primary.User.Interface;
 using ImageApi.DataAccess.Repository.Primary.User;
-using ImageApi.DataAccess.Repository.Primary.ValidationCode.Interface;
-using ImageApi.DataAccess.Repository.Primary.ValidationCode;
 using ImageApi.DataAccess.UnitOfWork.Primary.Interface;
 using ImageApi.DataAccess.Repository.Primary.Email.Interface;
 using ImageApi.DataAccess.Repository.Primary.EmailVerificationCode.Interface;
@@ -59,7 +57,6 @@ namespace ImageApi.DataAccess.UnitOfWork.Primary
         private ShareDetailRepository shareDetailRepository;
         private SocialSecurityNumberRepository socialSecurityNumberRepository;
         private UserRepository userRepository;
-        private VerificationCodeRepository verificationCodeRepository;
 
         public PrimaryUnitOfWork(PrimaryContext context) : base(context) { }
 
@@ -97,7 +94,5 @@ namespace ImageApi.DataAccess.UnitOfWork.Primary
         public ISocialSecurityNumberRepository SocialSecurityNumberRepository { get => socialSecurityNumberRepository ??= new(context); }
 
         public IUserRepository UserRepository { get => userRepository ??= new(context); }
-
-        public IVerificationCodeRepository VerificationCodeRepository { get => verificationCodeRepository ??= new(context); }
     }
 }

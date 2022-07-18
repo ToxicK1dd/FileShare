@@ -16,9 +16,9 @@ namespace ImageApi.DataAccess.Models.Primary.Account
         public bool Enabled { get; set; }
 
         /// <summary>
-        /// Whether or not the account has been validated using email
+        /// Whether or not the account has been verified to be a real person
         /// </summary>
-        public bool Validated { get; set; }
+        public bool Verified { get; set; }
 
 
         #region Navigation Properties
@@ -32,19 +32,17 @@ namespace ImageApi.DataAccess.Models.Primary.Account
 
         public Address.Address Address { get; set; }
 
+        public Email.Email Email { get; set; }
+
+        public EmailVerificationCode.EmailVerificationCode EmailVerificationCode { get; set; }
+
         public Login.Login Login { get; set; }
-
-        public User.User User { get; set; }
-
-        public VerificationCode.VerificationCode VerificationCode { get; set; }
 
         public PhoneNumber.PhoneNumber PhoneNumber { get; set; }
 
         public PhoneNumberVerificationCode.PhoneNumberVerificationCode PhoneNumberVerificationCode { get; set; }
 
-        public Email.Email Email { get; set; }
-
-        public EmailVerificationCode.EmailVerificationCode EmailVerificationCode { get; set; }
+        public User.User User { get; set; }
 
         #endregion
     }
@@ -61,7 +59,7 @@ namespace ImageApi.DataAccess.Models.Primary.Account
             builder.Property(x => x.Enabled)
                 .IsRequired();
 
-            builder.Property(x => x.Validated)
+            builder.Property(x => x.Verified)
                 .IsRequired();
         }
     }

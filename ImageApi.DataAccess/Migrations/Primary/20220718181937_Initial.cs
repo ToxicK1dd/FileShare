@@ -19,7 +19,7 @@ namespace ImageApi.DataAccess.Migrations.Primary
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     Type = table.Column<int>(type: "int", nullable: false),
                     Enabled = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    Validated = table.Column<bool>(type: "tinyint(1)", nullable: false)
+                    Verified = table.Column<bool>(type: "tinyint(1)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -219,27 +219,6 @@ namespace ImageApi.DataAccess.Migrations.Primary
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "VerificationCode",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    Code = table.Column<string>(type: "varchar(16)", maxLength: 16, nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    AccountId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_VerificationCode", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_VerificationCode_Account_AccountId",
-                        column: x => x.AccountId,
-                        principalTable: "Account",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                })
-                .Annotation("MySql:CharSet", "utf8mb4");
-
-            migrationBuilder.CreateTable(
                 name: "DocumentDetail",
                 columns: table => new
                 {
@@ -313,7 +292,7 @@ namespace ImageApi.DataAccess.Migrations.Primary
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    Type = table.Column<int>(type: "int", nullable: false),
+                    DeviceType = table.Column<int>(type: "int", nullable: false),
                     Token = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     LoginId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
@@ -661,18 +640,6 @@ namespace ImageApi.DataAccess.Migrations.Primary
                 table: "User",
                 column: "Id",
                 unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_VerificationCode_AccountId",
-                table: "VerificationCode",
-                column: "AccountId",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_VerificationCode_Id",
-                table: "VerificationCode",
-                column: "Id",
-                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -712,9 +679,6 @@ namespace ImageApi.DataAccess.Migrations.Primary
 
             migrationBuilder.DropTable(
                 name: "User");
-
-            migrationBuilder.DropTable(
-                name: "VerificationCode");
 
             migrationBuilder.DropTable(
                 name: "Document");

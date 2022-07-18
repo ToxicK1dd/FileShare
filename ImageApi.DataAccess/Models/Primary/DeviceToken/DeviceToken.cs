@@ -8,7 +8,7 @@ namespace ImageApi.DataAccess.Models.Primary.DeviceToken
         /// <summary>
         /// The device/platform type of the token
         /// </summary>
-        public DeviceType Type { get; set; }
+        public DeviceType DeviceType { get; set; }
 
         /// <summary>
         /// Device token for sending notifications
@@ -31,7 +31,7 @@ namespace ImageApi.DataAccess.Models.Primary.DeviceToken
         {
             base.Configure(builder);
 
-            builder.Property(x => x.Type)
+            builder.Property(x => x.DeviceType)
                 .IsRequired();
 
             builder.Property(x => x.Token)

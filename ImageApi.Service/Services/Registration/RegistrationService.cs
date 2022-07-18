@@ -42,8 +42,7 @@ namespace ImageApi.Service.Services.Registration
             {
                 Id = accountId,
                 Enabled = true,
-                Validated = false,
-                Type = AccountType.User,
+                Verified = false,
                 Login = new()
                 {
                     Id = loginId,
