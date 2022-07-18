@@ -25,8 +25,6 @@ namespace ImageApi.DataAccess.Models.Primary.Account
 
         public ICollection<Document.Document> Documents { get; set; }
 
-        public ICollection<Role.Role> Roles { get; set; }
-
         public ICollection<Share.Share> Shares { get; set; }
 
         public ICollection<SocialSecurityNumber.SocialSecurityNumber> SocialSecurityNumbers { get; set; }
@@ -34,13 +32,19 @@ namespace ImageApi.DataAccess.Models.Primary.Account
 
         public Address.Address Address { get; set; }
 
-        public ContactDetail.ContactDetail ContactDetail { get; set; }
-
         public Login.Login Login { get; set; }
 
-        public PersonalDetail.PersonalDetail PersonalDetail { get; set; }
+        public User.User User { get; set; }
 
         public VerificationCode.VerificationCode VerificationCode { get; set; }
+
+        public PhoneNumber.PhoneNumber PhoneNumber { get; set; }
+
+        public PhoneNumberVerificationCode.PhoneNumberVerificationCode PhoneNumberVerificationCode { get; set; }
+
+        public Email.Email Email { get; set; }
+
+        public EmailVerificationCode.EmailVerificationCode EmailVerificationCode { get; set; }
 
         #endregion
     }

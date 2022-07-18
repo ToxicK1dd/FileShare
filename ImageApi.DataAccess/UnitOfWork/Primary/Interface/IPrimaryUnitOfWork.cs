@@ -1,20 +1,22 @@
 ﻿using ImageApi.DataAccess.Base.UnitOfWork.Interface;
 using ImageApi.DataAccess.Repository.Primary.Account.Interface;
-using ImageApi.DataAccess.Repository.Primary.Role.Interface;
 using ImageApi.DataAccess.Repository.Primary.Address.Interface;
-using ImageApi.DataAccess.Repository.Primary.ContactDetail.Interface;
+using ImageApi.DataAccess.Repository.Primary.DeviceToken.Interface;
 using ImageApi.DataAccess.Repository.Primary.Document.Interface;
 using ImageApi.DataAccess.Repository.Primary.DocumentDetail.Interface;
 using ImageApi.DataAccess.Repository.Primary.DocumentSignature.Interface;
+using ImageApi.DataAccess.Repository.Primary.Email.Interface;
+using ImageApi.DataAccess.Repository.Primary.EmailVerificationCode.Interface;
 using ImageApi.DataAccess.Repository.Primary.Login.Interface;
 using ImageApi.DataAccess.Repository.Primary.LoginDetail.Interface;
+using ImageApi.DataAccess.Repository.Primary.PhoneNumber.Interface;
+using ImageApi.DataAccess.Repository.Primary.PhoneNumberVerificationCode.Interface;
 using ImageApi.DataAccess.Repository.Primary.RefreshToken.Interface;
 using ImageApi.DataAccess.Repository.Primary.Share.Interface;
 using ImageApi.DataAccess.Repository.Primary.ShareDetail.Interface;
 using ImageApi.DataAccess.Repository.Primary.SocialSecurityNumber.Interface;
+using ImageApi.DataAccess.Repository.Primary.User.Interface;
 using ImageApi.DataAccess.Repository.Primary.ValidationCode.Interface;
-using ImageApi.DataAccess.Repository.Primary.DeviceToken.Interface;
-using ImageApi.DataAccess.Repository.Primary.PersonalDetail.Interface;
 
 namespace ImageApi.DataAccess.UnitOfWork.Primary.Interface
 {
@@ -22,11 +24,7 @@ namespace ImageApi.DataAccess.UnitOfWork.Primary.Interface
     {
         IAccountRepository AccountRepository { get; }
 
-        IRoleRepository RoleRepository { get; }
-
         IAddressRepository AddressRepository { get; }
-
-        IContactDetailRepository ContactDetailRepository { get; }
 
         IDeviceTokenRepository DeviceTokenRepository { get;  }
 
@@ -36,11 +34,17 @@ namespace ImageApi.DataAccess.UnitOfWork.Primary.Interface
 
         IDocumentSignatureRepository DocumentSignatureRepository { get; }
 
+        IEmailRepository EmailRepository { get; }
+
+        IEmailVerificationCodeRepository EmailVerificationCodeRepository { get; }
+
         ILoginRepository LoginRepository { get; }
 
         ILoginDetailRepository LoginDetailRepository { get; }
 
-        IPersonalDetailRepository PersonalDetailRepository { get; }
+        IPhoneNumberRepository PhoneNumberRepository { get; }
+
+        IPhoneNumberVerificationCodeRepository PhoneNumberVerificationCodeRepository { get; }
 
         IRefreshTokenRepository RefreshTokenRepository { get; }
 
@@ -49,6 +53,8 @@ namespace ImageApi.DataAccess.UnitOfWork.Primary.Interface
         IShareDetailRepository ShareDetailRepository { get; }
 
         ISocialSecurityNumberRepository SocialSecurityNumberRepository { get; }
+
+        IUserRepository UserRepository { get; }
 
         IVerificationCodeRepository VerificationCodeRepository { get; }
     }

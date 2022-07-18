@@ -19,21 +19,6 @@ namespace ImageApi.DataAccess.Migrations.Primary
                 .HasAnnotation("ProductVersion", "6.0.7")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
-            modelBuilder.Entity("AccountRole", b =>
-                {
-                    b.Property<Guid>("AccountsId")
-                        .HasColumnType("char(36)");
-
-                    b.Property<Guid>("RolesId")
-                        .HasColumnType("char(36)");
-
-                    b.HasKey("AccountsId", "RolesId");
-
-                    b.HasIndex("RolesId");
-
-                    b.ToTable("AccountRole");
-                });
-
             modelBuilder.Entity("DocumentShare", b =>
                 {
                     b.Property<Guid>("DocumentsId")
@@ -118,41 +103,6 @@ namespace ImageApi.DataAccess.Migrations.Primary
                         .IsUnique();
 
                     b.ToTable("Address");
-                });
-
-            modelBuilder.Entity("ImageApi.DataAccess.Models.Primary.ContactDetail.ContactDetail", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
-
-                    b.Property<Guid>("AccountId")
-                        .HasColumnType("char(36)");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasMaxLength(32)
-                        .HasColumnType("varchar(32)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AccountId")
-                        .IsUnique();
-
-                    b.HasIndex("Email")
-                        .IsUnique();
-
-                    b.HasIndex("Id")
-                        .IsUnique();
-
-                    b.HasIndex("PhoneNumber")
-                        .IsUnique();
-
-                    b.ToTable("ContactDetail");
                 });
 
             modelBuilder.Entity("ImageApi.DataAccess.Models.Primary.DeviceToken.DeviceToken", b =>
@@ -255,6 +205,65 @@ namespace ImageApi.DataAccess.Migrations.Primary
                     b.ToTable("DocumentSignature");
                 });
 
+            modelBuilder.Entity("ImageApi.DataAccess.Models.Primary.Email.Email", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("AccountId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256)");
+
+                    b.Property<bool>("Verified")
+                        .HasColumnType("tinyint(1)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AccountId")
+                        .IsUnique();
+
+                    b.HasIndex("Id")
+                        .IsUnique();
+
+                    b.ToTable("Email");
+                });
+
+            modelBuilder.Entity("ImageApi.DataAccess.Models.Primary.EmailVerificationCode.EmailVerificationCode", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("AccountId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("varchar(128)");
+
+                    b.Property<Guid>("EmailId")
+                        .HasColumnType("char(36)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AccountId")
+                        .IsUnique();
+
+                    b.HasIndex("EmailId")
+                        .IsUnique();
+
+                    b.HasIndex("Id")
+                        .IsUnique();
+
+                    b.ToTable("EmailVerificationCode");
+                });
+
             modelBuilder.Entity("ImageApi.DataAccess.Models.Primary.Login.Login", b =>
                 {
                     b.Property<Guid>("Id")
@@ -316,7 +325,7 @@ namespace ImageApi.DataAccess.Migrations.Primary
                     b.ToTable("LoginDetail");
                 });
 
-            modelBuilder.Entity("ImageApi.DataAccess.Models.Primary.PersonalDetail.PersonalDetail", b =>
+            modelBuilder.Entity("ImageApi.DataAccess.Models.Primary.PhoneNumber.PhoneNumber", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -325,27 +334,13 @@ namespace ImageApi.DataAccess.Migrations.Primary
                     b.Property<Guid>("AccountId")
                         .HasColumnType("char(36)");
 
-                    b.Property<DateTimeOffset>("DateOfBirth")
-                        .HasColumnType("datetime(6)");
+                    b.Property<string>("Number")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256)");
 
-                    b.Property<string>("Firstname")
-                        .HasMaxLength(64)
-                        .HasColumnType("varchar(64)");
-
-                    b.Property<string>("Lastname")
-                        .HasMaxLength(64)
-                        .HasColumnType("varchar(64)");
-
-                    b.Property<string>("Middlenames")
-                        .HasMaxLength(768)
-                        .HasColumnType("varchar(768)");
-
-                    b.Property<string>("Nationality")
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)");
-
-                    b.Property<int>("Sex")
-                        .HasColumnType("int");
+                    b.Property<bool>("Verified")
+                        .HasColumnType("tinyint(1)");
 
                     b.HasKey("Id");
 
@@ -355,7 +350,38 @@ namespace ImageApi.DataAccess.Migrations.Primary
                     b.HasIndex("Id")
                         .IsUnique();
 
-                    b.ToTable("PersonalDetail");
+                    b.ToTable("PhoneNumber");
+                });
+
+            modelBuilder.Entity("ImageApi.DataAccess.Models.Primary.PhoneNumberVerificationCode.PhoneNumberVerificationCode", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("AccountId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("varchar(128)");
+
+                    b.Property<Guid>("PhoneNumberId")
+                        .HasColumnType("char(36)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AccountId")
+                        .IsUnique();
+
+                    b.HasIndex("Id")
+                        .IsUnique();
+
+                    b.HasIndex("PhoneNumberId")
+                        .IsUnique();
+
+                    b.ToTable("PhoneNumberVerificationCode");
                 });
 
             modelBuilder.Entity("ImageApi.DataAccess.Models.Primary.RefreshToken.RefreshToken", b =>
@@ -383,23 +409,6 @@ namespace ImageApi.DataAccess.Migrations.Primary
                     b.HasIndex("LoginId");
 
                     b.ToTable("RefreshToken");
-                });
-
-            modelBuilder.Entity("ImageApi.DataAccess.Models.Primary.Role.Role", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
-
-                    b.Property<int>("Type")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Id")
-                        .IsUnique();
-
-                    b.ToTable("Role");
                 });
 
             modelBuilder.Entity("ImageApi.DataAccess.Models.Primary.Share.Share", b =>
@@ -478,7 +487,49 @@ namespace ImageApi.DataAccess.Migrations.Primary
                     b.ToTable("SocialSecurityNumber");
                 });
 
-            modelBuilder.Entity("ImageApi.DataAccess.Models.Primary.ValidationCode.VerificationCode", b =>
+            modelBuilder.Entity("ImageApi.DataAccess.Models.Primary.User.User", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("AccountId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTimeOffset>("DateOfBirth")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Firstname")
+                        .HasMaxLength(64)
+                        .HasColumnType("varchar(64)");
+
+                    b.Property<string>("Lastname")
+                        .HasMaxLength(64)
+                        .HasColumnType("varchar(64)");
+
+                    b.Property<string>("Middlenames")
+                        .HasMaxLength(768)
+                        .HasColumnType("varchar(768)");
+
+                    b.Property<string>("Nationality")
+                        .HasMaxLength(128)
+                        .HasColumnType("varchar(128)");
+
+                    b.Property<int>("Sex")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AccountId")
+                        .IsUnique();
+
+                    b.HasIndex("Id")
+                        .IsUnique();
+
+                    b.ToTable("User");
+                });
+
+            modelBuilder.Entity("ImageApi.DataAccess.Models.Primary.VerificationCode.VerificationCode", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -503,21 +554,6 @@ namespace ImageApi.DataAccess.Migrations.Primary
                     b.ToTable("VerificationCode");
                 });
 
-            modelBuilder.Entity("AccountRole", b =>
-                {
-                    b.HasOne("ImageApi.DataAccess.Models.Primary.Account.Account", null)
-                        .WithMany()
-                        .HasForeignKey("AccountsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ImageApi.DataAccess.Models.Primary.Role.Role", null)
-                        .WithMany()
-                        .HasForeignKey("RolesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("DocumentShare", b =>
                 {
                     b.HasOne("ImageApi.DataAccess.Models.Primary.Document.Document", null)
@@ -538,17 +574,6 @@ namespace ImageApi.DataAccess.Migrations.Primary
                     b.HasOne("ImageApi.DataAccess.Models.Primary.Account.Account", "Account")
                         .WithOne("Address")
                         .HasForeignKey("ImageApi.DataAccess.Models.Primary.Address.Address", "AccountId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Account");
-                });
-
-            modelBuilder.Entity("ImageApi.DataAccess.Models.Primary.ContactDetail.ContactDetail", b =>
-                {
-                    b.HasOne("ImageApi.DataAccess.Models.Primary.Account.Account", "Account")
-                        .WithOne("ContactDetail")
-                        .HasForeignKey("ImageApi.DataAccess.Models.Primary.ContactDetail.ContactDetail", "AccountId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -599,6 +624,36 @@ namespace ImageApi.DataAccess.Migrations.Primary
                     b.Navigation("Document");
                 });
 
+            modelBuilder.Entity("ImageApi.DataAccess.Models.Primary.Email.Email", b =>
+                {
+                    b.HasOne("ImageApi.DataAccess.Models.Primary.Account.Account", "Account")
+                        .WithOne("Email")
+                        .HasForeignKey("ImageApi.DataAccess.Models.Primary.Email.Email", "AccountId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Account");
+                });
+
+            modelBuilder.Entity("ImageApi.DataAccess.Models.Primary.EmailVerificationCode.EmailVerificationCode", b =>
+                {
+                    b.HasOne("ImageApi.DataAccess.Models.Primary.Account.Account", "Account")
+                        .WithOne("EmailVerificationCode")
+                        .HasForeignKey("ImageApi.DataAccess.Models.Primary.EmailVerificationCode.EmailVerificationCode", "AccountId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ImageApi.DataAccess.Models.Primary.Email.Email", "Email")
+                        .WithOne("EmailVerificationCode")
+                        .HasForeignKey("ImageApi.DataAccess.Models.Primary.EmailVerificationCode.EmailVerificationCode", "EmailId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Account");
+
+                    b.Navigation("Email");
+                });
+
             modelBuilder.Entity("ImageApi.DataAccess.Models.Primary.Login.Login", b =>
                 {
                     b.HasOne("ImageApi.DataAccess.Models.Primary.Account.Account", "Account")
@@ -621,15 +676,34 @@ namespace ImageApi.DataAccess.Migrations.Primary
                     b.Navigation("Login");
                 });
 
-            modelBuilder.Entity("ImageApi.DataAccess.Models.Primary.PersonalDetail.PersonalDetail", b =>
+            modelBuilder.Entity("ImageApi.DataAccess.Models.Primary.PhoneNumber.PhoneNumber", b =>
                 {
                     b.HasOne("ImageApi.DataAccess.Models.Primary.Account.Account", "Account")
-                        .WithOne("PersonalDetail")
-                        .HasForeignKey("ImageApi.DataAccess.Models.Primary.PersonalDetail.PersonalDetail", "AccountId")
+                        .WithOne("PhoneNumber")
+                        .HasForeignKey("ImageApi.DataAccess.Models.Primary.PhoneNumber.PhoneNumber", "AccountId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Account");
+                });
+
+            modelBuilder.Entity("ImageApi.DataAccess.Models.Primary.PhoneNumberVerificationCode.PhoneNumberVerificationCode", b =>
+                {
+                    b.HasOne("ImageApi.DataAccess.Models.Primary.Account.Account", "Account")
+                        .WithOne("PhoneNumberVerificationCode")
+                        .HasForeignKey("ImageApi.DataAccess.Models.Primary.PhoneNumberVerificationCode.PhoneNumberVerificationCode", "AccountId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ImageApi.DataAccess.Models.Primary.PhoneNumber.PhoneNumber", "PhoneNumber")
+                        .WithOne("PhoneNumberVerificationCode")
+                        .HasForeignKey("ImageApi.DataAccess.Models.Primary.PhoneNumberVerificationCode.PhoneNumberVerificationCode", "PhoneNumberId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Account");
+
+                    b.Navigation("PhoneNumber");
                 });
 
             modelBuilder.Entity("ImageApi.DataAccess.Models.Primary.RefreshToken.RefreshToken", b =>
@@ -676,11 +750,22 @@ namespace ImageApi.DataAccess.Migrations.Primary
                     b.Navigation("Account");
                 });
 
-            modelBuilder.Entity("ImageApi.DataAccess.Models.Primary.ValidationCode.VerificationCode", b =>
+            modelBuilder.Entity("ImageApi.DataAccess.Models.Primary.User.User", b =>
+                {
+                    b.HasOne("ImageApi.DataAccess.Models.Primary.Account.Account", "Account")
+                        .WithOne("User")
+                        .HasForeignKey("ImageApi.DataAccess.Models.Primary.User.User", "AccountId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Account");
+                });
+
+            modelBuilder.Entity("ImageApi.DataAccess.Models.Primary.VerificationCode.VerificationCode", b =>
                 {
                     b.HasOne("ImageApi.DataAccess.Models.Primary.Account.Account", "Account")
                         .WithOne("VerificationCode")
-                        .HasForeignKey("ImageApi.DataAccess.Models.Primary.ValidationCode.VerificationCode", "AccountId")
+                        .HasForeignKey("ImageApi.DataAccess.Models.Primary.VerificationCode.VerificationCode", "AccountId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -691,17 +776,23 @@ namespace ImageApi.DataAccess.Migrations.Primary
                 {
                     b.Navigation("Address");
 
-                    b.Navigation("ContactDetail");
-
                     b.Navigation("Documents");
+
+                    b.Navigation("Email");
+
+                    b.Navigation("EmailVerificationCode");
 
                     b.Navigation("Login");
 
-                    b.Navigation("PersonalDetail");
+                    b.Navigation("PhoneNumber");
+
+                    b.Navigation("PhoneNumberVerificationCode");
 
                     b.Navigation("Shares");
 
                     b.Navigation("SocialSecurityNumbers");
+
+                    b.Navigation("User");
 
                     b.Navigation("VerificationCode");
                 });
@@ -713,6 +804,11 @@ namespace ImageApi.DataAccess.Migrations.Primary
                     b.Navigation("Signatures");
                 });
 
+            modelBuilder.Entity("ImageApi.DataAccess.Models.Primary.Email.Email", b =>
+                {
+                    b.Navigation("EmailVerificationCode");
+                });
+
             modelBuilder.Entity("ImageApi.DataAccess.Models.Primary.Login.Login", b =>
                 {
                     b.Navigation("DeviceTokens");
@@ -720,6 +816,11 @@ namespace ImageApi.DataAccess.Migrations.Primary
                     b.Navigation("LoginDetails");
 
                     b.Navigation("RefreshTokens");
+                });
+
+            modelBuilder.Entity("ImageApi.DataAccess.Models.Primary.PhoneNumber.PhoneNumber", b =>
+                {
+                    b.Navigation("PhoneNumberVerificationCode");
                 });
 
             modelBuilder.Entity("ImageApi.DataAccess.Models.Primary.Share.Share", b =>

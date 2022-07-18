@@ -1,9 +1,9 @@
 ﻿using ImageApi.DataAccess.Base.Model.BaseEntity;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace ImageApi.DataAccess.Models.Primary.PersonalDetail
+namespace ImageApi.DataAccess.Models.Primary.User
 {
-    public class PersonalDetail : BaseEntity
+    public class User : BaseEntity
     {
         /// <summary>
         /// The firstname of the account
@@ -45,9 +45,9 @@ namespace ImageApi.DataAccess.Models.Primary.PersonalDetail
         #endregion
     }
 
-    public class PersonalDetailEntityTypeConfiguration : BaseEntityTypeConfiguration<PersonalDetail>
+    public class UserEntityTypeConfiguration : BaseEntityTypeConfiguration<User>
     {
-        public override void Configure(EntityTypeBuilder<PersonalDetail> builder)
+        public override void Configure(EntityTypeBuilder<User> builder)
         {
             base.Configure(builder);
 
@@ -74,8 +74,8 @@ namespace ImageApi.DataAccess.Models.Primary.PersonalDetail
                 .IsRequired();
 
             builder.HasOne(x => x.Account)
-                .WithOne(x => x.PersonalDetail)
-                .HasForeignKey<PersonalDetail>(x => x.AccountId);
+                .WithOne(x => x.User)
+                .HasForeignKey<User>(x => x.AccountId);
         }
     }
 
