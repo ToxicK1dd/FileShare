@@ -12,6 +12,9 @@ using System.Reflection;
 
 namespace ImageApi.DataAccess
 {
+    /// <summary>
+    /// Configure dependency injection for the database.
+    /// </summary>
     public static class DataAccess
     {
         public static void AddDataAccess(this IServiceCollection services, IConfiguration configuration)
@@ -21,6 +24,8 @@ namespace ImageApi.DataAccess
             services.AddMapster();
         }
 
+        
+        #region Helpers
 
         public static void AddDatabase(this IServiceCollection services, IConfiguration configuration)
         {
@@ -62,7 +67,7 @@ namespace ImageApi.DataAccess
         {
             services.Scan(scan =>
                 scan.FromCallingAssembly()
-                    .AddClasses(classes => classes.InNamespaces("UnitOfWork"))
+                    .AddClasses(classes => classes.Where(type => type.Name.EndsWith("UnitOfWork")))
                     .AsMatchingInterface()
                     .WithScopedLifetime());
         }
@@ -70,6 +75,8 @@ namespace ImageApi.DataAccess
         internal class ConnectionStrings
         {
             public string Primary { get; set; }
-        }
+        } 
+        
+        #endregion
     }
 }
