@@ -47,12 +47,13 @@ namespace ImageApi.Setup
                     }
                 });
 
-                var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
 
-                options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
+                options.IncludeXmlComments(xmlPath, includeControllerXmlComments: true);
                 options.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
 
-                options.EnableAnnotations();
+                options.EnableAnnotations( );
                 options.OperationFilter<SecurityRequirementsOperationFilter>();
                 options.ExampleFilters();
 

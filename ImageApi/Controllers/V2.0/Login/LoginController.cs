@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ImageApi.Controllers.V2._0.Login
 {
+    /// <summary>
+    /// Endpoints for authenticating users.
+    /// </summary>
     [ApiVersion("2.0")]
     public class LoginController : BaseController
     {
@@ -31,11 +34,25 @@ namespace ImageApi.Controllers.V2._0.Login
         }
 
 
+        /// <summary>
+        /// Get a new JWT, and refresh token using user credentials.
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     POST /authenticate
+        ///     {
+        ///        "username": "Superman",
+        ///        "password": "!Krypton1t3"
+        ///     }
+        ///
+        /// </remarks>
+        /// <response code="201">A new JWt, and refresh token has been created.</response>
+        /// <response code="401">The credentials are incorrect.</response>
         [HttpPost]
         [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Authenticate([FromBody] AuthenticateLoginDto dto)
         {
             var isValidated = await _loginService.ValidateCredentials(dto.Username, dto.Password, _httpContext.RequestAborted);
@@ -54,12 +71,15 @@ namespace ImageApi.Controllers.V2._0.Login
             });
         }
 
+        /// <summary>
+        /// Remove the specified refresh token, to prevent the user from optaining a new JWT.
+        /// </summary>
+        /// <param name="refreshToken"></param>
+        /// <response code="204">The refresh token has been deleted.</response>
+        /// <response code="404">The specified refresh token could not be found.</response>
         [HttpDelete]
         [AllowAnonymous]
         [ActionName("RefreshToken")]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> DeleteRefreshToken([FromQuery] string refreshToken)
         {
             var token = await _unitOfWork.RefreshTokenRepository.GetFromTokenAsync(refreshToken, _httpContext.RequestAborted);
@@ -72,12 +92,15 @@ namespace ImageApi.Controllers.V2._0.Login
             return NoContent();
         }
 
+        /// <summary>
+        /// Get a new JWT, using the refresh token. This will also replace the refresh token with a new one.
+        /// </summary>
+        /// <param name="refreshToken"></param>
+        /// <response code="201">A new JWt, and refresh token has been created.</response>
+        /// <response code="404">The specified refresh token could not be found.</response>
         [HttpPut]
         [AllowAnonymous]
         [ActionName("RefreshToken")]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> UpdateRefreshToken([FromQuery] string refreshToken)
         {
             var newRefreshToken = await _loginService.ValidateRefreshToken(refreshToken, _httpContext.RequestAborted);

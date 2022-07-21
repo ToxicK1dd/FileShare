@@ -45,9 +45,4 @@
 	  <_ContentIncludedByDefault Remove="wwwroot\swagger-ui\custom.js" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <Folder Include="Examples\V2\" />
-	  <Folder Include="Models\" />
-	</ItemGroup>
-
 </Project>

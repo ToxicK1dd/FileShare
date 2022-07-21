@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ImageApi.Controllers.V2._0.Registration
 {
+    /// <summary>
+    /// Endpoints for registering users.
+    /// </summary>
     [ApiVersion("2.0")]
     public class RegistrationController : BaseController
     {
@@ -30,15 +33,27 @@ namespace ImageApi.Controllers.V2._0.Registration
             _tokenService = tokenService;
         }
 
+
         /// <summary>
         /// Registers a new account.
         /// </summary>
         /// <param name="dto"></param>
-        /// <returns></returns>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     POST /register
+        ///     {
+        ///        "username": "Superman",
+        ///        "email": "superman@kryptonmail.space",
+        ///        "password": "!Krypton1t3"
+        ///     }
+        ///
+        /// </remarks>
+        /// <response code="201">Returns a newly created JWt, and refresh token.</response>
+        /// <response code="500">The username, or email is already in use.</response>
         [HttpPost]
         [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Register([FromBody] RegistrationDto dto)
         {
             var (loginId, accountId) = await _registrationService.Register(dto, _httpContext.RequestAborted);
