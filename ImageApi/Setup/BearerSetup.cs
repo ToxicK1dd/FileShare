@@ -9,7 +9,9 @@ namespace ImageApi.Setup
         public static void SetupBearer(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(options =>
+                .AddJwtBearer(
+                authenticationScheme: JwtBearerDefaults.AuthenticationScheme,
+                options =>
                 {
                     options.RequireHttpsMetadata = false;
                     options.SaveToken = true;
@@ -27,16 +29,7 @@ namespace ImageApi.Setup
                     };
                 });
 
-            services.AddAuthorization(options =>
-            {
-                options.AddPolicy("User", policy =>
-                {
-                    policy.AuthenticationSchemes.Add(
-                            JwtBearerDefaults.AuthenticationScheme);
-
-                    policy.RequireAuthenticatedUser();
-                });
-            });
+            services.AddAuthorization();
         }
     }
 }
