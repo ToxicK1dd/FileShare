@@ -8,6 +8,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ImageApi.Service.Services.Registration
 {
+    /// <summary>
+    /// Methods for registering accounts.
+    /// </summary>
     public class RegistrationService : IRegistrationService
     {
         private readonly IPrimaryUnitOfWork _unitOfWork;
@@ -64,10 +67,10 @@ namespace ImageApi.Service.Services.Registration
         #region Helpers
         public static bool IsValidEmailAddress(string email)
         {
-            if (!string.IsNullOrEmpty(email) && new EmailAddressAttribute().IsValid(email))
-                return true;
-            else
+            if (string.IsNullOrEmpty(email))
                 return false;
+
+            return new EmailAddressAttribute().IsValid(email);
         }
         #endregion
     }

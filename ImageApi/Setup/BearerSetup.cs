@@ -6,6 +6,11 @@ namespace ImageApi.Setup
 {
     public static class BearerSetup
     {
+        /// <summary>
+        /// Configure authentication, and authorization.
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="configuration"></param>
         public static void SetupBearer(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

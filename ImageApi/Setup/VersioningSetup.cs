@@ -5,6 +5,10 @@ namespace ImageApi.Setup
 {
     public static class VersioningSetup
     {
+        /// <summary>
+        /// Configure versioning.
+        /// </summary>
+        /// <param name="services"></param>
         public static void SetupVersioning(this IServiceCollection services)
         {
             services.AddVersionedApiExplorer(options =>

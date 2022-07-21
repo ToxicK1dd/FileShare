@@ -10,6 +10,9 @@ using System.Text;
 
 namespace ImageApi.Service.Services.Token
 {
+    /// <summary>
+    /// Methods for generating JWT's and refresh tokens.
+    /// </summary>
     public class TokenService : ITokenService
     {
         private readonly IPrimaryUnitOfWork _unitOfWork;

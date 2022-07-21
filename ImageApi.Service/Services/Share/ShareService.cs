@@ -4,6 +4,9 @@ using MapsterMapper;
 
 namespace ImageApi.Service.Services.Share
 {
+    /// <summary>
+    /// Methods for creating, and managing sharing of documents.
+    /// </summary>
     public class ShareService : IShareService
     {
         private readonly IPrimaryUnitOfWork _unitOfWork;

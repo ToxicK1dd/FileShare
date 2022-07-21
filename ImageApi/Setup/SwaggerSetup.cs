@@ -7,6 +7,10 @@ namespace ImageApi.Setup
 {
     public static class SwaggerSetup
     {
+        /// <summary>
+        /// Configure Swagger.
+        /// </summary>
+        /// <param name="services"></param>
         public static void SetupSwagger(this IServiceCollection services)
         {
             services.AddSwaggerExamplesFromAssemblies(Assembly.GetEntryAssembly());

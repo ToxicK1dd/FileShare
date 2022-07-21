@@ -4,6 +4,9 @@ using MapsterMapper;
 
 namespace ImageApi.Service.Services.Account
 {
+    /// <summary>
+    /// Methods for managing accounts.
+    /// </summary>
     public class AccountService : IAccountService
     {
         private readonly IPrimaryUnitOfWork _unitOfWork;

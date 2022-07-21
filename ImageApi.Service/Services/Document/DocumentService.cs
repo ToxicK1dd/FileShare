@@ -4,6 +4,9 @@ using MapsterMapper;
 
 namespace ImageApi.Service.Services.Document
 {
+    /// <summary>
+    /// Methods for saving, and retrieving documents.
+    /// </summary>
     public class DocumentService : IDocumentService
     {
         private readonly IPrimaryUnitOfWork _unitOfWork;
