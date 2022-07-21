@@ -17,6 +17,7 @@ namespace ImageApi.DataAccess
         public static void AddDataAccess(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddDatabase(configuration);
+            services.AddUnitOfWork();
             services.AddMapster();
         }
 
@@ -41,8 +42,6 @@ namespace ImageApi.DataAccess
                 .EnableSensitiveDataLogging()
                 .EnableDetailedErrors();
             }, ServiceLifetime.Scoped);
-
-            services.AddScoped<IPrimaryUnitOfWork, PrimaryUnitOfWork>();
         }
 
         public static void AddMapster(this IServiceCollection services)
@@ -59,6 +58,14 @@ namespace ImageApi.DataAccess
             services.AddScoped<IMapper, ServiceMapper>();
         }
 
+        public static void AddUnitOfWork(this IServiceCollection services)
+        {
+            services.Scan(scan =>
+                scan.FromCallingAssembly()
+                    .AddClasses(classes => classes.InNamespaces("UnitOfWork"))
+                    .AsMatchingInterface()
+                    .WithScopedLifetime());
+        }
 
         internal class ConnectionStrings
         {
