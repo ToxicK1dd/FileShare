@@ -7,16 +7,19 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Setup services in the container
 builder.Services.AddControllers();
+builder.Services.AddCors();
 
+builder.Services.SetupBearer(builder.Configuration);
 builder.Services.SetupSwagger();
 builder.Services.SetupVersioning();
-builder.Services.SetupBearer(builder.Configuration);
 
 // Add DI to the container
 builder.Services.AddHttpContextAccessor();
+builder.Services.AddOptions();
+
 builder.Services.AddDataAccess(builder.Configuration);
 builder.Services.AddServices();
-builder.Services.AddOptions();
+
 
 // Configure the HTTP request pipeline.
 var app = builder.Build();
@@ -42,24 +45,26 @@ app.UseSwaggerUI(options =>
     options.DisplayRequestDuration();
     options.DefaultModelsExpandDepth(-1);
     options.DocExpansion(DocExpansion.None);
+    options.EnablePersistAuthorization(); ;
 
     options.SwaggerEndpoint($"/v2/swagger.json", $"ImageAPI - v2");
     options.SwaggerEndpoint($"/v1/swagger.json", $"ImageAPI - v1");
 
 });
 
+app.UseHttpsRedirection();
+
+app.UseStaticFiles();
+app.UseRouting();
+
 app.UseAuthentication();
+app.UseAuthorization();
 
 app.UseCors(x => x
     .AllowAnyHeader()
     .AllowAnyMethod()
     .AllowAnyOrigin()
     .SetIsOriginAllowed((host) => true));
-app.UseHttpsRedirection();
-app.UseStaticFiles();
-
-app.UseRouting();
-app.UseAuthorization();
 
 app.MapControllers();
 

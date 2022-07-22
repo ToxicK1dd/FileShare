@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ImageApi.Controllers
 {
-    [Authorize()]
+    [Authorize]
     [Route("api/v{version:apiVersion}/[controller]/[action]")]
     [Produces("application/json")]
     [Consumes("application/json")]

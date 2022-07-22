@@ -57,15 +57,17 @@ namespace ImageApi.Setup
                 options.IncludeXmlComments(xmlPath, includeControllerXmlComments: true);
                 options.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
 
-                options.EnableAnnotations( );
-                options.OperationFilter<SecurityRequirementsOperationFilter>();
+                options.EnableAnnotations();
+                options.OrderActionsBy(x => x.RelativePath);
+
                 options.ExampleFilters();
+                options.OperationFilter<AppendAuthorizeToSummaryOperationFilter>();
 
                 options.AddSecurityDefinition("Bearer", new()
                 {
                     Name = HeaderNames.Authorization,
                     In = ParameterLocation.Header,
-                    Type = SecuritySchemeType.ApiKey,
+                    Type = SecuritySchemeType.Http,
                     Scheme = "Bearer",
                     BearerFormat = "JWT",
                     Description = "JWT Authorization using bearer scheme. Enter only the JWT."
@@ -75,11 +77,6 @@ namespace ImageApi.Setup
                     {
                         new()
                         {
-                            Name = HeaderNames.Authorization,
-                            In = ParameterLocation.Header,
-                            Type = SecuritySchemeType.ApiKey,
-                            Scheme = "Bearer",
-                            BearerFormat = "JWT",
                             Reference = new()
                             {
                                 Type = ReferenceType.SecurityScheme,

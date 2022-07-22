@@ -3,7 +3,6 @@ using ImageApi.Service.Services.Token.Interface;
 using ImageApi.Utilities;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -27,27 +26,21 @@ namespace ImageApi.Service.Services.Token
 
         public string GetAccessToken(Guid accountId)
         {
-            // Create claims based user information
-            var claims = new[] {
-                        new Claim(JwtRegisteredClaimNames.Sub, _configuration["Jwt:Subject"]),
-                        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                        new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString()),
-                        new Claim("AccountId", $"{accountId}"),
-                    };
+            var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
+            var signingCredentials = new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha512);
 
-            // Create credentials
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
-            var signIn = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+            var claims = new[]
+            {
+                new Claim("AccountId", $"{accountId}"),
+            };
 
-            // Create token based on credentials and claims
-            var token = new JwtSecurityToken(
-                _configuration["Jwt:Issuer"],
-                _configuration["Jwt:Audience"],
-                claims,
-                expires: DateTime.UtcNow.AddMinutes(10),
-                signingCredentials: signIn);
+            var tokenOptions = new JwtSecurityToken(
+                claims: claims,
+                expires: DateTime.Now.AddMinutes(10),
+                signingCredentials: signingCredentials
+            );
 
-            return new JwtSecurityTokenHandler().WriteToken(token);
+            return new JwtSecurityTokenHandler().WriteToken(tokenOptions);
         }
 
         public async Task<string> GetAccessTokenFromUsernameAsync(string username, CancellationToken cancellationToken)
