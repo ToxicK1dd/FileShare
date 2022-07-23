@@ -6,21 +6,31 @@ namespace ImageApi.DataAccess.Models.Primary.DocumentDetail
     public class DocumentDetail : BaseEntity
     {
         /// <summary>
+        /// Document name, eg image.png
+        /// </summary>
+        public string FileName { get; set; }
+
+        /// <summary>
         /// Document format, eg .png
         /// </summary>
-        public string Format { get; set; }
+        public string Extention { get; set; }
+
+        /// <summary>
+        /// Document MIME type, eg image/png
+        /// </summary>
+        public string ContentType { get; set; }
 
         /// <summary>
         /// Document size in bytes
         /// </summary>
-        public int ByteSize { get; set; }
+        public long Length { get; set; }
 
 
         #region Navigation Properties
 
         public Guid DocumentId { get; set; }
 
-        public Document.Document Document { get; set; } 
+        public Document.Document Document { get; set; }
 
         #endregion
     }
@@ -31,11 +41,19 @@ namespace ImageApi.DataAccess.Models.Primary.DocumentDetail
         {
             base.Configure(builder);
 
-            builder.Property(x => x.Format)
+            builder.Property(x => x.FileName)
+                .HasMaxLength(256)
+                .IsRequired();
+
+            builder.Property(x => x.Extention)
                 .HasMaxLength(128)
                 .IsRequired();
 
-            builder.Property(x => x.ByteSize)
+            builder.Property(x => x.ContentType)
+                .HasMaxLength(128)
+                .IsRequired();
+
+            builder.Property(x => x.Length)
                 .IsRequired();
 
             builder.HasOne(x => x.Document)

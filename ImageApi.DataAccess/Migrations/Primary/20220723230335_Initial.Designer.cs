@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ImageApi.DataAccess.Migrations.Primary
 {
     [DbContext(typeof(PrimaryContext))]
-    [Migration("20220718230758_Initial")]
+    [Migration("20220723230335_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -202,11 +202,13 @@ namespace ImageApi.DataAccess.Migrations.Primary
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
-                    b.Property<int>("ByteSize")
-                        .HasColumnType("int");
-
                     b.Property<DateTimeOffset>("Changed")
                         .HasColumnType("datetime(6)");
+
+                    b.Property<string>("ContentType")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("varchar(128)");
 
                     b.Property<DateTimeOffset>("Created")
                         .HasColumnType("datetime(6)");
@@ -217,10 +219,18 @@ namespace ImageApi.DataAccess.Migrations.Primary
                     b.Property<Guid>("DocumentId")
                         .HasColumnType("char(36)");
 
-                    b.Property<string>("Format")
+                    b.Property<string>("Extention")
                         .IsRequired()
                         .HasMaxLength(128)
                         .HasColumnType("varchar(128)");
+
+                    b.Property<string>("FileName")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256)");
+
+                    b.Property<long>("Length")
+                        .HasColumnType("bigint");
 
                     b.HasKey("Id");
 

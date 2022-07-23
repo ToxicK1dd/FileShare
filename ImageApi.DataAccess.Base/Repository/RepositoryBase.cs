@@ -41,6 +41,12 @@ namespace ImageApi.DataAccess.Base.Repository
             context.Remove(model);
         }
 
+        public virtual void RemoveById(Guid id)
+        {
+            var model = context.Set<TModel>().Where(x => x.Id == id).FirstOrDefault();
+            context.Remove(model);
+        }
+
         public virtual async Task<bool> ExistsAsync(Guid id, CancellationToken cancellationToken = default)
         {
             return await context.Set<TModel>().Where(x => x.Id == id).AsNoTracking().Select(x => x.Id).AnyAsync(cancellationToken);

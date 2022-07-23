@@ -250,9 +250,13 @@ namespace ImageApi.DataAccess.Migrations.Primary
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    Format = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: false)
+                    FileName = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    ByteSize = table.Column<int>(type: "int", nullable: false),
+                    Extention = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ContentType = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Length = table.Column<long>(type: "bigint", nullable: false),
                     DocumentId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     Created = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
                     Changed = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),

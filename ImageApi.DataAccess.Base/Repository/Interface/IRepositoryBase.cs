@@ -36,6 +36,12 @@
         void Remove(TModel model);
 
         /// <summary>
+        /// Removes an entity by the primary id.
+        /// </summary>
+        /// <param name="id"></param>
+        void RemoveById(Guid id);
+
+        /// <summary>
         /// Check if an entity with the specified id exists.
         /// </summary>
         /// <param name="id"></param>

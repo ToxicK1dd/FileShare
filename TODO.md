@@ -3,6 +3,7 @@ Store images, and documents.
 
 ### Registration
 - [x] Implement endpoint for registering
+- [x] Implement endpoint for registration confirmation 
 
 ### Authentication
 - [x] JWT Bearer
@@ -20,6 +21,12 @@ Store images, and documents.
     - [ ] Implement change username
     - [ ] Implement forgot username
 
+### File upload
+- [ ] Implement file management
+    - [x] Implement file upload
+    - [x] Implement file download
+    - [x] Implement file soft deletion
+    - [ ] Implement permanent auto deletion of soft deleted files
 
 ### Unit Testing
 - [ ] Implement xUnit

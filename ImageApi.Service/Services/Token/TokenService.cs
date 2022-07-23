@@ -45,7 +45,7 @@ namespace ImageApi.Service.Services.Token
 
         public async Task<string> GetAccessTokenFromUsernameAsync(string username, CancellationToken cancellationToken)
         {
-            var accountId = await _unitOfWork.LoginRepository.GetIdFromUsername(username, cancellationToken);
+            var accountId = await _unitOfWork.LoginRepository.GetAccountIdByUsernameAsync(username, cancellationToken);
 
             return GetAccessToken(accountId);
         }
