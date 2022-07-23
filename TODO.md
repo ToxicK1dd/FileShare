@@ -12,7 +12,7 @@ Store images, and documents.
     - [x] Implement endpoint for deletion of refresh token
 
 - [ ] Password Management
-    - [ ] Implement change password
+    - [x] Implement change password
     - [ ] Implement forgot password
 
 ### Account
