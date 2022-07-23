@@ -1,6 +1,4 @@
-﻿using ImageApi.DataAccess.Models.Primary.Account;
-using ImageApi.DataAccess.UnitOfWork.Primary.Interface;
-using ImageApi.Service.Dto.Registration;
+﻿using ImageApi.DataAccess.UnitOfWork.Primary.Interface;
 using ImageApi.Service.Services.Registration.Interface;
 using MapsterMapper;
 using Microsoft.AspNetCore.Identity;
@@ -23,23 +21,23 @@ namespace ImageApi.Service.Services.Registration
         }
 
 
-        public async Task<(Guid loginId, Guid accountId)> Register(RegistrationDto dto, CancellationToken cancellationToken)
+        public async Task<(Guid loginId, Guid accountId)> Register(string username, string email, string password, CancellationToken cancellationToken)
         {
-            var isEmailValid = IsValidEmailAddress(dto.Email);
+            var isEmailValid = IsValidEmailAddress(email);
             if (isEmailValid is not true)
                 throw new Exception("Email is not in a valid format.");
 
-            var isUsernameTaken = await _unitOfWork.LoginRepository.ExistsFromUsernameAsync(dto.Username, cancellationToken);
+            var isUsernameTaken = await _unitOfWork.LoginRepository.ExistsFromUsernameAsync(username, cancellationToken);
             if (isUsernameTaken)
                 throw new Exception("Username is already being used.");
 
-            var isEmailTaken = await _unitOfWork.EmailRepository.ExistsFromAddress(dto.Email, cancellationToken);
+            var isEmailTaken = await _unitOfWork.EmailRepository.ExistsFromAddress(email, cancellationToken);
             if (isEmailTaken)
                 throw new Exception("Email is already being used.");
 
             var accountId = Guid.NewGuid();
             var loginId = Guid.NewGuid();
-            var hashedPassword = new PasswordHasher<object>().HashPassword(null, dto.Password);
+            var hashedPassword = new PasswordHasher<object>().HashPassword(null, password);
 
             var account = new DataAccess.Models.Primary.Account.Account()
             {
@@ -50,12 +48,12 @@ namespace ImageApi.Service.Services.Registration
                 {
                     Id = loginId,
                     AccountId = accountId,
-                    Username = dto.Username,
+                    Username = username,
                     Password = hashedPassword
                 },
                 Email = new()
                 {
-                    Address = dto.Email,
+                    Address = email,
                 }
             };
             await _unitOfWork.AccountRepository.AddAsync(account, cancellationToken);

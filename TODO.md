@@ -12,10 +12,14 @@ Store images, and documents.
     - [x] Implement endpoint for deletion of refresh token
 
 - [ ] Password Management
-    - [ ] Implement password reset
+    - [ ] Implement change password
     - [ ] Implement forgot password
 
 ### Account
 - [ ] Manage account
     - [ ] Implement change username
     - [ ] Implement forgot username
+
+
+### Unit Testing
+- [ ] Implement xUnit

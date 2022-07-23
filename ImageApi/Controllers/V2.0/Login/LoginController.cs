@@ -1,5 +1,5 @@
 ﻿using ImageApi.DataAccess.UnitOfWork.Primary.Interface;
-using ImageApi.Service.Dto.Login;
+using ImageApi.Models.V2._0.Login;
 using ImageApi.Service.Services.Login.Interface;
 using ImageApi.Service.Services.Token.Interface;
 using Microsoft.AspNetCore.Authorization;
@@ -37,7 +37,7 @@ namespace ImageApi.Controllers.V2._0.Login
         /// <summary>
         /// Get a new JWT, and refresh token using user credentials.
         /// </summary>
-        /// <param name="dto"></param>
+        /// <param name="model"></param>
         /// <remarks>
         /// Sample request:
         ///
@@ -53,14 +53,14 @@ namespace ImageApi.Controllers.V2._0.Login
         [HttpPost]
         [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        public async Task<IActionResult> Authenticate([FromBody] AuthenticateLoginDto dto)
+        public async Task<IActionResult> Authenticate([FromBody] AuthenticateLoginModel model)
         {
-            var isValidated = await _loginService.ValidateCredentials(dto.Username, dto.Password, _httpContext.RequestAborted);
+            var isValidated = await _loginService.ValidateCredentials(model.Username, model.Password, _httpContext.RequestAborted);
             if (!isValidated)
                 return Unauthorized();
 
-            var token = await _tokenService.GetAccessTokenFromUsernameAsync(dto.Username, _httpContext.RequestAborted);
-            var refreshToken = await _tokenService.GetRefreshTokenFromUsernameAsync(dto.Username, _httpContext.RequestAborted);
+            var token = await _tokenService.GetAccessTokenFromUsernameAsync(model.Username, _httpContext.RequestAborted);
+            var refreshToken = await _tokenService.GetRefreshTokenFromUsernameAsync(model.Username, _httpContext.RequestAborted);
 
             await _unitOfWork.SaveChangesAsync(_httpContext.RequestAborted);
 
@@ -117,6 +117,21 @@ namespace ImageApi.Controllers.V2._0.Login
                 token,
                 newRefreshToken
             });
+        }
+
+        /// <summary>
+        /// Change the current password of the user.
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [HttpPut]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        public async Task<IActionResult> ChangeCredentials([FromBody] ChangePasswordModel model)
+        {
+            await _loginService.ChangeCredentials(model.NewPassword, model.OldPassword, _httpContext.RequestAborted);
+            await _unitOfWork.SaveChangesAsync(_httpContext.RequestAborted);
+
+            return NoContent();
         }
     }
 }

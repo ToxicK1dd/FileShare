@@ -1,5 +1,5 @@
 ﻿using ImageApi.DataAccess.UnitOfWork.Primary.Interface;
-using ImageApi.Service.Dto.Registration;
+using ImageApi.Models.V2._0.Registration;
 using ImageApi.Service.Services.Registration.Interface;
 using ImageApi.Service.Services.Token.Interface;
 using Microsoft.AspNetCore.Authorization;
@@ -37,7 +37,7 @@ namespace ImageApi.Controllers.V2._0.Registration
         /// <summary>
         /// Registers a new account.
         /// </summary>
-        /// <param name="dto"></param>
+        /// <param name="model"></param>
         /// <remarks>
         /// Sample request:
         ///
@@ -54,9 +54,9 @@ namespace ImageApi.Controllers.V2._0.Registration
         [HttpPost]
         [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        public async Task<IActionResult> Register([FromBody] RegistrationDto dto)
+        public async Task<IActionResult> Register([FromBody] RegistrationModel model)
         {
-            var (loginId, accountId) = await _registrationService.Register(dto, _httpContext.RequestAborted);
+            var (loginId, accountId) = await _registrationService.Register(model.Username, model.Email, model.Password, _httpContext.RequestAborted);
 
             var token = _tokenService.GetAccessToken(accountId);
             var refreshToken = await _tokenService.GetRefreshTokenAsync(loginId, _httpContext.RequestAborted);

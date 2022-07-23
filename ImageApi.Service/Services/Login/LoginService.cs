@@ -1,7 +1,7 @@
 ﻿using ImageApi.DataAccess.UnitOfWork.Primary.Interface;
 using ImageApi.Service.Services.Login.Interface;
 using ImageApi.Utilities;
-using MapsterMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 
 namespace ImageApi.Service.Services.Login
@@ -11,13 +11,13 @@ namespace ImageApi.Service.Services.Login
     /// </summary>
     public class LoginService : ILoginService
     {
+        private readonly HttpContext _httpContext;
         private readonly IPrimaryUnitOfWork _unitOfWork;
-        private readonly IMapper _mapper;
 
-        public LoginService(IPrimaryUnitOfWork unitOfWork, IMapper mapper)
+        public LoginService(IHttpContextAccessor httpContextAccessor, IPrimaryUnitOfWork unitOfWork)
         {
+            _httpContext = httpContextAccessor.HttpContext;
             _unitOfWork = unitOfWork;
-            _mapper = mapper;
         }
 
 
@@ -30,6 +30,24 @@ namespace ImageApi.Service.Services.Login
             var verificationResult = new PasswordHasher<object>().VerifyHashedPassword(null, login.Password, password);
 
             return verificationResult is PasswordVerificationResult.Success;
+        }
+
+        public async Task<bool> ChangeCredentials(string newPassword, string oldPassword, CancellationToken cancellationToken)
+        {
+            var accountId = _httpContext.GetAccountIdFromHttpContext();
+            if (accountId == Guid.Empty)
+                return false;
+
+            var login = await _unitOfWork.LoginRepository.GetByIdAsync(accountId, cancellationToken);
+            if (login is null)
+                return false;
+
+            var verificationResult = new PasswordHasher<object>().VerifyHashedPassword(null, login.Password, oldPassword);
+            if (verificationResult is not PasswordVerificationResult.Success)
+                return false;
+
+            login.Password = new PasswordHasher<object>().HashPassword(null, newPassword);
+            return true;
         }
 
         public async Task<string> ValidateRefreshToken(string oldRefreshToken, CancellationToken cancellationToken)

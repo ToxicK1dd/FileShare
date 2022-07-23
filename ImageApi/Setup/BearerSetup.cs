@@ -36,14 +36,6 @@ namespace ImageApi.Setup
                         ValidateLifetime = true,
                         ClockSkew = TimeSpan.Zero
                     };
-                    options.Events = new JwtBearerEvents()
-                    {
-                        OnMessageReceived = context =>
-                        {
-                            var token = context.Request.Headers.Authorization;
-                            return Task.CompletedTask;
-                        }
-                    };
                 });
 
             services.AddAuthorization();
