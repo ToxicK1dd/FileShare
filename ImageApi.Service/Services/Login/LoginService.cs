@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Identity;
 namespace ImageApi.Service.Services.Login
 {
     /// <summary>
-    /// Methods for logging in.
+    /// Methods for authentication, and password management.
     /// </summary>
     public class LoginService : ILoginService
     {
