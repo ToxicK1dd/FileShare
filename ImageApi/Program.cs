@@ -48,8 +48,6 @@ app.UseSwaggerUI(options =>
     options.EnablePersistAuthorization(); ;
 
     options.SwaggerEndpoint($"/v2/swagger.json", $"ImageAPI - v2");
-    options.SwaggerEndpoint($"/v1/swagger.json", $"ImageAPI - v1");
-
 });
 
 app.UseHttpsRedirection();

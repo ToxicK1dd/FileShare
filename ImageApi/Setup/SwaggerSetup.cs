@@ -16,23 +16,6 @@ namespace ImageApi.Setup
             services.AddSwaggerExamplesFromAssemblies(Assembly.GetEntryAssembly());
             services.AddSwaggerGen(options =>
             {
-                options.SwaggerDoc("v1", new OpenApiInfo
-                {
-                    Version = "v1",
-                    Title = "Image Api",
-                    Description = "An ASP.NET Core Web API for safely storing, and sharing images.",
-                    Contact = new OpenApiContact
-                    {
-                        Name = "ToxicK1dd",
-                        Url = new Uri("https://baek.pro/"),
-                        Email = "contact@baek.pro"
-                    },
-                    License = new OpenApiLicense
-                    {
-                        Name = "MIT License",
-                        Url = new Uri("https://github.com/ToxicK1dd/ImageApi/blob/master/LICENSE")
-                    }
-                });
                 options.SwaggerDoc("v2", new OpenApiInfo
                 {
                     Version = "v2",
