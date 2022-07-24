@@ -1,9 +1,8 @@
-﻿using ImageApi.DataAccess.UnitOfWork.Primary.Interface;
+﻿using ImageApi.Attributes;
+using ImageApi.DataAccess.UnitOfWork.Primary.Interface;
 using ImageApi.Service.Services.V2._0.Document.Interface;
-using ImageApi.Utilities;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Mime;
-using FileModel = ImageApi.DataAccess.Models.Primary.Document.Document;
 
 namespace ImageApi.Controllers.V2._0.Document
 {
@@ -34,11 +33,13 @@ namespace ImageApi.Controllers.V2._0.Document
         /// <param name="file"></param>
         /// <response code="201">Returns the uuid of the uploaded document.</response>
         [HttpPost]
-        [DisableRequestSizeLimit]
         [ActionName("File")]
         [Consumes("multipart/form-data")]
+        [RequestSizeLimit(8 * 1024 * 1024)]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        public async Task<IActionResult> UploadFile(IFormFile file)
+        public async Task<IActionResult> UploadFile(
+            [AllowedExtensions(new string[] { ".jpg", ".png", ".mp3", ".mp4", ".pdf", ".gif" })]
+            IFormFile file)
         {
             var fileId = await _documentService.UploadFileAsync(file, HttpContext.RequestAborted);
             await _unitOfWork.SaveChangesAsync(HttpContext.RequestAborted);
