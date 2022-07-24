@@ -1,10 +1,10 @@
 ﻿using ImageApi.DataAccess.UnitOfWork.Primary.Interface;
-using ImageApi.Service.Services.Login.Interface;
+using ImageApi.Service.Services.V2._0.Login.Interface;
 using ImageApi.Utilities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 
-namespace ImageApi.Service.Services.Login
+namespace ImageApi.Service.Services.V2._0.Login
 {
     /// <summary>
     /// Methods for authentication, and password management.

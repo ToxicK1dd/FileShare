@@ -1,4 +1,4 @@
-﻿namespace ImageApi.Service.Services.Login.Interface
+﻿namespace ImageApi.Service.Services.V2._0.Login.Interface
 {
     public interface ILoginService
     {

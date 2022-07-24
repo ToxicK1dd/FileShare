@@ -1,10 +1,10 @@
 ﻿using ImageApi.DataAccess.UnitOfWork.Primary.Interface;
-using ImageApi.Service.Services.Registration.Interface;
+using ImageApi.Service.Services.V2._0.Registration.Interface;
 using MapsterMapper;
 using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
 
-namespace ImageApi.Service.Services.Registration
+namespace ImageApi.Service.Services.V2._0.Registration
 {
     /// <summary>
     /// Methods for registering accounts.

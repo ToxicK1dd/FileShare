@@ -1,8 +1,8 @@
 ﻿using ImageApi.DataAccess.UnitOfWork.Primary.Interface;
-using ImageApi.Service.Services.Account.Interface;
+using ImageApi.Service.Services.V2._0.Account.Interface;
 using MapsterMapper;
 
-namespace ImageApi.Service.Services.Account
+namespace ImageApi.Service.Services.V2._0.Account
 {
     /// <summary>
     /// Methods for managing accounts.

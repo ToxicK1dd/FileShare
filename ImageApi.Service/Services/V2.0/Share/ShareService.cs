@@ -1,8 +1,8 @@
 ﻿using ImageApi.DataAccess.UnitOfWork.Primary.Interface;
-using ImageApi.Service.Services.Share.Interface;
+using ImageApi.Service.Services.V2._0.Share.Interface;
 using MapsterMapper;
 
-namespace ImageApi.Service.Services.Share
+namespace ImageApi.Service.Services.V2._0.Share
 {
     /// <summary>
     /// Methods for creating, and managing sharing of documents.

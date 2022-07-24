@@ -1,5 +1,5 @@
 ﻿using ImageApi.DataAccess.UnitOfWork.Primary.Interface;
-using ImageApi.Service.Services.Token.Interface;
+using ImageApi.Service.Services.V2._0.Token.Interface;
 using ImageApi.Utilities;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -7,7 +7,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace ImageApi.Service.Services.Token
+namespace ImageApi.Service.Services.V2._0.Token
 {
     /// <summary>
     /// Methods for generating JWT's and refresh tokens.

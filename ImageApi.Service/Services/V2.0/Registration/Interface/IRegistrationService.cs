@@ -1,4 +1,4 @@
-﻿namespace ImageApi.Service.Services.Registration.Interface
+﻿namespace ImageApi.Service.Services.V2._0.Registration.Interface
 {
     public interface IRegistrationService
     {

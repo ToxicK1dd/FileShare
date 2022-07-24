@@ -1,4 +1,4 @@
-﻿namespace ImageApi.Service.Services.Token.Interface
+﻿namespace ImageApi.Service.Services.V2._0.Token.Interface
 {
     public interface ITokenService
     {

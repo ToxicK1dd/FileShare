@@ -1,7 +1,7 @@
 ﻿using ImageApi.DataAccess.UnitOfWork.Primary.Interface;
 using ImageApi.Models.V2._0.Login;
-using ImageApi.Service.Services.Login.Interface;
-using ImageApi.Service.Services.Token.Interface;
+using ImageApi.Service.Services.V2._0.Login.Interface;
+using ImageApi.Service.Services.V2._0.Token.Interface;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

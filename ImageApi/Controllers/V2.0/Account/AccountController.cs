@@ -1,4 +1,4 @@
-﻿using ImageApi.Service.Services.Account.Interface;
+﻿using ImageApi.Service.Services.V2._0.Account.Interface;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ImageApi.Controllers.V2._0.Account
