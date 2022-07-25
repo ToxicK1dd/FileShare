@@ -42,7 +42,7 @@ namespace ImageApi.Service.Services.V2._0.Document
             using var ms = new MemoryStream();
             await file.CopyToAsync(ms, cancellationToken);
             var fileBytes = ms.ToArray();
-            fileModel.Blob = fileBytes;
+            fileModel.Contents = fileBytes;
 
             await _unitOfWork.DocumentRepository.AddAsync(fileModel, cancellationToken);
             return fileModel.Id;
@@ -55,7 +55,7 @@ namespace ImageApi.Service.Services.V2._0.Document
 
             return new FileDto()
             {
-                FileContents = dbFile.Blob,
+                FileContents = dbFile.Contents,
                 FileName = dbFile.Detail.FileName,
                 ContentType = dbFile.Detail.ContentType
             };

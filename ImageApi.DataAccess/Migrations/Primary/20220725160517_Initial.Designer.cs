@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ImageApi.DataAccess.Migrations.Primary
 {
     [DbContext(typeof(PrimaryContext))]
-    [Migration("20220723230335_Initial")]
+    [Migration("20220725160517_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -170,21 +170,21 @@ namespace ImageApi.DataAccess.Migrations.Primary
                     b.Property<Guid>("AccountId")
                         .HasColumnType("char(36)");
 
-                    b.Property<byte[]>("Blob")
-                        .IsRequired()
-                        .HasColumnType("LONGBLOB");
-
                     b.Property<DateTimeOffset>("Changed")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<string>("Content")
-                        .HasColumnType("longtext");
+                    b.Property<byte[]>("Contents")
+                        .IsRequired()
+                        .HasColumnType("LONGBLOB");
 
                     b.Property<DateTimeOffset>("Created")
                         .HasColumnType("datetime(6)");
 
                     b.Property<bool>("Deleted")
                         .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("Json")
+                        .HasColumnType("longtext");
 
                     b.HasKey("Id");
 

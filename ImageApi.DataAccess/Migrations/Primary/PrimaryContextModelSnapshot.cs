@@ -168,21 +168,21 @@ namespace ImageApi.DataAccess.Migrations.Primary
                     b.Property<Guid>("AccountId")
                         .HasColumnType("char(36)");
 
-                    b.Property<byte[]>("Blob")
-                        .IsRequired()
-                        .HasColumnType("LONGBLOB");
-
                     b.Property<DateTimeOffset>("Changed")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<string>("Content")
-                        .HasColumnType("longtext");
+                    b.Property<byte[]>("Contents")
+                        .IsRequired()
+                        .HasColumnType("LONGBLOB");
 
                     b.Property<DateTimeOffset>("Created")
                         .HasColumnType("datetime(6)");
 
                     b.Property<bool>("Deleted")
                         .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("Json")
+                        .HasColumnType("longtext");
 
                     b.HasKey("Id");
 

@@ -9,14 +9,14 @@ namespace ImageApi.DataAccess.Models.Primary.Document
     public class Document : BaseEntity
     {
         /// <summary>
-        /// Document bytes
+        /// Document in bytes
         /// </summary>
-        public byte[] Blob { get; set; }
+        public byte[] Contents { get; set; }
 
         /// <summary>
-        /// Document contents in raw json format
+        /// Contents in json format
         /// </summary>
-        public JsonObject Content { get; set; }
+        public JsonObject Json { get; set; }
 
 
         #region Navigation Properties
@@ -40,11 +40,11 @@ namespace ImageApi.DataAccess.Models.Primary.Document
         {
             base.Configure(builder);
 
-            builder.Property(x => x.Blob)
+            builder.Property(x => x.Contents)
                 .HasColumnType("LONGBLOB")
                 .IsRequired();
 
-            builder.Property(e => e.Content)
+            builder.Property(e => e.Json)
                 .HasConversion(
                     value => value == null ? "" : JsonConvert.SerializeObject(value),
                     value => JsonConvert.DeserializeObject<JsonObject>(value))

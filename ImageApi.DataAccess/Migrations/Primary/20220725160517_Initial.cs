@@ -69,8 +69,8 @@ namespace ImageApi.DataAccess.Migrations.Primary
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    Blob = table.Column<byte[]>(type: "LONGBLOB", nullable: false),
-                    Content = table.Column<string>(type: "longtext", nullable: true)
+                    Contents = table.Column<byte[]>(type: "LONGBLOB", nullable: false),
+                    Json = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     AccountId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     Created = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
