@@ -10,6 +10,7 @@ namespace ImageApi.Controllers.V2._0.Document
     /// Endpoints for managing documents
     /// </summary>
     [ApiVersion("2.0")]
+    [RequireVerified]
     public class DocumentController : BaseController
     {
         private readonly IPrimaryUnitOfWork _unitOfWork;

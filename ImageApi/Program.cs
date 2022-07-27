@@ -1,4 +1,5 @@
 using ImageApi.DataAccess;
+using ImageApi.Filters;
 using ImageApi.Service;
 using ImageApi.Setup;
 using Swashbuckle.AspNetCore.SwaggerUI;
@@ -6,7 +7,10 @@ using Swashbuckle.AspNetCore.SwaggerUI;
 var builder = WebApplication.CreateBuilder(args);
 
 // Setup services in the container
-builder.Services.AddControllers();
+builder.Services.AddControllers(options =>
+{
+    options.Filters.Add<RequireEnabledFilter>();
+});
 builder.Services.AddCors();
 
 builder.Services.SetupBearer(builder.Configuration);

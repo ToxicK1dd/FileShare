@@ -1,6 +1,9 @@
 # Image API
 Store images, and documents.
 
+## TODO list:
+This file contains a list of todo, and done tasks for the project.
+
 ### Registration
 - [x] Implement endpoint for registering
 - [x] Implement endpoint for registration confirmation 
@@ -27,6 +30,9 @@ Store images, and documents.
     - [x] Implement file download
     - [x] Implement file soft deletion
     - [ ] Implement permanent auto deletion of soft deleted files
+
+### Pricing
+- [ ] Implement request tracking
 
 ### Unit Testing
 - [ ] Implement xUnit

@@ -7,6 +7,9 @@ namespace ImageApi.Utilities
     {
         public static Guid GetAccountIdFromHttpContext(this HttpContext httpContext)
         {
+            if (httpContext.User.Identity.IsAuthenticated is false)
+                return Guid.Empty;
+
             if (httpContext.User.Identity is not ClaimsIdentity identity)
                 return Guid.Empty;
 
