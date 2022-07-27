@@ -23,7 +23,21 @@ namespace ImageApi.DataAccess.Repository.Primary.Login
 
         public async Task<Model> GetFromUsernameAsync(string username, CancellationToken cancellationToken = default)
         {
-            return await context.Set<Model>().FirstOrDefaultAsync(x => x.Username == username, cancellationToken);
+            return await context.Set<Model>()
+                .Where(x => x.Username == username && x.Account.Enabled)
+                .Include(x => x.Account)
+                .Select(x => new Model()
+                {
+                    Id = x.Id,
+                    AccountId = x.AccountId,
+                    Username = x.Username,
+                    Password = x.Password,
+                    Account = new()
+                    {
+                        Enabled = x.Account.Enabled
+                    }
+                })
+                .FirstOrDefaultAsync(cancellationToken);
         }
 
         public async Task<bool> ExistsFromUsernameAsync(string username, CancellationToken cancellationToken = default)
