@@ -1,8 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Net.Http;
 
 namespace FileShare.DataAccess.Base.Model
 {
+    /// <summary>
+    /// Abstract base class for easy, and fast creation of databases.
+    /// </summary>
+    /// <typeparam name="TContext">The database context of which the data is stored.</typeparam>
     public abstract class BaseContext<TContext> : DbContext
             where TContext : DbContext
     {
@@ -39,6 +42,9 @@ namespace FileShare.DataAccess.Base.Model
 
 
         #region Helpers
+        /// <summary>
+        /// Check and set created, deleted, or changed properties.
+        /// </summary>
         private void CheckEntities()
         {
             foreach (var entry in ChangeTracker.Entries<BaseEntity.BaseEntity>())

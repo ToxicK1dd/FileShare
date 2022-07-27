@@ -5,6 +5,10 @@
     /// </summary>
     public interface IUnitOfWorkBase : IDisposable
     {
+        /// <summary>
+        /// Save all current changes made in the context to the database.
+        /// </summary>
+        /// <param name="cancellationToken"></param>
         Task SaveChangesAsync(CancellationToken cancellationToken = default);
     }
 }

@@ -5,6 +5,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FileShare.DataAccess.Base.Repository
 {
+    /// <summary>
+    /// Abstract base class for easy, and fast creation of repositories.
+    /// </summary>
+    /// <typeparam name="TModel">The database model which the repository manages.</typeparam>
+    /// <typeparam name="TContext">The database context which the repository makes the changes to.</typeparam>
     public abstract class RepositoryBase<TModel, TContext> : IRepositoryBase<TModel>
         where TModel : BaseEntity
         where TContext : BaseContext<TContext>, new()
@@ -41,12 +46,14 @@ namespace FileShare.DataAccess.Base.Repository
             context.Remove(model);
         }
 
+        // Delete
         public virtual void RemoveById(Guid id)
         {
             var model = context.Set<TModel>().Where(x => x.Id == id).FirstOrDefault();
             context.Remove(model);
         }
 
+        // Exists
         public virtual async Task<bool> ExistsAsync(Guid id, CancellationToken cancellationToken = default)
         {
             return await context.Set<TModel>().Where(x => x.Id == id).AsNoTracking().Select(x => x.Id).AnyAsync(cancellationToken);

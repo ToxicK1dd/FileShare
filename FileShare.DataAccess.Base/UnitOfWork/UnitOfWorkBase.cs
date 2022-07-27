@@ -1,10 +1,14 @@
-﻿using FileShare.DataAccess.Base.UnitOfWork.Interface;
-using Microsoft.EntityFrameworkCore;
+﻿using FileShare.DataAccess.Base.Model;
+using FileShare.DataAccess.Base.UnitOfWork.Interface;
 
 namespace FileShare.DataAccess.Base.UnitOfWork
 {
+    /// <summary>
+    /// Abstract base class for easy, and fast creation of a Unit of Work.
+    /// </summary>
+    /// <typeparam name="TContext"></typeparam>
     public abstract class UnitOfWorkBase<TContext> : IUnitOfWorkBase
-        where TContext : DbContext, new()
+        where TContext : BaseContext<TContext>, new()
     {
         protected readonly TContext context;
 
