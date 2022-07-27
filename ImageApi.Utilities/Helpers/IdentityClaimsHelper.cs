@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
 
-namespace ImageApi.Utilities
+namespace ImageApi.Utilities.Helpers
 {
     public static class IdentityClaimsHelper
     {

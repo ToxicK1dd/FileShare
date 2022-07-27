@@ -1,7 +1,7 @@
 ﻿using ImageApi.DataAccess.UnitOfWork.Primary.Interface;
 using ImageApi.Service.Dtos.V2._0.Document;
 using ImageApi.Service.Services.V2._0.Document.Interface;
-using ImageApi.Utilities;
+using ImageApi.Utilities.Helpers;
 using Microsoft.AspNetCore.Http;
 using FileModel = ImageApi.DataAccess.Models.Primary.Document.Document;
 

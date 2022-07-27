@@ -1,5 +1,5 @@
 ﻿using ImageApi.DataAccess.UnitOfWork.Primary.Interface;
-using ImageApi.Utilities;
+using ImageApi.Utilities.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
