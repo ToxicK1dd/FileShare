@@ -59,7 +59,7 @@ namespace FileShare.Service.Services.V2._0.Token
 
         public async Task<string> GetRefreshTokenAsync(Guid loginId, CancellationToken cancellationToken)
         {
-            var refreshTokenString = RandomStringGenerator.Generate();
+            var refreshTokenString = RandomGenerator.GenerateBase64String();
 
             var refreshToken = new DataAccess.Models.Primary.RefreshToken.RefreshToken()
             {

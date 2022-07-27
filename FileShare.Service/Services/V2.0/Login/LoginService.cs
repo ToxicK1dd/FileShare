@@ -57,7 +57,7 @@ namespace FileShare.Service.Services.V2._0.Login
             if (refreshToken is null)
                 return null;
 
-            refreshToken.Token = RandomStringGenerator.Generate();
+            refreshToken.Token = RandomGenerator.GenerateBase64String();
             refreshToken.Expiration = DateTimeOffset.UtcNow.AddDays(30);
 
             return refreshToken.Token;
