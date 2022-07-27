@@ -1,4 +1,4 @@
-# Image API
+# File Share API
 Store images, and documents.
 
 ## TODO list:

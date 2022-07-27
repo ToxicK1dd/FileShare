@@ -1,0 +1,51 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
+		<NoWarn>$(NoWarn);1591</NoWarn>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.7" />
+		<PackageReference Include="Microsoft.AspNetCore.Cors" Version="2.2.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.0.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" Version="5.0.0" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.7">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+		<PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.4.0" />
+		<PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="7.0.3" />
+		<PackageReference Include="Swashbuckle.AspNetCore.Filters.Abstractions" Version="7.0.3" />
+		<PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="6.4.0" />
+		<PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="6.4.0" />
+		<PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.4.0" />
+		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.21.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\FileShare.DataAccess\FileShare.DataAccess.csproj" />
+		<ProjectReference Include="..\FileShare.Service\FileShare.Service.csproj" />
+		<ProjectReference Include="..\FileShare.Utilities\FileShare.Utilities.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Include="wwwroot\**">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
+
+	<ItemGroup>
+		<Content Remove="wwwroot\swagger-ui\custom.css" />
+		<Content Remove="wwwroot\swagger-ui\custom.js" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<_ContentIncludedByDefault Remove="wwwroot\swagger-ui\custom.js" />
+	</ItemGroup>
+
+</Project>

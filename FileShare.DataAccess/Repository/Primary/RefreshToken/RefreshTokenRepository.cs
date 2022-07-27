@@ -1,0 +1,29 @@
+﻿using FileShare.DataAccess.Base.Repository;
+using FileShare.DataAccess.Models.Primary;
+using FileShare.DataAccess.Repository.Primary.RefreshToken.Interface;
+using Microsoft.EntityFrameworkCore;
+using Model = FileShare.DataAccess.Models.Primary.RefreshToken.RefreshToken;
+
+namespace FileShare.DataAccess.Repository.Primary.RefreshToken
+{
+    public class RefreshTokenRepository : RepositoryBase<Model, PrimaryContext>, IRefreshTokenRepository
+    {
+        public RefreshTokenRepository(PrimaryContext context) : base(context) { }
+
+
+        public async Task<Model> GetFromTokenAsync(string token, CancellationToken cancellationToken = default)
+        {
+            return await context.Set<Model>()
+                .FirstOrDefaultAsync(x => x.Token == token, cancellationToken);
+        }
+
+        public async Task<Guid> GetAccountIdFromToken(string token, CancellationToken cancellation = default)
+        {
+            return await context.Set<Model>()
+                .Where(x => x.Token == token)
+                .Include(x => x.Login)
+                .Select(x => x.Login.AccountId)
+                .FirstOrDefaultAsync(cancellation);
+        }
+    }
+}
