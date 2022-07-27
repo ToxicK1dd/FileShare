@@ -31,8 +31,8 @@ This file contains a list of todo, and done tasks for the project.
     - [x] Implement file soft deletion
     - [ ] Implement permanent auto deletion of soft deleted files
 
-### Pricing
-- [ ] Implement request tracking
+### Requests
+- [ ] Implement rate limiting
 
 ### Unit Testing
 - [ ] Implement xUnit

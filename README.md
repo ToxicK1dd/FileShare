@@ -26,4 +26,4 @@ and the connection string in appsettings is correct.
 ### License
 This project is available under the [MIT license](https://github.com/ToxicK1dd/ImageApi/blob/master/LICENSE).
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
