@@ -1,6 +1,6 @@
 ﻿using ImageApi.DataAccess.UnitOfWork.Primary.Interface;
 using ImageApi.Service.Services.V2._0.Token.Interface;
-using ImageApi.Utilities;
+using ImageApi.Utilities.Generators;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;

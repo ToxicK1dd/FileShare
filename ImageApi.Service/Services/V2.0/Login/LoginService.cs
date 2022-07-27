@@ -1,6 +1,6 @@
 ﻿using ImageApi.DataAccess.UnitOfWork.Primary.Interface;
 using ImageApi.Service.Services.V2._0.Login.Interface;
-using ImageApi.Utilities;
+using ImageApi.Utilities.Generators;
 using ImageApi.Utilities.Helpers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;

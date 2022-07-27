@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace ImageApi.Utilities
+namespace ImageApi.Utilities.Generators
 {
     public static class RandomStringGenerator
     {
