@@ -215,5 +215,44 @@ namespace FileShare.XUnitTests.ServiceTests.V2._0.Login
             _mockPasswordHasher.Verify(hasher => hasher.VerifyHashedPassword(It.IsAny<object>(), It.IsAny<string>(), It.IsAny<string>()), Times.Once);
             _mockPasswordHasher.Verify(hasher => hasher.HashPassword(It.IsAny<object>(), It.IsAny<string>()), Times.Never);
         }
+
+
+        [Fact]
+        public async Task ValidateRefreshToken_ShouldReturnString_WhenOldTokenIsValid()
+        {
+            // Arrange
+            _mockUnitOfWork.Setup(repo => repo.RefreshTokenRepository.GetFromTokenAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(new DataAccess.Models.Primary.RefreshToken.RefreshToken());
+
+            _mockRandomGenerator.Setup(generator => generator.GenerateBase64String(It.IsAny<int>()))
+                .Returns("12345");
+
+            // Act
+            var result = await _loginService.ValidateRefreshTokenAsync(string.Empty, CancellationToken.None);
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.NotEqual(string.Empty, result);
+
+            _mockUnitOfWork.Verify(repo => repo.RefreshTokenRepository.GetFromTokenAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Once);
+            _mockRandomGenerator.Verify(generator => generator.GenerateBase64String(It.IsAny<int>()), Times.Once);
+        }
+
+        [Fact]
+        public async Task ValidateRefreshToken_ShouldReturnNull_WhenOldTokenIsInvalid()
+        {
+            // Arrange
+            _mockUnitOfWork.Setup(repo => repo.RefreshTokenRepository.GetFromTokenAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync((DataAccess.Models.Primary.RefreshToken.RefreshToken)null);
+
+            // Act
+            var result = await _loginService.ValidateRefreshTokenAsync(string.Empty, CancellationToken.None);
+
+            // Assert
+            Assert.Null(result);
+
+            _mockUnitOfWork.Verify(repo => repo.RefreshTokenRepository.GetFromTokenAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Once);
+            _mockRandomGenerator.Verify(generator => generator.GenerateBase64String(It.IsAny<int>()), Times.Never);
+        }
     }
 }
