@@ -70,6 +70,28 @@ namespace FileShare.XUnitTests.ControllerTests.V2._0.Login
             Assert.IsType<UnauthorizedResult>(result);
         }
 
+        [Fact]
+        public async Task Authenticate_CalledOnce_ValidateCredentials()
+        {
+            // Arrange
+            _mockHttpContextAccessor.Setup(accessor => accessor.HttpContext)
+                .Returns(new DefaultHttpContext());
+
+            _mockLoginService.Setup(service => service.ValidateCredentials(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(true);
+
+            _mockTokenService.Setup(service => service.GetAccessTokenFromUsernameAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync("token");
+            _mockTokenService.Setup(service => service.GetRefreshTokenFromUsernameAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
+               .ReturnsAsync("refreshToken");
+
+            // Act
+            var result = await _controller.Authenticate(new(It.IsAny<string>(), It.IsAny<string>()));
+
+            // Assert
+            _mockLoginService.Verify(service => service.ValidateCredentials(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Once);
+        }
+
 
         [Fact]
         public async Task DeleteRefreshToken_Returns_NoContent()
