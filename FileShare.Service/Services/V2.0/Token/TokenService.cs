@@ -1,6 +1,7 @@
 ﻿using FileShare.DataAccess.UnitOfWork.Primary.Interface;
 using FileShare.Service.Services.V2._0.Token.Interface;
-using FileShare.Utilities.Generators;
+using FileShare.Utilities.Generators.Random;
+using FileShare.Utilities.Generators.Random.Interface;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -16,11 +17,13 @@ namespace FileShare.Service.Services.V2._0.Token
     {
         private readonly IPrimaryUnitOfWork _unitOfWork;
         private readonly IConfiguration _configuration;
+        private readonly IRandomGenerator _randomGenerator;
 
-        public TokenService(IPrimaryUnitOfWork primaryUnitOfWork, IConfiguration configuration)
+        public TokenService(IPrimaryUnitOfWork primaryUnitOfWork, IConfiguration configuration, IRandomGenerator randomGenerator)
         {
             _unitOfWork = primaryUnitOfWork;
             _configuration = configuration;
+            _randomGenerator = randomGenerator;
         }
 
 
@@ -59,7 +62,7 @@ namespace FileShare.Service.Services.V2._0.Token
 
         public async Task<string> GetRefreshTokenAsync(Guid loginId, CancellationToken cancellationToken)
         {
-            var refreshTokenString = RandomGenerator.GenerateBase64String();
+            var refreshTokenString = _randomGenerator.GenerateBase64String();
 
             var refreshToken = new DataAccess.Models.Primary.RefreshToken.RefreshToken()
             {

@@ -2,6 +2,7 @@ using FileShare.DataAccess;
 using FileShare.Filters;
 using FileShare.Service;
 using FileShare.Setup;
+using FileShare.Utilities;
 using Swashbuckle.AspNetCore.SwaggerUI;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -23,6 +24,7 @@ builder.Services.AddOptions();
 
 builder.Services.AddDataAccess(builder.Configuration);
 builder.Services.AddServices();
+builder.Services.AddUtillities();
 
 
 // Configure the HTTP request pipeline.

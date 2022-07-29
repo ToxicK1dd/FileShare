@@ -1,19 +1,20 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using FileShare.Utilities.Helpers.IdentityClaims.Interface;
+using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
 
-namespace FileShare.Utilities.Helpers
+namespace FileShare.Utilities.Helpers.IdentityClaims
 {
     /// <summary>
     /// Static helper methods for claims.
     /// </summary>
-    public static class IdentityClaimsHelper
+    public class IdentityClaimsHelper : IIdentityClaimsHelper
     {
         /// <summary>
         /// Static helper method to get account id from HTTP context.
         /// </summary>
         /// <param name="httpContext"></param>
         /// <returns>The id of the account if found. Otherwise Guid.Empty.</returns>
-        public static Guid GetAccountIdFromHttpContext(this HttpContext httpContext)
+        public Guid GetAccountIdFromHttpContext(HttpContext httpContext)
         {
             if (httpContext.User.Identity.IsAuthenticated is false)
                 return Guid.Empty;

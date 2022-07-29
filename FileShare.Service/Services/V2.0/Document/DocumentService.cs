@@ -1,7 +1,7 @@
 ﻿using FileShare.DataAccess.UnitOfWork.Primary.Interface;
 using FileShare.Service.Dtos.V2._0.Document;
 using FileShare.Service.Services.V2._0.Document.Interface;
-using FileShare.Utilities.Helpers;
+using FileShare.Utilities.Helpers.IdentityClaims.Interface;
 using Microsoft.AspNetCore.Http;
 using FileModel = FileShare.DataAccess.Models.Primary.Document.Document;
 
@@ -12,15 +12,18 @@ namespace FileShare.Service.Services.V2._0.Document
     /// </summary>
     public class DocumentService : IDocumentService
     {
-        private readonly HttpContext _httpContext;
+        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IPrimaryUnitOfWork _unitOfWork;
+        private readonly IIdentityClaimsHelper _identityClaimsHelper;
 
         public DocumentService(
             IHttpContextAccessor httpContextAccessor,
-            IPrimaryUnitOfWork unitOfWork)
+            IPrimaryUnitOfWork unitOfWork,
+            IIdentityClaimsHelper identityClaimsHelper)
         {
-            _httpContext = httpContextAccessor.HttpContext;
+            _httpContextAccessor = httpContextAccessor;
             _unitOfWork = unitOfWork;
+            _identityClaimsHelper = identityClaimsHelper;
         }
 
 
@@ -85,7 +88,7 @@ namespace FileShare.Service.Services.V2._0.Document
 
         public Guid GetAccountId()
         {
-            var accountId = _httpContext.GetAccountIdFromHttpContext();
+            var accountId = _identityClaimsHelper.GetAccountIdFromHttpContext(_httpContextAccessor.HttpContext);
             if (accountId == Guid.Empty)
                 throw new UnauthorizedAccessException();
 

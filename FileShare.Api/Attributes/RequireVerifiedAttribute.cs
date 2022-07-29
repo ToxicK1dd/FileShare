@@ -1,5 +1,5 @@
 ﻿using FileShare.DataAccess.UnitOfWork.Primary.Interface;
-using FileShare.Utilities.Helpers;
+using FileShare.Utilities.Helpers.IdentityClaims.Interface;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -18,7 +18,7 @@ namespace FileShare.Attributes
 
             if (isAllowAnonymous is false)
             {
-                var accountId = context.HttpContext.GetAccountIdFromHttpContext();
+                var accountId = context.HttpContext.RequestServices.GetService<IIdentityClaimsHelper>().GetAccountIdFromHttpContext(context.HttpContext);
                 var verified = await context.HttpContext.RequestServices.GetService<IPrimaryUnitOfWork>().AccountRepository.IsVerifiedByIdAsync(accountId, context.HttpContext.RequestAborted);
                 if (verified is false)
                     context.Result = new UnauthorizedResult();
