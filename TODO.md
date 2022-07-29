@@ -18,6 +18,7 @@ This file contains a list of todo, and done tasks for the project.
 - [ ] Password Management
     - [x] Implement change password
     - [ ] Implement forgot password
+	- [ ] Implement password validation
 
 ### Account
 - [ ] Manage account

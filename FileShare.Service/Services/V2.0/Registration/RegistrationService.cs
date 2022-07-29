@@ -21,19 +21,19 @@ namespace FileShare.Service.Services.V2._0.Registration
         }
 
 
-        public async Task<(Guid loginId, Guid accountId)> Register(string username, string email, string password, CancellationToken cancellationToken)
+        public async Task<(Guid loginId, Guid accountId)> RegisterAsync(string username, string email, string password, CancellationToken cancellationToken)
         {
             var isEmailValid = IsValidEmailAddress(email);
             if (isEmailValid is not true)
-                throw new Exception("Email is not in a valid format.");
+                throw new ArgumentException("Email is not in a valid format.");
 
             var isUsernameTaken = await _unitOfWork.LoginRepository.ExistsFromUsernameAsync(username, cancellationToken);
             if (isUsernameTaken)
-                throw new Exception("Username is already being used.");
+                throw new ArgumentException("Username is already being used.");
 
-            var isEmailTaken = await _unitOfWork.EmailRepository.ExistsFromAddress(email, cancellationToken);
+            var isEmailTaken = await _unitOfWork.EmailRepository.ExistsFromAddressAsync(email, cancellationToken);
             if (isEmailTaken)
-                throw new Exception("Email is already being used.");
+                throw new ArgumentException("Email is already being used.");
 
             var accountId = Guid.NewGuid();
             var loginId = Guid.NewGuid();

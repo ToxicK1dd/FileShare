@@ -56,7 +56,7 @@ namespace FileShare.Controllers.V2._0.Registration
         [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<IActionResult> Register([FromBody] RegistrationModel model)
         {
-            var (loginId, accountId) = await _registrationService.Register(model.Username, model.Email, model.Password, _httpContextAccessor.HttpContext.RequestAborted);
+            var (loginId, accountId) = await _registrationService.RegisterAsync(model.Username, model.Email, model.Password, _httpContextAccessor.HttpContext.RequestAborted);
 
             var token = _tokenService.GetAccessToken(accountId);
             var refreshToken = await _tokenService.GetRefreshTokenAsync(loginId, _httpContextAccessor.HttpContext.RequestAborted);

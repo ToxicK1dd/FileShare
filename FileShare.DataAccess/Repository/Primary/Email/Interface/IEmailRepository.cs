@@ -5,6 +5,6 @@ namespace FileShare.DataAccess.Repository.Primary.Email.Interface
 {
     public interface IEmailRepository : IRepositoryBase<Model>
     {
-        Task<bool> ExistsFromAddress(string address, CancellationToken cancellationToken = default);
+        Task<bool> ExistsFromAddressAsync(string address, CancellationToken cancellationToken = default);
     }
 }

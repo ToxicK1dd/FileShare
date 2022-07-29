@@ -8,6 +8,6 @@
         /// <param name="dto"></param>
         /// <param name="cancellationToken"></param>
         /// <returns>Returns login, and account id for the newly created account.</returns>
-        Task<(Guid loginId, Guid accountId)> Register(string username, string email, string password, CancellationToken cancellationToken);
+        Task<(Guid loginId, Guid accountId)> RegisterAsync(string username, string email, string password, CancellationToken cancellationToken);
     }
 }
