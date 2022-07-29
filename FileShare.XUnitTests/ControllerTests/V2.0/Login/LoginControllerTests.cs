@@ -34,15 +34,17 @@ namespace FileShare.XUnitTests.ControllerTests.V2._0.Login
         public async Task Authenticate_Returns_Created()
         {
             // Arrange
+            var cancellationToken = CancellationToken.None;
+
             _mockHttpContextAccessor.Setup(accessor => accessor.HttpContext)
                 .Returns(new DefaultHttpContext());
 
-            _mockLoginService.Setup(service => service.ValidateCredentials(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()))
+            _mockLoginService.Setup(service => service.ValidateCredentials(It.IsAny<string>(), It.IsAny<string>(), cancellationToken))
                 .ReturnsAsync(true);
 
-            _mockTokenService.Setup(service => service.GetAccessTokenFromUsernameAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
+            _mockTokenService.Setup(service => service.GetAccessTokenFromUsernameAsync(It.IsAny<string>(), cancellationToken))
                 .ReturnsAsync("token");
-            _mockTokenService.Setup(service => service.GetRefreshTokenFromUsernameAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
+            _mockTokenService.Setup(service => service.GetRefreshTokenFromUsernameAsync(It.IsAny<string>(), cancellationToken))
                .ReturnsAsync("refreshToken");
 
             // Act
@@ -56,10 +58,12 @@ namespace FileShare.XUnitTests.ControllerTests.V2._0.Login
         public async Task Authenticate_Returns_Unauthorized()
         {
             // Arrange
+            var cancellationToken = CancellationToken.None;
+
             _mockHttpContextAccessor.Setup(accessor => accessor.HttpContext)
                 .Returns(new DefaultHttpContext());
 
-            _mockLoginService.Setup(service => service.ValidateCredentials(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()))
+            _mockLoginService.Setup(service => service.ValidateCredentials(It.IsAny<string>(), It.IsAny<string>(), cancellationToken))
                 .ReturnsAsync(false);
 
             // Act
@@ -73,22 +77,24 @@ namespace FileShare.XUnitTests.ControllerTests.V2._0.Login
         public async Task Authenticate_CalledOnce_ValidateCredentials()
         {
             // Arrange
+            var cancellationToken = CancellationToken.None;
+
             _mockHttpContextAccessor.Setup(accessor => accessor.HttpContext)
                 .Returns(new DefaultHttpContext());
 
-            _mockLoginService.Setup(service => service.ValidateCredentials(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()))
+            _mockLoginService.Setup(service => service.ValidateCredentials(It.IsAny<string>(), It.IsAny<string>(), cancellationToken))
                 .ReturnsAsync(true);
 
-            _mockTokenService.Setup(service => service.GetAccessTokenFromUsernameAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
+            _mockTokenService.Setup(service => service.GetAccessTokenFromUsernameAsync(It.IsAny<string>(), cancellationToken))
                 .ReturnsAsync("token");
-            _mockTokenService.Setup(service => service.GetRefreshTokenFromUsernameAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
+            _mockTokenService.Setup(service => service.GetRefreshTokenFromUsernameAsync(It.IsAny<string>(), cancellationToken))
                .ReturnsAsync("refreshToken");
 
             // Act
             var result = await _controller.Authenticate(new(It.IsAny<string>(), It.IsAny<string>()));
 
             // Assert
-            _mockLoginService.Verify(service => service.ValidateCredentials(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Once);
+            _mockLoginService.Verify(service => service.ValidateCredentials(It.IsAny<string>(), It.IsAny<string>(), cancellationToken), Times.Once);
         }
 
 
@@ -96,10 +102,12 @@ namespace FileShare.XUnitTests.ControllerTests.V2._0.Login
         public async Task DeleteRefreshToken_Returns_NoContent()
         {
             // Arrange
+            var cancellationToken = CancellationToken.None;
+
             _mockHttpContextAccessor.Setup(accessor => accessor.HttpContext)
                 .Returns(new DefaultHttpContext());
 
-            _mockUnitOfWork.Setup(repo => repo.RefreshTokenRepository.GetFromTokenAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
+            _mockUnitOfWork.Setup(repo => repo.RefreshTokenRepository.GetFromTokenAsync(It.IsAny<string>(), cancellationToken))
                 .ReturnsAsync(new DataAccess.Models.Primary.RefreshToken.RefreshToken());
 
             // Act
@@ -113,10 +121,12 @@ namespace FileShare.XUnitTests.ControllerTests.V2._0.Login
         public async Task DeleteRefreshToken_Returns_NotFound()
         {
             // Arrange
+            var cancellationToken = CancellationToken.None;
+
             _mockHttpContextAccessor.Setup(accessor => accessor.HttpContext)
                 .Returns(new DefaultHttpContext());
 
-            _mockUnitOfWork.Setup(repo => repo.RefreshTokenRepository.GetFromTokenAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
+            _mockUnitOfWork.Setup(repo => repo.RefreshTokenRepository.GetFromTokenAsync(It.IsAny<string>(), cancellationToken))
                 .ReturnsAsync((DataAccess.Models.Primary.RefreshToken.RefreshToken)null);
 
             // Act
@@ -130,10 +140,12 @@ namespace FileShare.XUnitTests.ControllerTests.V2._0.Login
         public async Task DeleteRefreshToken_NeverExecutes_Remove()
         {
             // Arrange
+            var cancellationToken = CancellationToken.None;
+
             _mockHttpContextAccessor.Setup(accessor => accessor.HttpContext)
                 .Returns(new DefaultHttpContext());
 
-            _mockUnitOfWork.Setup(repo => repo.RefreshTokenRepository.GetFromTokenAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
+            _mockUnitOfWork.Setup(repo => repo.RefreshTokenRepository.GetFromTokenAsync(It.IsAny<string>(), cancellationToken))
                 .ReturnsAsync((DataAccess.Models.Primary.RefreshToken.RefreshToken)null);
 
             // Act
@@ -148,16 +160,18 @@ namespace FileShare.XUnitTests.ControllerTests.V2._0.Login
         public async Task UpdateRefreshToken_Returns_Created()
         {
             // Arrange
+            var cancellationToken = CancellationToken.None;
+
             _mockHttpContextAccessor.Setup(accessor => accessor.HttpContext)
                 .Returns(new DefaultHttpContext());
 
-            _mockLoginService.Setup(service => service.ValidateRefreshToken(It.IsAny<string>(), It.IsAny<CancellationToken>()))
+            _mockLoginService.Setup(service => service.ValidateRefreshToken(It.IsAny<string>(), cancellationToken))
                 .ReturnsAsync(string.Empty);
 
             _mockTokenService.Setup(service => service.GetAccessToken(It.IsAny<Guid>()))
                 .Returns(string.Empty);
 
-            _mockUnitOfWork.Setup(repo => repo.RefreshTokenRepository.GetAccountIdFromToken(It.IsAny<string>(), It.IsAny<CancellationToken>()))
+            _mockUnitOfWork.Setup(repo => repo.RefreshTokenRepository.GetAccountIdFromToken(It.IsAny<string>(), cancellationToken))
                 .ReturnsAsync(Guid.NewGuid());
 
             // Act
@@ -171,10 +185,12 @@ namespace FileShare.XUnitTests.ControllerTests.V2._0.Login
         public async Task UpdateRefreshToken_Returns_NotFound()
         {
             // Arrange
+            var cancellationToken = CancellationToken.None;
+
             _mockHttpContextAccessor.Setup(accessor => accessor.HttpContext)
                 .Returns(new DefaultHttpContext());
 
-            _mockLoginService.Setup(service => service.ValidateRefreshToken(It.IsAny<string>(), It.IsAny<CancellationToken>()))
+            _mockLoginService.Setup(service => service.ValidateRefreshToken(It.IsAny<string>(), cancellationToken))
                 .ReturnsAsync((string)null);
 
             // Act
@@ -189,10 +205,12 @@ namespace FileShare.XUnitTests.ControllerTests.V2._0.Login
         public async Task ChangeCredentials_Returns_NoContent()
         {
             // Arrange
+            var cancellationToken = CancellationToken.None;
+
             _mockHttpContextAccessor.Setup(accessor => accessor.HttpContext)
                 .Returns(new DefaultHttpContext());
 
-            _mockLoginService.Setup(service => service.ChangeCredentials(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()))
+            _mockLoginService.Setup(service => service.ChangeCredentials(It.IsAny<string>(), It.IsAny<string>(), cancellationToken))
                 .ReturnsAsync(true);
 
             // Act
