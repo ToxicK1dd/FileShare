@@ -13,7 +13,7 @@ namespace FileShare.Controllers.V2._0.Registration
     [ApiVersion("2.0")]
     public class RegistrationController : BaseController
     {
-        private readonly HttpContext _httpContext;
+        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly ILogger<RegistrationController> _logger;
         private readonly IPrimaryUnitOfWork _unitOfWork;
         private readonly IRegistrationService _registrationService;
@@ -26,7 +26,7 @@ namespace FileShare.Controllers.V2._0.Registration
             IRegistrationService registrationService,
             ITokenService tokenService)
         {
-            _httpContext = httpContextAccessor.HttpContext;
+            _httpContextAccessor = httpContextAccessor;
             _logger = logger;
             _unitOfWork = unitOfWork;
             _registrationService = registrationService;
@@ -56,12 +56,12 @@ namespace FileShare.Controllers.V2._0.Registration
         [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<IActionResult> Register([FromBody] RegistrationModel model)
         {
-            var (loginId, accountId) = await _registrationService.Register(model.Username, model.Email, model.Password, _httpContext.RequestAborted);
+            var (loginId, accountId) = await _registrationService.Register(model.Username, model.Email, model.Password, _httpContextAccessor.HttpContext.RequestAborted);
 
             var token = _tokenService.GetAccessToken(accountId);
-            var refreshToken = await _tokenService.GetRefreshTokenAsync(loginId, _httpContext.RequestAborted);
+            var refreshToken = await _tokenService.GetRefreshTokenAsync(loginId, _httpContextAccessor.HttpContext.RequestAborted);
 
-            await _unitOfWork.SaveChangesAsync(_httpContext.RequestAborted);
+            await _unitOfWork.SaveChangesAsync(_httpContextAccessor.HttpContext.RequestAborted);
 
             return Created(string.Empty, new
             {
