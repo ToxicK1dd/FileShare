@@ -12,12 +12,12 @@ namespace FileShare.Service.Services.V2._0.Login
     /// </summary>
     public class LoginService : ILoginService
     {
-        private readonly HttpContext _httpContext;
+        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IPrimaryUnitOfWork _unitOfWork;
 
         public LoginService(IHttpContextAccessor httpContextAccessor, IPrimaryUnitOfWork unitOfWork)
         {
-            _httpContext = httpContextAccessor.HttpContext;
+            _httpContextAccessor = httpContextAccessor;
             _unitOfWork = unitOfWork;
         }
 
@@ -35,7 +35,7 @@ namespace FileShare.Service.Services.V2._0.Login
 
         public async Task<bool> ChangeCredentials(string newPassword, string oldPassword, CancellationToken cancellationToken)
         {
-            var accountId = _httpContext.GetAccountIdFromHttpContext();
+            var accountId = _httpContextAccessor.HttpContext.GetAccountIdFromHttpContext();
             if (accountId == Guid.Empty)
                 return false;
 

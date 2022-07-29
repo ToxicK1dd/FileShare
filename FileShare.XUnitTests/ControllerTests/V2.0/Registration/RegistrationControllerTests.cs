@@ -35,22 +35,23 @@ namespace FileShare.XUnitTests.ControllerTests.V2._0.Registration
         {
             // Arrange
             _mockRegistrationService.Setup(service => service.Register(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()))
-                .Returns(Task.FromResult((Guid.NewGuid(), Guid.NewGuid())));
+                .ReturnsAsync((Guid.NewGuid(), Guid.NewGuid()));
 
             _mockTokenService.Setup(service => service.GetAccessToken(It.IsAny<Guid>()))
                 .Returns(string.Empty);
 
             _mockTokenService.Setup(service => service.GetRefreshTokenAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
-                .Returns(Task.FromResult(string.Empty));
+                .ReturnsAsync(string.Empty);
 
             _mockHttpContextAccessor.Setup(accessor => accessor.HttpContext)
                 .Returns(new DefaultHttpContext());
 
             // Act
-            var result = await _controller.Register(new("Superman", "superman@kryptonmail.space", "!Krypton1t3"));
+            var result = await _controller.Register(new(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()));
 
             // Assert
-            Assert.IsType<CreatedResult>(result);
+            var createdResult = Assert.IsType<CreatedResult>(result);
+            Assert.NotNull(createdResult.Value);
         }
     }
 }
