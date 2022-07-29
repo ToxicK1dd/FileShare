@@ -2,12 +2,6 @@
 using FileShare.Service.Services.V2._0.Registration;
 using MapsterMapper;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace FileShare.XUnitTests.ServiceTests.V2._0.Registration

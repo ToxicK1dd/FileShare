@@ -1,6 +1,4 @@
-﻿using FileShare.DataAccess.Models.Primary.Login;
-using FileShare.DataAccess.Models.Primary.User;
-using FileShare.DataAccess.UnitOfWork.Primary.Interface;
+﻿using FileShare.DataAccess.UnitOfWork.Primary.Interface;
 using FileShare.Service.Services.V2._0.Login;
 using FileShare.Utilities.Generators.Random.Interface;
 using FileShare.Utilities.Helpers.IdentityClaims.Interface;

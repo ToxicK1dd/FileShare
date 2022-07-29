@@ -1,8 +1,6 @@
 ﻿using FileShare.DataAccess.UnitOfWork.Primary.Interface;
 using FileShare.Service.Services.V2._0.Login.Interface;
-using FileShare.Utilities.Generators.Random;
 using FileShare.Utilities.Generators.Random.Interface;
-using FileShare.Utilities.Helpers.IdentityClaims;
 using FileShare.Utilities.Helpers.IdentityClaims.Interface;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;

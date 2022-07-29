@@ -1,6 +1,5 @@
 ﻿using FileShare.DataAccess.UnitOfWork.Primary.Interface;
 using FileShare.Service.Services.V2._0.Token.Interface;
-using FileShare.Utilities.Generators.Random;
 using FileShare.Utilities.Generators.Random.Interface;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
