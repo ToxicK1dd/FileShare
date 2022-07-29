@@ -39,7 +39,7 @@ namespace FileShare.XUnitTests.ControllerTests.V2._0.Login
             _mockHttpContextAccessor.Setup(accessor => accessor.HttpContext)
                 .Returns(new DefaultHttpContext());
 
-            _mockLoginService.Setup(service => service.ValidateCredentials(It.IsAny<string>(), It.IsAny<string>(), cancellationToken))
+            _mockLoginService.Setup(service => service.ValidateCredentialsAsync(It.IsAny<string>(), It.IsAny<string>(), cancellationToken))
                 .ReturnsAsync(true);
 
             _mockTokenService.Setup(service => service.GetAccessTokenFromUsernameAsync(It.IsAny<string>(), cancellationToken))
@@ -63,7 +63,7 @@ namespace FileShare.XUnitTests.ControllerTests.V2._0.Login
             _mockHttpContextAccessor.Setup(accessor => accessor.HttpContext)
                 .Returns(new DefaultHttpContext());
 
-            _mockLoginService.Setup(service => service.ValidateCredentials(It.IsAny<string>(), It.IsAny<string>(), cancellationToken))
+            _mockLoginService.Setup(service => service.ValidateCredentialsAsync(It.IsAny<string>(), It.IsAny<string>(), cancellationToken))
                 .ReturnsAsync(false);
 
             // Act
@@ -82,7 +82,7 @@ namespace FileShare.XUnitTests.ControllerTests.V2._0.Login
             _mockHttpContextAccessor.Setup(accessor => accessor.HttpContext)
                 .Returns(new DefaultHttpContext());
 
-            _mockLoginService.Setup(service => service.ValidateCredentials(It.IsAny<string>(), It.IsAny<string>(), cancellationToken))
+            _mockLoginService.Setup(service => service.ValidateCredentialsAsync(It.IsAny<string>(), It.IsAny<string>(), cancellationToken))
                 .ReturnsAsync(true);
 
             _mockTokenService.Setup(service => service.GetAccessTokenFromUsernameAsync(It.IsAny<string>(), cancellationToken))
@@ -94,7 +94,7 @@ namespace FileShare.XUnitTests.ControllerTests.V2._0.Login
             var result = await _controller.Authenticate(new(It.IsAny<string>(), It.IsAny<string>()));
 
             // Assert
-            _mockLoginService.Verify(service => service.ValidateCredentials(It.IsAny<string>(), It.IsAny<string>(), cancellationToken), Times.Once);
+            _mockLoginService.Verify(service => service.ValidateCredentialsAsync(It.IsAny<string>(), It.IsAny<string>(), cancellationToken), Times.Once);
         }
 
 
@@ -165,7 +165,7 @@ namespace FileShare.XUnitTests.ControllerTests.V2._0.Login
             _mockHttpContextAccessor.Setup(accessor => accessor.HttpContext)
                 .Returns(new DefaultHttpContext());
 
-            _mockLoginService.Setup(service => service.ValidateRefreshToken(It.IsAny<string>(), cancellationToken))
+            _mockLoginService.Setup(service => service.ValidateRefreshTokenAsync(It.IsAny<string>(), cancellationToken))
                 .ReturnsAsync(string.Empty);
 
             _mockTokenService.Setup(service => service.GetAccessToken(It.IsAny<Guid>()))
@@ -190,7 +190,7 @@ namespace FileShare.XUnitTests.ControllerTests.V2._0.Login
             _mockHttpContextAccessor.Setup(accessor => accessor.HttpContext)
                 .Returns(new DefaultHttpContext());
 
-            _mockLoginService.Setup(service => service.ValidateRefreshToken(It.IsAny<string>(), cancellationToken))
+            _mockLoginService.Setup(service => service.ValidateRefreshTokenAsync(It.IsAny<string>(), cancellationToken))
                 .ReturnsAsync((string)null);
 
             // Act
@@ -210,7 +210,7 @@ namespace FileShare.XUnitTests.ControllerTests.V2._0.Login
             _mockHttpContextAccessor.Setup(accessor => accessor.HttpContext)
                 .Returns(new DefaultHttpContext());
 
-            _mockLoginService.Setup(service => service.ChangeCredentials(It.IsAny<string>(), It.IsAny<string>(), cancellationToken))
+            _mockLoginService.Setup(service => service.ChangeCredentialsAsync(It.IsAny<string>(), It.IsAny<string>(), cancellationToken))
                 .ReturnsAsync(true);
 
             // Act

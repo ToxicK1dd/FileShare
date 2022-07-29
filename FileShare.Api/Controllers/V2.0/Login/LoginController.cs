@@ -55,7 +55,7 @@ namespace FileShare.Controllers.V2._0.Login
         [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<IActionResult> Authenticate([FromBody] AuthenticateLoginModel model)
         {
-            var isValidated = await _loginService.ValidateCredentials(model.Username, model.Password, _httpContextAccessor.HttpContext.RequestAborted);
+            var isValidated = await _loginService.ValidateCredentialsAsync(model.Username, model.Password, _httpContextAccessor.HttpContext.RequestAborted);
             if (!isValidated)
                 return Unauthorized();
 
@@ -103,7 +103,7 @@ namespace FileShare.Controllers.V2._0.Login
         [ActionName("RefreshToken")]
         public async Task<IActionResult> UpdateRefreshToken([FromQuery] string refreshToken)
         {
-            var newRefreshToken = await _loginService.ValidateRefreshToken(refreshToken, _httpContextAccessor.HttpContext.RequestAborted);
+            var newRefreshToken = await _loginService.ValidateRefreshTokenAsync(refreshToken, _httpContextAccessor.HttpContext.RequestAborted);
             if (newRefreshToken is null)
                 return NotFound();
 
@@ -128,7 +128,7 @@ namespace FileShare.Controllers.V2._0.Login
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<IActionResult> ChangeCredentials([FromBody] ChangePasswordModel model)
         {
-            await _loginService.ChangeCredentials(model.NewPassword, model.OldPassword, _httpContextAccessor.HttpContext.RequestAborted);
+            await _loginService.ChangeCredentialsAsync(model.NewPassword, model.OldPassword, _httpContextAccessor.HttpContext.RequestAborted);
             await _unitOfWork.SaveChangesAsync(_httpContextAccessor.HttpContext.RequestAborted);
 
             return NoContent();

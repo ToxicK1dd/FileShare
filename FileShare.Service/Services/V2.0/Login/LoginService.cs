@@ -22,7 +22,7 @@ namespace FileShare.Service.Services.V2._0.Login
         }
 
 
-        public async Task<bool> ValidateCredentials(string username, string password, CancellationToken cancellationToken)
+        public async Task<bool> ValidateCredentialsAsync(string username, string password, CancellationToken cancellationToken)
         {
             var login = await _unitOfWork.LoginRepository.GetFromUsernameAsync(username, cancellationToken);
             if (login is null)
@@ -33,7 +33,7 @@ namespace FileShare.Service.Services.V2._0.Login
             return verificationResult is PasswordVerificationResult.Success;
         }
 
-        public async Task<bool> ChangeCredentials(string newPassword, string oldPassword, CancellationToken cancellationToken)
+        public async Task<bool> ChangeCredentialsAsync(string newPassword, string oldPassword, CancellationToken cancellationToken)
         {
             var accountId = _httpContextAccessor.HttpContext.GetAccountIdFromHttpContext();
             if (accountId == Guid.Empty)
@@ -51,7 +51,7 @@ namespace FileShare.Service.Services.V2._0.Login
             return true;
         }
 
-        public async Task<string> ValidateRefreshToken(string oldRefreshToken, CancellationToken cancellationToken)
+        public async Task<string> ValidateRefreshTokenAsync(string oldRefreshToken, CancellationToken cancellationToken)
         {
             var refreshToken = await _unitOfWork.RefreshTokenRepository.GetFromTokenAsync(oldRefreshToken, cancellationToken);
             if (refreshToken is null)
