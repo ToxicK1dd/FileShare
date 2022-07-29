@@ -36,4 +36,4 @@ This file contains a list of todo, and done tasks for the project.
 - [ ] Implement rate limiting
 
 ### Unit Testing
-- [ ] Implement xUnit
+- [x] Implement xUnit
