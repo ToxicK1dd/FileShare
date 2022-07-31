@@ -7,7 +7,7 @@ namespace FileShare.DataAccess.Base.Model
     /// </summary>
     /// <typeparam name="TContext">The database context of which the data is stored.</typeparam>
     public abstract class BaseContext<TContext> : DbContext
-            where TContext : DbContext
+            where TContext : BaseContext<TContext>
     {
         public BaseContext() { }
 
