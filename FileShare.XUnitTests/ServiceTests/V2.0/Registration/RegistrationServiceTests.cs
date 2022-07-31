@@ -1,6 +1,7 @@
 ﻿using FileShare.DataAccess.UnitOfWork.Primary.Interface;
 using FileShare.Service.Services.V2._0.Registration;
 using MapsterMapper;
+using Microsoft.AspNetCore.Identity;
 using Moq;
 using Xunit;
 
@@ -9,14 +10,16 @@ namespace FileShare.XUnitTests.ServiceTests.V2._0.Registration
     public class RegistrationServiceTests
     {
         private readonly Mock<IPrimaryUnitOfWork> _mockUnitOfWork;
+        private readonly Mock<IPasswordHasher<object>> _mockPasswordHasher;
         private readonly Mock<IMapper> _mockMapper;
         private readonly RegistrationService _registrationService;
 
         public RegistrationServiceTests()
         {
             _mockUnitOfWork = new Mock<IPrimaryUnitOfWork>();
+            _mockPasswordHasher = new Mock<IPasswordHasher<object>>();
             _mockMapper = new Mock<IMapper>();
-            _registrationService = new RegistrationService(_mockUnitOfWork.Object, _mockMapper.Object);
+            _registrationService = new RegistrationService(_mockUnitOfWork.Object, _mockPasswordHasher.Object, _mockMapper.Object);
         }
 
 
@@ -24,20 +27,26 @@ namespace FileShare.XUnitTests.ServiceTests.V2._0.Registration
         public async Task Register_Should_Return_Guids_When_User_Is_Registered()
         {
             // Arrange
-            var cancellationToken = CancellationToken.None;
+            DataAccess.Models.Primary.Account.Account account = null;
+            var username = "Test";
+            var password = "!Test1234";
+            var email = "test@test.test";
 
-            _mockUnitOfWork.Setup(repo => repo.LoginRepository.ExistsFromUsernameAsync(It.IsAny<string>(), cancellationToken))
+            _mockUnitOfWork.Setup(repo => repo.LoginRepository.ExistsFromUsernameAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(false);
 
-            _mockUnitOfWork.Setup(repo => repo.EmailRepository.ExistsFromAddressAsync(It.IsAny<string>(), cancellationToken))
+            _mockUnitOfWork.Setup(repo => repo.EmailRepository.ExistsFromAddressAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(false);
 
-            _mockUnitOfWork.Setup(repo => repo.AccountRepository.AddAsync(It.IsAny<DataAccess.Models.Primary.Account.Account>(), cancellationToken))
-                .Returns(Task.CompletedTask)
-                .Verifiable();
+            _mockPasswordHasher.Setup(hasher => hasher.HashPassword(It.IsAny<object>(), It.IsAny<string>()))
+                .Returns(password);
+
+            _mockUnitOfWork.Setup(repo => repo.AccountRepository.AddAsync(It.IsAny<DataAccess.Models.Primary.Account.Account>(), It.IsAny<CancellationToken>()))
+                .Callback<DataAccess.Models.Primary.Account.Account, CancellationToken>((a, c) => account = a)
+                .Returns(Task.CompletedTask);
 
             // Act
-            var (loginId, accountId) = await _registrationService.RegisterAsync("Test", "test@test.test", "!Test1234", cancellationToken);
+            var (loginId, accountId) = await _registrationService.RegisterAsync(username, email, password, CancellationToken.None);
 
             // Assert
             Assert.IsType<Guid>(accountId);
@@ -45,7 +54,19 @@ namespace FileShare.XUnitTests.ServiceTests.V2._0.Registration
             Assert.NotEqual(Guid.Empty, accountId);
             Assert.NotEqual(Guid.Empty, loginId);
 
-            _mockUnitOfWork.Verify();
+            Assert.Equal(loginId, account.Login.Id);
+            Assert.Equal(accountId, account.Login.AccountId);
+            Assert.Equal(username, account.Login.Username);
+            Assert.Equal(password, account.Login.Password);
+            Assert.Equal(email, account.Email.Address);
+            Assert.Equal(accountId, account.Id);
+            Assert.True(account.Enabled);
+            Assert.False(account.Verified);
+
+            _mockUnitOfWork.Verify(repo => repo.LoginRepository.ExistsFromUsernameAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Once);
+            _mockUnitOfWork.Verify(repo => repo.EmailRepository.ExistsFromAddressAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Once);
+            _mockPasswordHasher.Verify(hasher => hasher.HashPassword(It.IsAny<object>(), It.IsAny<string>()), Times.Once);
+            _mockUnitOfWork.Verify(repo => repo.AccountRepository.AddAsync(It.IsAny<DataAccess.Models.Primary.Account.Account>(), It.IsAny<CancellationToken>()), Times.Once);
         }
 
         [Fact]

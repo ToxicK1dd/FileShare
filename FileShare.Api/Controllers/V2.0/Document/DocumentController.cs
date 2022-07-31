@@ -1,4 +1,5 @@
-﻿using FileShare.Attributes;
+﻿using FileShare.Api.Dtos.V2._0.Document;
+using FileShare.Attributes;
 using FileShare.DataAccess.UnitOfWork.Primary.Interface;
 using FileShare.Service.Services.V2._0.Document.Interface;
 using Microsoft.AspNetCore.Mvc;
@@ -13,15 +14,18 @@ namespace FileShare.Controllers.V2._0.Document
     [RequireVerified]
     public class DocumentController : BaseController
     {
+        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IPrimaryUnitOfWork _unitOfWork;
         private readonly ILogger<DocumentController> _logger;
         private readonly IDocumentService _documentService;
 
         public DocumentController(
+            IHttpContextAccessor httpContextAccessor,
             IPrimaryUnitOfWork unitOfWork,
             ILogger<DocumentController> logger,
             IDocumentService documentService)
         {
+            _httpContextAccessor = httpContextAccessor;
             _unitOfWork = unitOfWork;
             _logger = logger;
             _documentService = documentService;
@@ -42,13 +46,10 @@ namespace FileShare.Controllers.V2._0.Document
             [AllowedExtensions(new string[] { ".jpg", ".png", ".mp3", ".mp4", ".pdf", ".gif" })]
             IFormFile file)
         {
-            var fileId = await _documentService.UploadFileAsync(file, HttpContext.RequestAborted);
-            await _unitOfWork.SaveChangesAsync(HttpContext.RequestAborted);
+            var fileId = await _documentService.UploadFileAsync(file, _httpContextAccessor.HttpContext.RequestAborted);
+            await _unitOfWork.SaveChangesAsync(_httpContextAccessor.HttpContext.RequestAborted);
 
-            return Created(string.Empty, new
-            {
-                fileId
-            });
+            return Created(string.Empty, new UploadFileDto() { FileId = fileId });
         }
 
         /// <summary>
@@ -64,7 +65,7 @@ namespace FileShare.Controllers.V2._0.Document
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetFile(Guid id)
         {
-            var file = await _documentService.DownloadFileAsync(id, HttpContext.RequestAborted);
+            var file = await _documentService.DownloadFileAsync(id, _httpContextAccessor.HttpContext.RequestAborted);
 
             var cd = new ContentDisposition
             {
@@ -89,8 +90,8 @@ namespace FileShare.Controllers.V2._0.Document
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<IActionResult> DeleteFile(Guid id)
         {
-            await _documentService.DeleteFileAsync(id, HttpContext.RequestAborted);
-            await _unitOfWork.SaveChangesAsync(HttpContext.RequestAborted);
+            await _documentService.DeleteFileAsync(id, _httpContextAccessor.HttpContext.RequestAborted);
+            await _unitOfWork.SaveChangesAsync(_httpContextAccessor.HttpContext.RequestAborted);
 
             return NoContent();
         }

@@ -12,11 +12,13 @@ namespace FileShare.Service.Services.V2._0.Registration
     public class RegistrationService : IRegistrationService
     {
         private readonly IPrimaryUnitOfWork _unitOfWork;
+        private readonly IPasswordHasher<object> _passwordHasher;
         private readonly IMapper _mapper;
 
-        public RegistrationService(IPrimaryUnitOfWork unitOfWork, IMapper mapper)
+        public RegistrationService(IPrimaryUnitOfWork unitOfWork, IPasswordHasher<object> passwordHasher, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
+            _passwordHasher = passwordHasher;
             _mapper = mapper;
         }
 
@@ -37,7 +39,7 @@ namespace FileShare.Service.Services.V2._0.Registration
 
             var accountId = Guid.NewGuid();
             var loginId = Guid.NewGuid();
-            var hashedPassword = new PasswordHasher<object>().HashPassword(null, password);
+            var hashedPassword = _passwordHasher.HashPassword(null, password);
 
             var account = new DataAccess.Models.Primary.Account.Account()
             {
