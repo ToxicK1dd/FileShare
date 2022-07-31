@@ -15,48 +15,50 @@ namespace FileShare.DataAccess.Base.Repository
         where TContext : BaseContext<TContext>, new()
     {
         protected TContext context;
+        internal DbSet<TModel> dbSet;
 
         public RepositoryBase(TContext context)
         {
             this.context = context;
+            dbSet = context.Set<TModel>();
         }
 
 
         // Create
         public virtual async Task AddAsync(TModel model, CancellationToken cancellationToken = default)
         {
-            await context.AddAsync(model, cancellationToken);
+            await dbSet.AddAsync(model, cancellationToken);
         }
 
         // Read
         public virtual async Task<TModel> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
         {
-            return await context.Set<TModel>().FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
+            return await dbSet.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
         }
 
         // Update
         public virtual void Update(TModel model)
         {
-            context.Update(model);
+            dbSet.Update(model);
         }
 
         // Delete
         public virtual void Remove(TModel model)
         {
-            context.Remove(model);
+            dbSet.Remove(model);
         }
 
         // Delete
         public virtual void RemoveById(Guid id)
         {
-            var model = context.Set<TModel>().Where(x => x.Id == id).FirstOrDefault();
-            context.Remove(model);
+            var model = dbSet.Where(x => x.Id == id).FirstOrDefault();
+            dbSet.Remove(model);
         }
 
         // Exists
         public virtual async Task<bool> ExistsAsync(Guid id, CancellationToken cancellationToken = default)
         {
-            return await context.Set<TModel>().Where(x => x.Id == id).AsNoTracking().Select(x => x.Id).AnyAsync(cancellationToken);
+            return await dbSet.Where(x => x.Id == id).AsNoTracking().Select(x => x.Id).AnyAsync(cancellationToken);
         }
     }
 }

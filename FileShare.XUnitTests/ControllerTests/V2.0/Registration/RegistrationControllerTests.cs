@@ -35,7 +35,7 @@ namespace FileShare.XUnitTests.ControllerTests.V2._0.Registration
         {
             // Arrange
             _mockRegistrationService.Setup(service => service.RegisterAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()))
-                .ReturnsAsync((Guid.NewGuid(), Guid.NewGuid()));
+                .ReturnsAsync(value: new(Guid.NewGuid(), Guid.NewGuid()));
 
             _mockTokenService.Setup(service => service.GetAccessToken(It.IsAny<Guid>()))
                 .Returns(string.Empty);

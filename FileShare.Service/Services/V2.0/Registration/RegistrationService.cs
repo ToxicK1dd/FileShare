@@ -1,4 +1,5 @@
 ﻿using FileShare.DataAccess.UnitOfWork.Primary.Interface;
+using FileShare.Service.Dtos.V2._0.Registration;
 using FileShare.Service.Services.V2._0.Registration.Interface;
 using MapsterMapper;
 using Microsoft.AspNetCore.Identity;
@@ -23,7 +24,7 @@ namespace FileShare.Service.Services.V2._0.Registration
         }
 
 
-        public async Task<(Guid loginId, Guid accountId)> RegisterAsync(string username, string email, string password, CancellationToken cancellationToken)
+        public async Task<RegistrationResultDto> RegisterAsync(string username, string email, string password, CancellationToken cancellationToken)
         {
             var isEmailValid = IsValidEmailAddress(email);
             if (isEmailValid is not true)
@@ -60,7 +61,7 @@ namespace FileShare.Service.Services.V2._0.Registration
             };
             await _unitOfWork.AccountRepository.AddAsync(account, cancellationToken);
 
-            return (loginId, accountId);
+            return new(accountId, loginId);
         }
 
 

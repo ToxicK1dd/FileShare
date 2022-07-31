@@ -1,4 +1,5 @@
 ﻿using FileShare.DataAccess.UnitOfWork.Primary.Interface;
+using FileShare.Service.Dtos.V2._0.Registration;
 using FileShare.Service.Services.V2._0.Registration;
 using MapsterMapper;
 using Microsoft.AspNetCore.Identity;
@@ -46,20 +47,19 @@ namespace FileShare.XUnitTests.ServiceTests.V2._0.Registration
                 .Returns(Task.CompletedTask);
 
             // Act
-            var (loginId, accountId) = await _registrationService.RegisterAsync(username, email, password, CancellationToken.None);
+            var result = await _registrationService.RegisterAsync(username, email, password, CancellationToken.None);
 
             // Assert
-            Assert.IsType<Guid>(accountId);
-            Assert.IsType<Guid>(loginId);
-            Assert.NotEqual(Guid.Empty, accountId);
-            Assert.NotEqual(Guid.Empty, loginId);
+            var dto = Assert.IsType<RegistrationResultDto>(result);
+            Assert.NotEqual(Guid.Empty, dto.AccountId);
+            Assert.NotEqual(Guid.Empty, dto.LoginId);
 
-            Assert.Equal(loginId, account.Login.Id);
-            Assert.Equal(accountId, account.Login.AccountId);
+            Assert.Equal(dto.LoginId, account.Login.Id);
+            Assert.Equal(dto.AccountId, account.Login.AccountId);
             Assert.Equal(username, account.Login.Username);
             Assert.Equal(password, account.Login.Password);
             Assert.Equal(email, account.Email.Address);
-            Assert.Equal(accountId, account.Id);
+            Assert.Equal(dto.AccountId, account.Id);
             Assert.True(account.Enabled);
             Assert.False(account.Verified);
 

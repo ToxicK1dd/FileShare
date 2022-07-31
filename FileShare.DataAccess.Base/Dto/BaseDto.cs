@@ -3,8 +3,9 @@ using Mapster;
 
 namespace FileShare.DataAccess.Base.Dto
 {
-    public abstract class BaseDto<TDto, TModel> : BaseEntity, IRegister
-           where TDto : BaseEntity
+    // https://medium.com/@M-S-2/enjoy-using-mapster-in-net-6-2d3f287a0989
+    public abstract class BaseDto<TDto, TModel> : IRegister
+           where TDto : class, new()
            where TModel : BaseEntity
     {
         public TModel ToEntity()
