@@ -27,6 +27,7 @@ namespace FileShare.DataAccess.Base.UnitOfWork
         #region Dispose
         private bool disposed = false;
 
+
         protected virtual void Dispose(bool disposing)
         {
             if (!disposed)
@@ -42,6 +43,25 @@ namespace FileShare.DataAccess.Base.UnitOfWork
         public void Dispose()
         {
             Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+
+        protected virtual async ValueTask DisposeAsync(bool disposing)
+        {
+            if (!disposed)
+            {
+                if (disposing)
+                {
+                    await context.DisposeAsync();
+                }
+            }
+            disposed = true;
+        }
+
+        public async ValueTask DisposeAsync()
+        {
+            await DisposeAsync(true);
             GC.SuppressFinalize(this);
         }
         #endregion

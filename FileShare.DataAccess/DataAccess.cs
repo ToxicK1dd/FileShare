@@ -1,7 +1,5 @@
 ﻿using FileShare.DataAccess.Base.Dto;
 using FileShare.DataAccess.Models.Primary;
-using FileShare.DataAccess.UnitOfWork.Primary;
-using FileShare.DataAccess.UnitOfWork.Primary.Interface;
 using Mapster;
 using MapsterMapper;
 using Microsoft.EntityFrameworkCore;
@@ -24,7 +22,7 @@ namespace FileShare.DataAccess
             services.AddMapster();
         }
 
-        
+
         #region Helpers
 
         public static void AddDatabase(this IServiceCollection services, IConfiguration configuration)
@@ -75,8 +73,8 @@ namespace FileShare.DataAccess
         internal class ConnectionStrings
         {
             public string Primary { get; set; }
-        } 
-        
+        }
+
         #endregion
     }
 }
