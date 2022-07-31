@@ -13,17 +13,17 @@ namespace FileShare.DataAccess.Repository.Primary.Login
 
         public async Task<Guid> GetIdFromUsername(string username, CancellationToken cancellationToken = default)
         {
-            return await context.Set<Model>().Where(x => x.Username == username).Select(x => x.Id).FirstOrDefaultAsync(cancellationToken);
+            return await dbSet.Where(x => x.Username == username).Select(x => x.Id).FirstOrDefaultAsync(cancellationToken);
         }
 
         public async Task<Guid> GetAccountIdByUsernameAsync(string username, CancellationToken cancellationToken = default)
         {
-            return await context.Set<Model>().Where(x => x.Username == username).Select(x => x.AccountId).FirstOrDefaultAsync(cancellationToken);
+            return await dbSet.Where(x => x.Username == username).Select(x => x.AccountId).FirstOrDefaultAsync(cancellationToken);
         }
 
         public async Task<Model> GetFromUsernameAsync(string username, CancellationToken cancellationToken = default)
         {
-            return await context.Set<Model>()
+            return await dbSet
                 .Where(x => x.Username == username && x.Account.Enabled)
                 .Include(x => x.Account)
                 .Select(x => new Model()
@@ -42,7 +42,7 @@ namespace FileShare.DataAccess.Repository.Primary.Login
 
         public async Task<bool> ExistsFromUsernameAsync(string username, CancellationToken cancellationToken = default)
         {
-            return await context.Set<Model>().Where(x => x.Username == username).Select(x => x.Id).AnyAsync(cancellationToken);
+            return await dbSet.Where(x => x.Username == username).Select(x => x.Id).AnyAsync(cancellationToken);
         }
     }
 }

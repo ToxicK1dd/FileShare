@@ -13,13 +13,13 @@ namespace FileShare.DataAccess.Repository.Primary.RefreshToken
 
         public async Task<Model> GetFromTokenAsync(string token, CancellationToken cancellationToken = default)
         {
-            return await context.Set<Model>()
+            return await dbSet
                 .FirstOrDefaultAsync(x => x.Token == token, cancellationToken);
         }
 
         public async Task<Guid> GetAccountIdFromToken(string token, CancellationToken cancellation = default)
         {
-            return await context.Set<Model>()
+            return await dbSet
                 .Where(x => x.Token == token)
                 .Include(x => x.Login)
                 .Select(x => x.Login.AccountId)

@@ -13,7 +13,7 @@ namespace FileShare.DataAccess.Repository.Primary.Email
 
         public Task<bool> ExistsFromAddressAsync(string address, CancellationToken cancellationToken = default)
         {
-            return context.Set<Model>().Where(x => x.Address == address).Select(x => x.Id).AnyAsync(cancellationToken);
+            return dbSet.Where(x => x.Address == address).Select(x => x.Id).AnyAsync(cancellationToken);
         }
     }
 }

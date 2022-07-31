@@ -13,7 +13,7 @@ namespace FileShare.DataAccess.Repository.Primary.Document
 
         public async Task<Model> GetByIdWithDetailAsync(Guid id, CancellationToken cancellationToken = default)
         {
-            return await context.Set<Model>().Where(x => x.Id == id).Include(x => x.Detail).FirstOrDefaultAsync(cancellationToken);
+            return await dbSet.Where(x => x.Id == id).Include(x => x.Detail).FirstOrDefaultAsync(cancellationToken);
         }
     }
 }

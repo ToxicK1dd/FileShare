@@ -13,7 +13,7 @@ namespace FileShare.DataAccess.Repository.Primary.PhoneNumber
 
         public Task<bool> ExistsFromNumber(string number, CancellationToken cancellationToken = default)
         {
-            return context.Set<Model>().Where(x => x.Number == number).Select(x => x.Id).AnyAsync(cancellationToken);
+            return dbSet.Where(x => x.Number == number).Select(x => x.Id).AnyAsync(cancellationToken);
         }
     }
 }

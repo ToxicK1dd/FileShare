@@ -40,59 +40,78 @@ namespace FileShare.DataAccess.UnitOfWork.Primary
 {
     public class PrimaryUnitOfWork : UnitOfWorkBase<PrimaryContext>, IPrimaryUnitOfWork
     {
-        private AccountRepository accountRepository;
-        private AddressRepository addressRepository;
-        private DeviceTokenRepository deviceTokenRepository;
-        private DocumentRepository documentRepository;
-        private DocumentDetailRepository documentDetailRepository;
-        private DocumentSignatureRepository documentSignatureRepository;
-        private EmailRepository emailRepository;
-        private EmailVerificationCodeRepository emailVerificationCodeRepository;
-        private LoginRepository loginRepository;
-        private LoginDetailRepository loginDetailRepository;
-        private PhoneNumberRepository phoneNumberRepository;
-        private PhoneNumberVerificationCodeRepository phoneNumberVerificationCodeRepository;
-        private RefreshTokenRepository refreshTokenRepository;
-        private ShareRepository shareRepository;
-        private ShareDetailRepository shareDetailRepository;
-        private SocialSecurityNumberRepository socialSecurityNumberRepository;
-        private UserRepository userRepository;
+        private readonly AccountRepository accountRepository;
+        private readonly AddressRepository addressRepository;
+        private readonly DeviceTokenRepository deviceTokenRepository;
+        private readonly DocumentRepository documentRepository;
+        private readonly DocumentDetailRepository documentDetailRepository;
+        private readonly DocumentSignatureRepository documentSignatureRepository;
+        private readonly EmailRepository emailRepository;
+        private readonly EmailVerificationCodeRepository emailVerificationCodeRepository;
+        private readonly LoginRepository loginRepository;
+        private readonly LoginDetailRepository loginDetailRepository;
+        private readonly PhoneNumberRepository phoneNumberRepository;
+        private readonly PhoneNumberVerificationCodeRepository phoneNumberVerificationCodeRepository;
+        private readonly RefreshTokenRepository refreshTokenRepository;
+        private readonly ShareRepository shareRepository;
+        private readonly ShareDetailRepository shareDetailRepository;
+        private readonly SocialSecurityNumberRepository socialSecurityNumberRepository;
+        private readonly UserRepository userRepository;
 
-        public PrimaryUnitOfWork(PrimaryContext context) : base(context) { }
+        public PrimaryUnitOfWork(PrimaryContext context) : base(context)
+        {
+            accountRepository = new(context);
+            addressRepository = new(context);
+            deviceTokenRepository = new(context);
+            documentRepository = new(context);
+            documentDetailRepository = new(context);
+            documentSignatureRepository = new(context);
+            emailRepository = new(context);
+            emailVerificationCodeRepository = new(context);
+            loginRepository = new(context);
+            loginDetailRepository = new(context);
+            phoneNumberRepository = new(context);
+            phoneNumberVerificationCodeRepository = new(context);
+            refreshTokenRepository = new(context);
+            shareRepository = new(context);
+            shareDetailRepository = new(context);
+            socialSecurityNumberRepository = new(context);
+            userRepository = new(context);
+        }
 
 
-        public IAccountRepository AccountRepository { get => accountRepository ??= new(context); }
+        public IAccountRepository AccountRepository { get => accountRepository; }
 
-        public IAddressRepository AddressRepository { get => addressRepository ??= new(context); }
+        public IAddressRepository AddressRepository { get => addressRepository; }
 
-        public IDeviceTokenRepository DeviceTokenRepository { get => deviceTokenRepository ??= new(context); }
+        public IDeviceTokenRepository DeviceTokenRepository { get => deviceTokenRepository; }
 
-        public IDocumentRepository DocumentRepository { get => documentRepository ??= new(context); }
+        public IDocumentRepository DocumentRepository { get => documentRepository; }
 
-        public IDocumentDetailRepository DocumentDetailRepository { get => documentDetailRepository ??= new(context); }
+        public IDocumentDetailRepository DocumentDetailRepository { get => documentDetailRepository; }
 
-        public IDocumentSignatureRepository DocumentSignatureRepository { get => documentSignatureRepository ??= new(context); }
+        public IDocumentSignatureRepository DocumentSignatureRepository { get => documentSignatureRepository; }
 
-        public IEmailRepository EmailRepository { get => emailRepository ??= new(context); }
+        public IEmailRepository EmailRepository { get => emailRepository; }
 
-        public IEmailVerificationCodeRepository EmailVerificationCodeRepository { get => emailVerificationCodeRepository ??= new(context); }
+        public IEmailVerificationCodeRepository EmailVerificationCodeRepository { get => emailVerificationCodeRepository; }
 
-        public ILoginRepository LoginRepository { get => loginRepository ??= new(context); }
+        public ILoginRepository LoginRepository { get => loginRepository; }
 
-        public ILoginDetailRepository LoginDetailRepository { get => loginDetailRepository ??= new(context); }
+        public ILoginDetailRepository LoginDetailRepository { get => loginDetailRepository; }
 
-        public IPhoneNumberRepository PhoneNumberRepository { get => phoneNumberRepository ??= new(context); }
+        public IPhoneNumberRepository PhoneNumberRepository { get => phoneNumberRepository; }
 
-        public IPhoneNumberVerificationCodeRepository PhoneNumberVerificationCodeRepository { get => phoneNumberVerificationCodeRepository ??= new(context); }
+        public IPhoneNumberVerificationCodeRepository PhoneNumberVerificationCodeRepository { get => phoneNumberVerificationCodeRepository; }
 
-        public IRefreshTokenRepository RefreshTokenRepository { get => refreshTokenRepository ??= new(context); }
+        public IRefreshTokenRepository RefreshTokenRepository { get => refreshTokenRepository; }
 
-        public IShareRepository ShareRepository { get => shareRepository ??= new(context); }
+        public IShareRepository ShareRepository { get => shareRepository; }
 
-        public IShareDetailRepository ShareDetailRepository { get => shareDetailRepository ??= new(context); }
+        public IShareDetailRepository ShareDetailRepository { get => shareDetailRepository; }
 
-        public ISocialSecurityNumberRepository SocialSecurityNumberRepository { get => socialSecurityNumberRepository ??= new(context); }
+        public ISocialSecurityNumberRepository SocialSecurityNumberRepository { get => socialSecurityNumberRepository; }
 
-        public IUserRepository UserRepository { get => userRepository ??= new(context); }
+        public IUserRepository UserRepository { get => userRepository; }
     }
 }

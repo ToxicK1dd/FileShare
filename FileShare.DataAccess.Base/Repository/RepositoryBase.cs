@@ -14,12 +14,10 @@ namespace FileShare.DataAccess.Base.Repository
         where TModel : BaseEntity
         where TContext : BaseContext<TContext>, new()
     {
-        protected TContext context;
-        internal DbSet<TModel> dbSet;
+        protected DbSet<TModel> dbSet;
 
         public RepositoryBase(TContext context)
         {
-            this.context = context;
             dbSet = context.Set<TModel>();
         }
 

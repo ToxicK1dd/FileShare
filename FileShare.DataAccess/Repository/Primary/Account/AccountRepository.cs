@@ -13,12 +13,12 @@ namespace FileShare.DataAccess.Repository.Primary.Account
 
         public async Task<bool> IsEnabledByIdAsync(Guid id, CancellationToken cancellationToken = default)
         {
-            return await context.Set<Model>().Where(x => x.Id == id).Select(x => x.Verified).FirstOrDefaultAsync(cancellationToken);
+            return await dbSet.Where(x => x.Id == id).Select(x => x.Verified).FirstOrDefaultAsync(cancellationToken);
         }
 
         public async Task<bool> IsVerifiedByIdAsync(Guid id, CancellationToken cancellationToken = default)
         {
-            return await context.Set<Model>().Where(x => x.Id == id).Select(x => x.Verified).FirstOrDefaultAsync(cancellationToken);
+            return await dbSet.Where(x => x.Id == id).Select(x => x.Verified).FirstOrDefaultAsync(cancellationToken);
         }
     }
 }
