@@ -1,7 +1,7 @@
 ﻿using FileShare.Service.Services.V2._0.Share.Interface;
 using Microsoft.AspNetCore.Mvc;
 
-namespace FileShare.Controllers.V2._0.Share
+namespace FileShare.Api.Controllers.V2._0.Share
 {
     [ApiVersion("2.0")]
     public class ShareController : BaseController

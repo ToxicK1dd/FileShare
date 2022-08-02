@@ -1,4 +1,4 @@
-﻿using FileShare.Controllers.V2._0.Registration;
+﻿using FileShare.Api.Controllers.V2._0.Registration;
 using FileShare.DataAccess.UnitOfWork.Primary.Interface;
 using FileShare.Service.Services.V2._0.Registration.Interface;
 using FileShare.Service.Services.V2._0.Token.Interface;

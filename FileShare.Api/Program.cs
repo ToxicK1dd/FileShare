@@ -1,19 +1,15 @@
+using FileShare.Api.Setup;
 using FileShare.DataAccess;
-using FileShare.Filters;
 using FileShare.Service;
-using FileShare.Setup;
+using FileShare.Api.Setup;
 using FileShare.Utilities;
 using Swashbuckle.AspNetCore.SwaggerUI;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Setup services in the container
-builder.Services.AddControllers(options =>
-{
-    options.Filters.Add<RequireEnabledFilter>();
-});
-builder.Services.AddCors();
 
+builder.Services.SetupControllers();
 builder.Services.SetupBearer(builder.Configuration);
 builder.Services.SetupSwagger();
 builder.Services.SetupVersioning();

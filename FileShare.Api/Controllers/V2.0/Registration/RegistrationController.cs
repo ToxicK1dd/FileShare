@@ -1,11 +1,11 @@
 ﻿using FileShare.DataAccess.UnitOfWork.Primary.Interface;
-using FileShare.Models.V2._0.Registration;
+using FileShare.Api.Models.V2._0.Registration;
 using FileShare.Service.Services.V2._0.Registration.Interface;
 using FileShare.Service.Services.V2._0.Token.Interface;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace FileShare.Controllers.V2._0.Registration
+namespace FileShare.Api.Controllers.V2._0.Registration
 {
     /// <summary>
     /// Endpoints for registering users.

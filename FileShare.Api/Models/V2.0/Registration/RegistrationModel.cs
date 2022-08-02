@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace FileShare.Models.V2._0.Registration
+namespace FileShare.Api.Models.V2._0.Registration
 {
     /// <summary>
     /// Model for registering a new user.

@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace FileShare.Filters
+namespace FileShare.Api.Filters
 {
     public class RequireEnabledFilter : IAsyncActionFilter
     {

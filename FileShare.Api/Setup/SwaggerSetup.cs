@@ -3,7 +3,7 @@ using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
 using System.Reflection;
 
-namespace FileShare.Setup
+namespace FileShare.Api.Setup
 {
     public static class SwaggerSetup
     {

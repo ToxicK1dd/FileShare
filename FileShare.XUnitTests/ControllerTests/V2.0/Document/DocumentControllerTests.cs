@@ -1,5 +1,5 @@
 ﻿using FileShare.Api.Dtos.V2._0.Document;
-using FileShare.Controllers.V2._0.Document;
+using FileShare.Api.Controllers.V2._0.Document;
 using FileShare.DataAccess.UnitOfWork.Primary.Interface;
 using FileShare.Service.Services.V2._0.Document.Interface;
 using Microsoft.AspNetCore.Http;

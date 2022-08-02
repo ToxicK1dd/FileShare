@@ -1,7 +1,7 @@
-﻿using FileShare.Models.V2._0.Registration;
+﻿using FileShare.Api.Models.V2._0.Registration;
 using Swashbuckle.AspNetCore.Filters;
 
-namespace FileShare.Examples.V2._0.Registration
+namespace FileShare.Api.Examples.V2._0.Registration
 {
     public class RegistrationModelExample : IExamplesProvider<RegistrationModel>
     {

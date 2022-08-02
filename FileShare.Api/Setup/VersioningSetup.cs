@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.AspNetCore.Mvc;
 
-namespace FileShare.Setup
+namespace FileShare.Api.Setup
 {
     public static class VersioningSetup
     {

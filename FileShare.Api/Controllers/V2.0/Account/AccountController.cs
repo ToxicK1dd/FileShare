@@ -1,7 +1,7 @@
 ﻿using FileShare.Service.Services.V2._0.Account.Interface;
 using Microsoft.AspNetCore.Mvc;
 
-namespace FileShare.Controllers.V2._0.Account
+namespace FileShare.Api.Controllers.V2._0.Account
 {
     [ApiVersion("2.0")]
     public class AccountController : BaseController

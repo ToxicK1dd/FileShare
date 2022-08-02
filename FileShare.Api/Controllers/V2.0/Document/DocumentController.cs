@@ -1,11 +1,11 @@
 ﻿using FileShare.Api.Dtos.V2._0.Document;
-using FileShare.Attributes;
+using FileShare.Api.Attributes;
 using FileShare.DataAccess.UnitOfWork.Primary.Interface;
 using FileShare.Service.Services.V2._0.Document.Interface;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Mime;
 
-namespace FileShare.Controllers.V2._0.Document
+namespace FileShare.Api.Controllers.V2._0.Document
 {
     /// <summary>
     /// Endpoints for managing documents

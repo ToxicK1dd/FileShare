@@ -1,11 +1,11 @@
 ﻿using FileShare.DataAccess.UnitOfWork.Primary.Interface;
-using FileShare.Models.V2._0.Login;
+using FileShare.Api.Models.V2._0.Login;
 using FileShare.Service.Services.V2._0.Login.Interface;
 using FileShare.Service.Services.V2._0.Token.Interface;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace FileShare.Controllers.V2._0.Login
+namespace FileShare.Api.Controllers.V2._0.Login
 {
     /// <summary>
     /// Endpoints for authenticating users.

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace FileShare.Attributes
+namespace FileShare.Api.Attributes
 {
     public class AllowedExtensionsAttribute : ValidationAttribute
     {

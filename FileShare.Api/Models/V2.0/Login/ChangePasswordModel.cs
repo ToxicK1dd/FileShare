@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace FileShare.Models.V2._0.Login
+namespace FileShare.Api.Models.V2._0.Login
 {
     /// <summary>
     /// Model for changing the password of a user.

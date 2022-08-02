@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace FileShare.Controllers
+namespace FileShare.Api.Controllers
 {
     [Authorize]
     [Route("api/v{version:apiVersion}/[controller]/[action]")]
