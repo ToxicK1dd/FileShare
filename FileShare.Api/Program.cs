@@ -1,9 +1,9 @@
 using FileShare.Api.Setup;
 using FileShare.DataAccess;
 using FileShare.Service;
-using FileShare.Api.Setup;
 using FileShare.Utilities;
 using Swashbuckle.AspNetCore.SwaggerUI;
+using AspNetCoreRateLimit;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +13,7 @@ builder.Services.SetupControllers();
 builder.Services.SetupBearer(builder.Configuration);
 builder.Services.SetupSwagger();
 builder.Services.SetupVersioning();
+builder.Services.SetupRateLimiting();
 
 // Add DI to the container
 builder.Services.AddHttpContextAccessor();
@@ -53,6 +54,7 @@ app.UseSwaggerUI(options =>
 });
 
 app.UseHttpsRedirection();
+app.UseIpRateLimiting();
 
 app.UseStaticFiles();
 app.UseRouting();
