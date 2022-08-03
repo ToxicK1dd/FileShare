@@ -4,6 +4,7 @@ using FileShare.Service;
 using FileShare.Utilities;
 using Swashbuckle.AspNetCore.SwaggerUI;
 using AspNetCoreRateLimit;
+using Hangfire;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +12,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.SetupControllers();
 builder.Services.SetupBearer(builder.Configuration);
+builder.Services.SetupHangfire(builder.Configuration);
 builder.Services.SetupSwagger();
 builder.Services.SetupVersioning();
 builder.Services.SetupRateLimiting();
@@ -30,6 +32,7 @@ var app = builder.Build();
 if (app.Environment.EnvironmentName != "Production")
 {
     app.UseDeveloperExceptionPage();
+    app.UseHangfireDashboard();
 }
 
 app.UseSwagger(options =>
