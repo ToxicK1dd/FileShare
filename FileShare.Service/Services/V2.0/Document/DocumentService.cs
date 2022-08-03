@@ -1,9 +1,12 @@
-﻿using FileShare.DataAccess.UnitOfWork.Primary.Interface;
+﻿using FileModel = FileShare.DataAccess.Models.Primary.Document.Document;
+using FileShare.DataAccess.UnitOfWork.Primary.Interface;
 using FileShare.Service.Dtos.V2._0.Document;
 using FileShare.Service.Services.V2._0.Document.Interface;
 using FileShare.Utilities.Helpers.IdentityClaims.Interface;
 using Microsoft.AspNetCore.Http;
-using FileModel = FileShare.DataAccess.Models.Primary.Document.Document;
+using SharpCompress.Compressors.Deflate;
+using SharpCompress.Compressors;
+using SharpCompress.Readers;
 
 namespace FileShare.Service.Services.V2._0.Document
 {
@@ -42,10 +45,11 @@ namespace FileShare.Service.Services.V2._0.Document
                 }
             };
 
-            using var ms = new MemoryStream();
-            await file.CopyToAsync(ms, cancellationToken);
-            var fileBytes = ms.ToArray();
-            fileModel.Contents = fileBytes;
+            using var memoryStream = new MemoryStream();
+            await file.CopyToAsync(memoryStream, cancellationToken);
+
+            var compressedFile = await CompressFile(memoryStream.ToArray(), cancellationToken);
+            fileModel.Contents = compressedFile;
 
             await _unitOfWork.DocumentRepository.AddAsync(fileModel, cancellationToken);
             return fileModel.Id;
@@ -58,7 +62,7 @@ namespace FileShare.Service.Services.V2._0.Document
 
             return new FileDto()
             {
-                FileContents = dbFile.Contents,
+                FileContents = await DecompressFile(dbFile.Contents, cancellationToken),
                 FileName = dbFile.Detail.FileName,
                 ContentType = dbFile.Detail.ContentType
             };
@@ -93,6 +97,37 @@ namespace FileShare.Service.Services.V2._0.Document
                 throw new UnauthorizedAccessException();
 
             return accountId;
+        }
+
+        private async Task<byte[]> CompressFile(byte[] buffer, CancellationToken cancellationToken)
+        {
+            using MemoryStream stream = new();
+            using (GZipStream zip = new(stream, CompressionMode.Compress))
+            {
+                await zip.WriteAsync(buffer.AsMemory(0, buffer.Length), cancellationToken);
+                zip.Close();
+            }
+            return stream.ToArray();
+        }
+
+        private async Task<byte[]> DecompressFile(byte[] buffer, CancellationToken cancellationToken)
+        {
+            using MemoryStream stream = new(buffer);
+            using IReader reader = ReaderFactory.Open(stream);
+            while (reader.MoveToNextEntry())
+            {
+                if (!reader.Entry.IsDirectory)
+                {
+                    using MemoryStream ms = new();
+
+                    using var entryStream = reader.OpenEntryStream();
+                    await entryStream.CopyToAsync(ms, cancellationToken);
+
+                    return ms.ToArray();
+                }
+            }
+
+            return null;
         }
 
         #endregion

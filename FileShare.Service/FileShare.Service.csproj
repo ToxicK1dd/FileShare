@@ -10,6 +10,7 @@
 		<PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
 		<PackageReference Include="Microsoft.Extensions.Identity.Core" Version="6.0.7" />
 		<PackageReference Include="Scrutor" Version="4.2.0" />
+		<PackageReference Include="SharpCompress" Version="0.32.2" />
 		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.21.0" />
 	</ItemGroup>
 

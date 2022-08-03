@@ -43,7 +43,7 @@ namespace FileShare.Api.Controllers.V2._0.Document
         [RequestSizeLimit(8 * 1024 * 1024)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<IActionResult> UploadFile(
-            [AllowedExtensions(new string[] { ".jpg", ".png", ".mp3", ".mp4", ".pdf", ".gif" })]
+            [AllowedExtensions(new string[] { ".jpg", ".png", ".mp3", ".mp4", ".pdf", ".gif", ".txt" })]
             IFormFile file)
         {
             var fileId = await _documentService.UploadFileAsync(file, _httpContextAccessor.HttpContext.RequestAborted);
@@ -74,7 +74,7 @@ namespace FileShare.Api.Controllers.V2._0.Document
             };
             Response.Headers.Append("Content-Disposition", cd.ToString());
 
-            return Ok(File(file.FileContents, file.ContentType, file.FileName));
+            return File(file.FileContents, file.ContentType);
         }
 
         /// <summary>
