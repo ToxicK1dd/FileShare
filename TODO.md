@@ -30,6 +30,7 @@ This file contains a list of todo, and done tasks for the project.
     - [x] Implement file upload
     - [x] Implement file download
     - [x] Implement file soft deletion
+	- [x] Implement file compression, and decompression
     - [ ] Implement permanent auto deletion of soft deleted files
 
 ### Requests
