@@ -24,7 +24,19 @@ namespace FileShare.Api.Setup
                         Endpoint = "*",
                         Limit = 5,
                         Period = "10s",
-                    }
+                    },
+                    new RateLimitRule
+                    {
+                        Endpoint = "*/login/*",
+                        Limit = 3,
+                        Period = "1m",
+                    },
+                    new RateLimitRule
+                    {
+                        Endpoint = "*/register/*",
+                        Limit = 3,
+                        Period = "1m",
+                    },
                 };
             });
             services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();

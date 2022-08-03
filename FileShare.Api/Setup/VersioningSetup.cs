@@ -20,12 +20,17 @@ namespace FileShare.Api.Setup
             services.AddApiVersioning(options =>
             {
                 options.ReportApiVersions = true;
-                options.DefaultApiVersion = new ApiVersion(1, 0);
+                options.DefaultApiVersion = new ApiVersion(2, 0);
                 options.ApiVersionReader = new UrlSegmentApiVersionReader();
                 options.AssumeDefaultVersionWhenUnspecified = true;
             });
 
-            services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
+            services.Configure<RouteOptions>(options =>
+            {
+                options.LowercaseUrls = true;
+                options.LowercaseQueryStrings = true;
+                options.AppendTrailingSlash = false;
+            });
         }
     }
 }
