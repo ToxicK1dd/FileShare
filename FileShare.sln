@@ -23,8 +23,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileShare.Utilities", "File
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileShare.XUnitTests", "FileShare.XUnitTests\FileShare.XUnitTests.csproj", "{4F0EDA32-611B-4FB3-80BD-85F5A0FA6D51}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileShare.Worker", "FileShare.Worker\FileShare.Worker.csproj", "{53A5568B-E5B0-46F5-9BAD-BA68BE86D12F}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -55,10 +53,6 @@ Global
 		{4F0EDA32-611B-4FB3-80BD-85F5A0FA6D51}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4F0EDA32-611B-4FB3-80BD-85F5A0FA6D51}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4F0EDA32-611B-4FB3-80BD-85F5A0FA6D51}.Release|Any CPU.Build.0 = Release|Any CPU
-		{53A5568B-E5B0-46F5-9BAD-BA68BE86D12F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{53A5568B-E5B0-46F5-9BAD-BA68BE86D12F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{53A5568B-E5B0-46F5-9BAD-BA68BE86D12F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{53A5568B-E5B0-46F5-9BAD-BA68BE86D12F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
