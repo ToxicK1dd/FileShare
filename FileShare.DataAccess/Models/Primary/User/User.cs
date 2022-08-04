@@ -1,4 +1,6 @@
 ﻿using FileShare.DataAccess.Base.Model.BaseIdentityUser;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace FileShare.DataAccess.Models.Primary.User
 {
@@ -31,5 +33,13 @@ namespace FileShare.DataAccess.Models.Primary.User
         public UserInformation.UserInformation UserInformation { get; set; }
 
         #endregion
+    }
+
+    public class UserEntityTypeConfiguration : IEntityTypeConfiguration<User>
+    {
+        public void Configure(EntityTypeBuilder<User> builder)
+        {
+            builder.ToTable(name: "User");
+        }
     }
 }

@@ -13,55 +13,39 @@ namespace FileShare.Service.Services.V2._0.Registration
     public class RegistrationService : IRegistrationService
     {
         private readonly IPrimaryUnitOfWork _unitOfWork;
-        private readonly IPasswordHasher<object> _passwordHasher;
-        private readonly IMapper _mapper;
+        private readonly UserManager<DataAccess.Models.Primary.User.User> _userManager;
+        private readonly RoleManager<IdentityRole<Guid>> _roleManager;
 
-        public RegistrationService(IPrimaryUnitOfWork unitOfWork, IPasswordHasher<object> passwordHasher, IMapper mapper)
+        public RegistrationService(
+            IPrimaryUnitOfWork unitOfWork,
+            UserManager<DataAccess.Models.Primary.User.User> userManager,
+            RoleManager<IdentityRole<Guid>> roleManager)
         {
             _unitOfWork = unitOfWork;
-            _passwordHasher = passwordHasher;
-            _mapper = mapper;
+            _userManager = userManager;
+            _roleManager = roleManager;
         }
 
 
         public async Task<RegistrationResultDto> RegisterAsync(string username, string email, string password, CancellationToken cancellationToken)
         {
-            var isEmailValid = IsValidEmailAddress(email);
-            if (isEmailValid is not true)
-                throw new ArgumentException("Email is not in a valid format.");
+            var userExists = await _userManager.FindByNameAsync(username);
+            if (userExists != null)
+                return new(false, "Username is already taken.");
 
-            //var isUsernameTaken = await _unitOfWork.LoginRepository.ExistsFromUsernameAsync(username, cancellationToken);
-            //if (isUsernameTaken)
-            //    throw new ArgumentException("Username is already being used.");
+            var emailExists = await _userManager.FindByEmailAsync(email);
+            if (emailExists != null)
+                return new(false, "Email is already taken.");
 
-            //var isEmailTaken = await _unitOfWork.EmailRepository.ExistsFromAddressAsync(email, cancellationToken);
-            //if (isEmailTaken)
-            //    throw new ArgumentException("Email is already being used.");
+            DataAccess.Models.Primary.User.User user = new()
+            {
+                Email = email,
+                SecurityStamp = Guid.NewGuid().ToString(),
+                UserName = username
+            };
 
-            var userId = Guid.NewGuid();
-            var loginId = Guid.NewGuid();
-            var hashedPassword = _passwordHasher.HashPassword(null, password);
-
-            //var account = new DataAccess.Models.Primary.Account.Account()
-            //{
-            //    Id = userId,
-            //    Enabled = true,
-            //    Verified = false,
-            //    Login = new()
-            //    {
-            //        Id = loginId,
-            //        UserId = userId,
-            //        Username = username,
-            //        Password = hashedPassword
-            //    },
-            //    Email = new()
-            //    {
-            //        Address = email,
-            //    }
-            //};
-            //await _unitOfWork.UserRepository.AddAsync(account, cancellationToken);
-
-            return new(userId, loginId);
+            var result = await _userManager.CreateAsync(user, password);
+            return new(result.Succeeded, string.Empty);
         }
 
 

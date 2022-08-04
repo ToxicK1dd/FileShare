@@ -14,20 +14,17 @@ namespace FileShare.Api.Controllers.V2._0.Registration
     public class RegistrationController : BaseController
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly ILogger<RegistrationController> _logger;
         private readonly IPrimaryUnitOfWork _unitOfWork;
         private readonly IRegistrationService _registrationService;
         private readonly ITokenService _tokenService;
 
         public RegistrationController(
             IHttpContextAccessor httpContextAccessor,
-            ILogger<RegistrationController> logger,
             IPrimaryUnitOfWork unitOfWork,
             IRegistrationService registrationService,
             ITokenService tokenService)
         {
             _httpContextAccessor = httpContextAccessor;
-            _logger = logger;
             _unitOfWork = unitOfWork;
             _registrationService = registrationService;
             _tokenService = tokenService;
@@ -57,9 +54,11 @@ namespace FileShare.Api.Controllers.V2._0.Registration
         public async Task<IActionResult> Register([FromBody] RegistrationModel model)
         {
             var result = await _registrationService.RegisterAsync(model.Username, model.Email, model.Password, _httpContextAccessor.HttpContext.RequestAborted);
+            if (result.Successful is false)
+                return Problem(result.ErrorMessage, statusCode: 400);
 
-            var token = _tokenService.GetAccessToken(result.UserId);
-            var refreshToken = await _tokenService.GetRefreshTokenAsync(result.LoginId, _httpContextAccessor.HttpContext.RequestAborted);
+            var token = await _tokenService.GetAccessTokenFromUsernameAsync(model.Username, _httpContextAccessor.HttpContext.RequestAborted);
+            var refreshToken = await _tokenService.GetRefreshTokenFromUsernameAsync(model.Username, _httpContextAccessor.HttpContext.RequestAborted);
 
             await _unitOfWork.SaveChangesAsync(_httpContextAccessor.HttpContext.RequestAborted);
 

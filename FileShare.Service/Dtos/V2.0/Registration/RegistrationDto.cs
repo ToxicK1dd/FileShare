@@ -2,15 +2,15 @@
 {
     public record RegistrationResultDto
     {
-        public RegistrationResultDto(Guid userId, Guid loginId)
+        public RegistrationResultDto(bool successful, string errorMessage)
         {
-            UserId = userId;
-            LoginId = loginId;
+            Successful = successful;
+            ErrorMessage = errorMessage;
         }
 
 
-        public Guid UserId { get; }
+        public bool Successful { get; }
 
-        public Guid LoginId { get; }
+        public string ErrorMessage { get; }
     }
 }

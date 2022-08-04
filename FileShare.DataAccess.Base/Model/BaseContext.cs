@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using FileShare.DataAccess.Base.Model.BaseEntity.Interface;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -36,7 +37,6 @@ namespace FileShare.DataAccess.Base.Model
             modelBuilder.HasDefaultSchema("Identity");
 
             // Change Identity table names
-            modelBuilder.Entity<IdentityUser<Guid>>().ToTable(name: "User");
             modelBuilder.Entity<IdentityRole<Guid>>().ToTable(name: "Role");
             modelBuilder.Entity<IdentityUserRole<Guid>>().ToTable(name: "UserRole");
             modelBuilder.Entity<IdentityUserClaim<Guid>>().ToTable(name: "Claims");
@@ -65,7 +65,7 @@ namespace FileShare.DataAccess.Base.Model
         /// </summary>
         private void CheckEntities()
         {
-            foreach (var entry in ChangeTracker.Entries<BaseEntity.BaseEntity>())
+            foreach (var entry in ChangeTracker.Entries<IBaseEntity>())
             {
                 switch (entry.State)
                 {

@@ -11,9 +11,9 @@ namespace FileShare.Api.Setup
         /// <param name="services"></param>
         public static void SetupIdentity(this IServiceCollection services)
         {
-             services.AddIdentity<IdentityUser<Guid>, IdentityRole<Guid>>()
-                .AddEntityFrameworkStores<PrimaryContext>()
-                .AddDefaultTokenProviders();
+            services.AddIdentity<DataAccess.Models.Primary.User.User, IdentityRole<Guid>>()
+               .AddEntityFrameworkStores<PrimaryContext>()
+               .AddDefaultTokenProviders();
         }
     }
 }
