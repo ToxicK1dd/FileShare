@@ -1,7 +1,9 @@
 ﻿using FileShare.DataAccess.Base.Dto;
+using FileShare.DataAccess.Models.Identity;
 using FileShare.DataAccess.Models.Primary;
 using Mapster;
 using MapsterMapper;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,7 +19,8 @@ namespace FileShare.DataAccess
     {
         public static void AddDataAccess(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddDatabase(configuration);
+            services.AddPrimaryDatabase(configuration);
+            services.AddIdentityDatabase(configuration);
             services.AddUnitOfWork();
             services.AddMapster();
         }
@@ -25,7 +28,7 @@ namespace FileShare.DataAccess
 
         #region Helpers
 
-        public static void AddDatabase(this IServiceCollection services, IConfiguration configuration)
+        private static void AddPrimaryDatabase(this IServiceCollection services, IConfiguration configuration)
         {
             var connectionStrings = configuration.GetSection("ConnectionStrings").Get<ConnectionStrings>();
 
@@ -47,7 +50,29 @@ namespace FileShare.DataAccess
             }, ServiceLifetime.Scoped);
         }
 
-        public static void AddMapster(this IServiceCollection services)
+        private static void AddIdentityDatabase(this IServiceCollection services, IConfiguration configuration)
+        {
+            var connectionStrings = configuration.GetSection("ConnectionStrings").Get<ConnectionStrings>();
+
+            services.AddDbContext<IdentityContext>(options =>
+            {
+                options.UseMySql(
+                    connectionStrings.Identity,
+                    ServerVersion.Parse("10.4.13-mariadb"),
+                    mySqlOptionsAction: sqlOptions =>
+                    {
+                        sqlOptions.EnableRetryOnFailure(
+                        maxRetryCount: 10,
+                        maxRetryDelay: TimeSpan.FromSeconds(5),
+                        errorNumbersToAdd: null);
+                    })
+                    .LogTo(Console.WriteLine, LogLevel.Information)
+                    .EnableSensitiveDataLogging()
+                    .EnableDetailedErrors();
+            }, ServiceLifetime.Scoped);
+        }
+
+        private static void AddMapster(this IServiceCollection services)
         {
             TypeAdapterConfig.GlobalSettings.EnableJsonMapping();
             var typeAdapterConfig = TypeAdapterConfig.GlobalSettings;
@@ -61,7 +86,7 @@ namespace FileShare.DataAccess
             services.AddScoped<IMapper, ServiceMapper>();
         }
 
-        public static void AddUnitOfWork(this IServiceCollection services)
+        private static void AddUnitOfWork(this IServiceCollection services)
         {
             services.Scan(scan =>
                 scan.FromCallingAssembly()
@@ -73,6 +98,7 @@ namespace FileShare.DataAccess
         internal class ConnectionStrings
         {
             public string Primary { get; set; }
+            public string Identity { get; set; }
         }
 
         #endregion

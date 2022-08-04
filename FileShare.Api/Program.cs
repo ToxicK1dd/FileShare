@@ -16,6 +16,7 @@ builder.Services.SetupHangfire(builder.Configuration);
 builder.Services.SetupSwagger();
 builder.Services.SetupVersioning();
 builder.Services.SetupRateLimiting();
+builder.Services.SetupIdentity();
 
 // Add DI to the container
 builder.Services.AddHttpContextAccessor();
