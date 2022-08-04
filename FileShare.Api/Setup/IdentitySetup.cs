@@ -1,4 +1,4 @@
-﻿using FileShare.DataAccess.Models.Identity;
+﻿using FileShare.DataAccess.Models.Primary;
 using Microsoft.AspNetCore.Identity;
 
 namespace FileShare.Api.Setup
@@ -11,8 +11,8 @@ namespace FileShare.Api.Setup
         /// <param name="services"></param>
         public static void SetupIdentity(this IServiceCollection services)
         {
-             services.AddIdentity<IdentityUser, IdentityRole>()
-                .AddEntityFrameworkStores<IdentityContext>()
+             services.AddIdentity<IdentityUser<Guid>, IdentityRole<Guid>>()
+                .AddEntityFrameworkStores<PrimaryContext>()
                 .AddDefaultTokenProviders();
         }
     }

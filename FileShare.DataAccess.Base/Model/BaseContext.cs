@@ -6,14 +6,14 @@ namespace FileShare.DataAccess.Base.Model
     /// Abstract base class for easy, and fast creation of databases.
     /// </summary>
     /// <typeparam name="TContext">The database context of which the data is stored.</typeparam>
-    public abstract class BaseContext<TContext> : DbContext
+    public abstract class BaseContext<TContext> : BaseIdentityContext<TContext>
             where TContext : BaseContext<TContext>
     {
+        public BaseContext(DbContextOptions<TContext> options) : base(options) { }
+        
         public BaseContext() { }
 
-        public BaseContext(DbContextOptions<TContext> options) : base(options) { }
-
-
+        
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             // Connection string should be injected
@@ -21,6 +21,8 @@ namespace FileShare.DataAccess.Base.Model
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
             // Apply type configurations only from this namespace
             modelBuilder.ApplyConfigurationsFromAssembly(
                 GetType().Assembly,

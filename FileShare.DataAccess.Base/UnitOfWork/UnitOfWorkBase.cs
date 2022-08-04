@@ -8,7 +8,7 @@ namespace FileShare.DataAccess.Base.UnitOfWork
     /// </summary>
     /// <typeparam name="TContext"></typeparam>
     public abstract class UnitOfWorkBase<TContext> : IUnitOfWorkBase
-        where TContext : BaseContext<TContext>, new()
+        where TContext : BaseContext<TContext>
     {
         protected readonly TContext context;
 

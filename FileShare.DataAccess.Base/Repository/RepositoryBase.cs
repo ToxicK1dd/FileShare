@@ -12,7 +12,7 @@ namespace FileShare.DataAccess.Base.Repository
     /// <typeparam name="TContext">The database context which the repository makes the changes to.</typeparam>
     public abstract class RepositoryBase<TModel, TContext> : IRepositoryBase<TModel>
         where TModel : BaseEntity
-        where TContext : BaseContext<TContext>, new()
+        where TContext : BaseContext<TContext>
     {
         protected DbSet<TModel> dbSet;
 
