@@ -11,12 +11,12 @@ var builder = WebApplication.CreateBuilder(args);
 // Setup services in the container
 
 builder.Services.SetupControllers();
+builder.Services.SetupIdentity();
 builder.Services.SetupBearer(builder.Configuration);
 builder.Services.SetupHangfire(builder.Configuration);
 builder.Services.SetupSwagger();
 builder.Services.SetupVersioning();
 builder.Services.SetupRateLimiting();
-builder.Services.SetupIdentity();
 
 // Add DI to the container
 builder.Services.AddHttpContextAccessor();

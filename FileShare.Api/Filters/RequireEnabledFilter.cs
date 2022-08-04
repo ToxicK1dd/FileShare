@@ -15,8 +15,8 @@ namespace FileShare.Api.Filters
 
             if (isAllowAnonymous is false)
             {
-                var userId = context.HttpContext.RequestServices.GetService<IIdentityClaimsHelper>().GetUsernameFromHttpContext(context.HttpContext);
-                var enabled = await context.HttpContext.RequestServices.GetService<IPrimaryUnitOfWork>().UserRepository.IsEnabledByUsernameAsync(userId, context.HttpContext.RequestAborted);
+                var username = context.HttpContext.RequestServices.GetService<IIdentityClaimsHelper>().GetUsernameFromHttpContext(context.HttpContext);
+                var enabled = await context.HttpContext.RequestServices.GetService<IPrimaryUnitOfWork>().UserRepository.IsEnabledByUsernameAsync(username, context.HttpContext.RequestAborted);
                 if (enabled is false)
                     context.Result = new UnauthorizedResult();
             }
