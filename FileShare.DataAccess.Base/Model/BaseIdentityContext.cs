@@ -22,16 +22,16 @@ namespace FileShare.DataAccess.Base.Model
             base.OnModelCreating(modelBuilder);
 
             // Change schema name
-            //modelBuilder.HasDefaultSchema("Identity");
+            modelBuilder.HasDefaultSchema("Identity");
 
             // Change Identity table names
-            modelBuilder.Entity<IdentityUser<Guid>>().ToTable(name: "Identity.User");
-            modelBuilder.Entity<IdentityRole<Guid>>().ToTable(name: "Identity.Role");
-            modelBuilder.Entity<IdentityUserRole<Guid>>().ToTable(name: "Identity.UserRole");
-            modelBuilder.Entity<IdentityUserClaim<Guid>>().ToTable(name: "Identity.Claims");
-            modelBuilder.Entity<IdentityUserLogin<Guid>>().ToTable(name: "Identity.Logins");
-            modelBuilder.Entity<IdentityRoleClaim<Guid>>().ToTable(name: "Identity.RoleClaims");
-            modelBuilder.Entity<IdentityUserToken<Guid>>().ToTable(name: "Identity.Tokens");
+            modelBuilder.Entity<IdentityUser<Guid>>().ToTable(name: "User");
+            modelBuilder.Entity<IdentityRole<Guid>>().ToTable(name: "Role");
+            modelBuilder.Entity<IdentityUserRole<Guid>>().ToTable(name: "UserRole");
+            modelBuilder.Entity<IdentityUserClaim<Guid>>().ToTable(name: "Claims");
+            modelBuilder.Entity<IdentityUserLogin<Guid>>().ToTable(name: "Logins");
+            modelBuilder.Entity<IdentityRoleClaim<Guid>>().ToTable(name: "RoleClaims");
+            modelBuilder.Entity<IdentityUserToken<Guid>>().ToTable(name: "Tokens");
         }
     }
 }
