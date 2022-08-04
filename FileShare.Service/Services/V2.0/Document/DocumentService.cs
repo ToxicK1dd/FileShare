@@ -32,7 +32,7 @@ namespace FileShare.Service.Services.V2._0.Document
 
         public async Task<Guid> UploadFileAsync(IFormFile file, CancellationToken cancellationToken)
         {
-            var userId = GetUserId();
+            var userId = await GetUserId(cancellationToken);
             var fileModel = new FileModel()
             {
                 UserId = userId,
@@ -57,7 +57,7 @@ namespace FileShare.Service.Services.V2._0.Document
 
         public async Task<FileDto> DownloadFileAsync(Guid id, CancellationToken cancellationToken)
         {
-            var userId = GetUserId();
+            var userId = await GetUserId(cancellationToken);
             var dbFile = await GetDocumentAsync(id, userId, cancellationToken);
 
             return new FileDto()
@@ -70,7 +70,7 @@ namespace FileShare.Service.Services.V2._0.Document
 
         public async Task DeleteFileAsync(Guid id, CancellationToken cancellationToken)
         {
-            var userId = GetUserId();
+            var userId = await GetUserId(cancellationToken);
             var dbFile = await GetDocumentAsync(id, userId, cancellationToken);
 
             _unitOfWork.DocumentRepository.RemoveById(dbFile.Id);
@@ -79,7 +79,7 @@ namespace FileShare.Service.Services.V2._0.Document
 
         #region Helpers
 
-        public async Task<FileModel> GetDocumentAsync(Guid id, Guid userId, CancellationToken cancellationToken)
+        private async Task<FileModel> GetDocumentAsync(Guid id, Guid userId, CancellationToken cancellationToken)
         {
             var dbFile = await _unitOfWork.DocumentRepository.GetByIdWithDetailAsync(id, cancellationToken);
             if (dbFile is null)
@@ -90,13 +90,13 @@ namespace FileShare.Service.Services.V2._0.Document
             return dbFile;
         }
 
-        public Guid GetUserId()
+        private async Task<Guid> GetUserId(CancellationToken cancellationToken)
         {
-            var userId = _identityClaimsHelper.GetUserIdFromHttpContext(_httpContextAccessor.HttpContext);
-            if (userId == Guid.Empty)
+            var username = _identityClaimsHelper.GetUsernameFromHttpContext(_httpContextAccessor.HttpContext);
+            if (username is null)
                 throw new UnauthorizedAccessException();
 
-            return userId;
+            return await _unitOfWork.UserRepository.GetIdByUsernameAsync(username, cancellationToken);
         }
 
         private async Task<byte[]> CompressFile(byte[] buffer, CancellationToken cancellationToken)

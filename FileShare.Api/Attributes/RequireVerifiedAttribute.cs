@@ -18,8 +18,8 @@ namespace FileShare.Api.Attributes
 
             if (isAllowAnonymous is false)
             {
-                var userId = context.HttpContext.RequestServices.GetService<IIdentityClaimsHelper>().GetUserIdFromHttpContext(context.HttpContext);
-                var verified = await context.HttpContext.RequestServices.GetService<IPrimaryUnitOfWork>().UserRepository.IsVerifiedByIdAsync(userId, context.HttpContext.RequestAborted);
+                var username = context.HttpContext.RequestServices.GetService<IIdentityClaimsHelper>().GetUsernameFromHttpContext(context.HttpContext);
+                var verified = await context.HttpContext.RequestServices.GetService<IPrimaryUnitOfWork>().UserRepository.IsVerifiedByUsernameAsync(username, context.HttpContext.RequestAborted);
                 if (verified is false)
                     context.Result = new UnauthorizedResult();
             }

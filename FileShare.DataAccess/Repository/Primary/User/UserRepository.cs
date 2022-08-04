@@ -52,14 +52,14 @@ namespace FileShare.DataAccess.Repository.Primary.Account
             return await dbSet.Where(x => x.Id == id).AsNoTracking().Select(x => x.Id).AnyAsync(cancellationToken);
         }
 
-        public async Task<bool> IsEnabledByIdAsync(Guid id, CancellationToken cancellationToken = default)
+        public async Task<bool> IsEnabledByUsernameAsync(string username, CancellationToken cancellationToken = default)
         {
-            return await dbSet.Where(x => x.Id == id).Select(x => x.Enabled).FirstOrDefaultAsync(cancellationToken);
+            return await dbSet.Where(x => x.UserName == username).Select(x => x.Enabled).FirstOrDefaultAsync(cancellationToken);
         }
 
-        public async Task<bool> IsVerifiedByIdAsync(Guid id, CancellationToken cancellationToken = default)
+        public async Task<bool> IsVerifiedByUsernameAsync(string username, CancellationToken cancellationToken = default)
         {
-            return await dbSet.Where(x => x.Id == id).Select(x => x.Verified).FirstOrDefaultAsync(cancellationToken);
+            return await dbSet.Where(x => x.UserName == username).Select(x => x.Verified).FirstOrDefaultAsync(cancellationToken);
         }
 
         public async Task<Model> GetByUsernameAsync(string username, CancellationToken cancellationToken = default)

@@ -1,7 +1,6 @@
-﻿using FileShare.DataAccess.UnitOfWork.Primary.Interface;
-using FileShare.Service.Dtos.V2._0.Registration;
+﻿using FileShare.Service.Dtos.V2._0.Registration;
 using FileShare.Service.Services.V2._0.Registration.Interface;
-using MapsterMapper;
+using FileShare.Utilities.Constants;
 using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
 
@@ -12,16 +11,13 @@ namespace FileShare.Service.Services.V2._0.Registration
     /// </summary>
     public class RegistrationService : IRegistrationService
     {
-        private readonly IPrimaryUnitOfWork _unitOfWork;
         private readonly UserManager<DataAccess.Models.Primary.User.User> _userManager;
         private readonly RoleManager<IdentityRole<Guid>> _roleManager;
 
         public RegistrationService(
-            IPrimaryUnitOfWork unitOfWork,
             UserManager<DataAccess.Models.Primary.User.User> userManager,
             RoleManager<IdentityRole<Guid>> roleManager)
         {
-            _unitOfWork = unitOfWork;
             _userManager = userManager;
             _roleManager = roleManager;
         }
@@ -39,10 +35,19 @@ namespace FileShare.Service.Services.V2._0.Registration
 
             DataAccess.Models.Primary.User.User user = new()
             {
+                Id = Guid.NewGuid(),
                 Email = email,
                 SecurityStamp = Guid.NewGuid().ToString(),
                 UserName = username
             };
+
+            if (!await _roleManager.RoleExistsAsync(UserRoles.User))
+                await _roleManager.CreateAsync(new IdentityRole<Guid>(UserRoles.User));
+
+            if (await _roleManager.RoleExistsAsync(UserRoles.User))
+            {
+                await _userManager.AddToRoleAsync(user, UserRoles.User);
+            }
 
             var result = await _userManager.CreateAsync(user, password);
             return new(result.Succeeded, string.Empty);

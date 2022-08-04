@@ -4,6 +4,6 @@ namespace FileShare.Utilities.Helpers.IdentityClaims.Interface
 {
     public interface IIdentityClaimsHelper
     {
-        Guid GetUserIdFromHttpContext(HttpContext httpContext);
+        string GetUsernameFromHttpContext(HttpContext httpContext);
     }
 }

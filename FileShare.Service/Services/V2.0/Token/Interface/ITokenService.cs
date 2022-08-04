@@ -7,7 +7,7 @@
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
-        string GetAccessToken(Guid userId);
+        Task<string> GetAccessTokenAsync(Guid userId);
 
         /// <summary>
         /// Generate JWT from username.
