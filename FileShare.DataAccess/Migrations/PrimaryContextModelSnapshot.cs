@@ -3,18 +3,16 @@ using System;
 using FileShare.DataAccess.Models.Primary;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace FileShare.DataAccess.Migrations.Primary
+namespace FileShare.DataAccess.Migrations
 {
     [DbContext(typeof(PrimaryContext))]
-    [Migration("20220727230255_Initial")]
-    partial class Initial
+    partial class PrimaryContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -158,7 +156,7 @@ namespace FileShare.DataAccess.Migrations.Primary
 
                     b.HasIndex("LoginId");
 
-                    b.ToTable("DeviceToken");
+                    b.ToTable("DeviceTokens", (string)null);
                 });
 
             modelBuilder.Entity("FileShare.DataAccess.Models.Primary.Document.Document", b =>
@@ -193,7 +191,7 @@ namespace FileShare.DataAccess.Migrations.Primary
                     b.HasIndex("Id")
                         .IsUnique();
 
-                    b.ToTable("Document");
+                    b.ToTable("Documents", (string)null);
                 });
 
             modelBuilder.Entity("FileShare.DataAccess.Models.Primary.DocumentDetail.DocumentDetail", b =>
@@ -240,7 +238,7 @@ namespace FileShare.DataAccess.Migrations.Primary
                     b.HasIndex("Id")
                         .IsUnique();
 
-                    b.ToTable("DocumentDetail");
+                    b.ToTable("DocumentDetails", (string)null);
                 });
 
             modelBuilder.Entity("FileShare.DataAccess.Models.Primary.DocumentSignature.DocumentSignature", b =>
@@ -268,7 +266,7 @@ namespace FileShare.DataAccess.Migrations.Primary
                     b.HasIndex("Id")
                         .IsUnique();
 
-                    b.ToTable("DocumentSignature");
+                    b.ToTable("DocumentSignatures", (string)null);
                 });
 
             modelBuilder.Entity("FileShare.DataAccess.Models.Primary.Email.Email", b =>
@@ -427,7 +425,7 @@ namespace FileShare.DataAccess.Migrations.Primary
 
                     b.HasIndex("LoginId");
 
-                    b.ToTable("LoginDetail");
+                    b.ToTable("LoginDetails", (string)null);
                 });
 
             modelBuilder.Entity("FileShare.DataAccess.Models.Primary.PhoneNumber.PhoneNumber", b =>
@@ -543,7 +541,7 @@ namespace FileShare.DataAccess.Migrations.Primary
 
                     b.HasIndex("LoginId");
 
-                    b.ToTable("RefreshToken");
+                    b.ToTable("RefreshTokens", (string)null);
                 });
 
             modelBuilder.Entity("FileShare.DataAccess.Models.Primary.Share.Share", b =>
@@ -574,7 +572,7 @@ namespace FileShare.DataAccess.Migrations.Primary
                     b.HasIndex("Id")
                         .IsUnique();
 
-                    b.ToTable("Share");
+                    b.ToTable("Shares", (string)null);
                 });
 
             modelBuilder.Entity("FileShare.DataAccess.Models.Primary.ShareDetail.ShareDetail", b =>
@@ -610,7 +608,7 @@ namespace FileShare.DataAccess.Migrations.Primary
 
                     b.HasIndex("ShareId");
 
-                    b.ToTable("ShareDetail");
+                    b.ToTable("ShareDetails", (string)null);
                 });
 
             modelBuilder.Entity("FileShare.DataAccess.Models.Primary.SocialSecurityNumber.SocialSecurityNumber", b =>
@@ -646,7 +644,7 @@ namespace FileShare.DataAccess.Migrations.Primary
                     b.HasIndex("Id")
                         .IsUnique();
 
-                    b.ToTable("SocialSecurityNumber");
+                    b.ToTable("SocialSecurityNumbers", (string)null);
                 });
 
             modelBuilder.Entity("FileShare.DataAccess.Models.Primary.User.User", b =>

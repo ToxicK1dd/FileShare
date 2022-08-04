@@ -1,4 +1,5 @@
 ﻿using FileShare.DataAccess.Base.Model.BaseEntity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace FileShare.DataAccess.Models.Primary.DocumentDetail
@@ -40,6 +41,8 @@ namespace FileShare.DataAccess.Models.Primary.DocumentDetail
         public override void Configure(EntityTypeBuilder<DocumentDetail> builder)
         {
             base.Configure(builder);
+
+            builder.ToTable("DocumentDetails");
 
             builder.Property(x => x.FileName)
                 .HasMaxLength(256)

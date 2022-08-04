@@ -1,4 +1,5 @@
 ﻿using FileShare.DataAccess.Base.Model.BaseEntity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace FileShare.DataAccess.Models.Primary.ShareDetail
@@ -30,6 +31,8 @@ namespace FileShare.DataAccess.Models.Primary.ShareDetail
         public override void Configure(EntityTypeBuilder<ShareDetail> builder)
         {
             base.Configure(builder);
+
+            builder.ToTable("ShareDetails");
 
             builder.Property(x => x.Type)
                 .IsRequired();

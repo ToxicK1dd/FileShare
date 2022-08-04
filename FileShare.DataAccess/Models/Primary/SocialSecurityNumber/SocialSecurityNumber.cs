@@ -1,4 +1,5 @@
 ﻿using FileShare.DataAccess.Base.Model.BaseEntity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace FileShare.DataAccess.Models.Primary.SocialSecurityNumber
@@ -30,6 +31,8 @@ namespace FileShare.DataAccess.Models.Primary.SocialSecurityNumber
         public override void Configure(EntityTypeBuilder<SocialSecurityNumber> builder)
         {
             base.Configure(builder);
+
+            builder.ToTable("SocialSecurityNumbers");
 
             builder.Property(x => x.Type)
                 .IsRequired();

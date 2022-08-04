@@ -1,4 +1,5 @@
 ﻿using FileShare.DataAccess.Base.Model.BaseEntity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace FileShare.DataAccess.Models.Primary.Share
@@ -30,6 +31,8 @@ namespace FileShare.DataAccess.Models.Primary.Share
         public override void Configure(EntityTypeBuilder<Share> builder)
         {
             base.Configure(builder);
+
+            builder.ToTable("Shares");
 
             builder.Property(x => x.Expiration)
                 .IsRequired();

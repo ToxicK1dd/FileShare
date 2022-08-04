@@ -1,4 +1,5 @@
 ﻿using FileShare.DataAccess.Base.Model.BaseEntity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace FileShare.DataAccess.Models.Primary.LoginDetail
@@ -35,6 +36,8 @@ namespace FileShare.DataAccess.Models.Primary.LoginDetail
         public override void Configure(EntityTypeBuilder<LoginDetail> builder)
         {
             base.Configure(builder);
+
+            builder.ToTable("LoginDetails");
 
             builder.Property(x => x.Success)
                 .IsRequired();

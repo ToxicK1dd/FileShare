@@ -1,4 +1,5 @@
 ﻿using FileShare.DataAccess.Base.Model.BaseEntity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace FileShare.DataAccess.Models.Primary.RefreshToken
@@ -30,6 +31,8 @@ namespace FileShare.DataAccess.Models.Primary.RefreshToken
         public override void Configure(EntityTypeBuilder<RefreshToken> builder)
         {
             base.Configure(builder);
+
+            builder.ToTable("RefreshTokens");
 
             builder.Property(x => x.Token)
                 .HasMaxLength(512)

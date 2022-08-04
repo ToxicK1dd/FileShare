@@ -40,6 +40,8 @@ namespace FileShare.DataAccess.Models.Primary.Document
         {
             base.Configure(builder);
 
+            builder.ToTable("Documents");
+
             builder.Property(x => x.Contents)
                 .HasColumnType("LONGBLOB")
                 .IsRequired();

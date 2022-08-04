@@ -1,4 +1,5 @@
 ﻿using FileShare.DataAccess.Base.Model.BaseEntity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace FileShare.DataAccess.Models.Primary.DeviceToken
@@ -30,6 +31,8 @@ namespace FileShare.DataAccess.Models.Primary.DeviceToken
         public override void Configure(EntityTypeBuilder<DeviceToken> builder)
         {
             base.Configure(builder);
+
+            builder.ToTable("DeviceTokens");
 
             builder.Property(x => x.DeviceType)
                 .IsRequired();

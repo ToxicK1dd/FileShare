@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace FileShare.DataAccess.Migrations.Primary
+namespace FileShare.DataAccess.Migrations
 {
     public partial class Initial : Migration
     {
@@ -65,7 +65,7 @@ namespace FileShare.DataAccess.Migrations.Primary
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Document",
+                name: "Documents",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
@@ -79,9 +79,9 @@ namespace FileShare.DataAccess.Migrations.Primary
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Document", x => x.Id);
+                    table.PrimaryKey("PK_Documents", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Document_Account_AccountId",
+                        name: "FK_Documents_Account_AccountId",
                         column: x => x.AccountId,
                         principalTable: "Account",
                         principalColumn: "Id",
@@ -166,7 +166,7 @@ namespace FileShare.DataAccess.Migrations.Primary
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Share",
+                name: "Shares",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
@@ -178,9 +178,9 @@ namespace FileShare.DataAccess.Migrations.Primary
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Share", x => x.Id);
+                    table.PrimaryKey("PK_Shares", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Share_Account_AccountId",
+                        name: "FK_Shares_Account_AccountId",
                         column: x => x.AccountId,
                         principalTable: "Account",
                         principalColumn: "Id",
@@ -189,7 +189,7 @@ namespace FileShare.DataAccess.Migrations.Primary
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "SocialSecurityNumber",
+                name: "SocialSecurityNumbers",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
@@ -203,9 +203,9 @@ namespace FileShare.DataAccess.Migrations.Primary
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SocialSecurityNumber", x => x.Id);
+                    table.PrimaryKey("PK_SocialSecurityNumbers", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_SocialSecurityNumber_Account_AccountId",
+                        name: "FK_SocialSecurityNumbers_Account_AccountId",
                         column: x => x.AccountId,
                         principalTable: "Account",
                         principalColumn: "Id",
@@ -246,7 +246,7 @@ namespace FileShare.DataAccess.Migrations.Primary
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "DocumentDetail",
+                name: "DocumentDetails",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
@@ -264,18 +264,18 @@ namespace FileShare.DataAccess.Migrations.Primary
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_DocumentDetail", x => x.Id);
+                    table.PrimaryKey("PK_DocumentDetails", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_DocumentDetail_Document_DocumentId",
+                        name: "FK_DocumentDetails_Documents_DocumentId",
                         column: x => x.DocumentId,
-                        principalTable: "Document",
+                        principalTable: "Documents",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "DocumentSignature",
+                name: "DocumentSignatures",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
@@ -286,11 +286,11 @@ namespace FileShare.DataAccess.Migrations.Primary
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_DocumentSignature", x => x.Id);
+                    table.PrimaryKey("PK_DocumentSignatures", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_DocumentSignature_Document_DocumentId",
+                        name: "FK_DocumentSignatures_Documents_DocumentId",
                         column: x => x.DocumentId,
-                        principalTable: "Document",
+                        principalTable: "Documents",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 })
@@ -328,7 +328,7 @@ namespace FileShare.DataAccess.Migrations.Primary
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "DeviceToken",
+                name: "DeviceTokens",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
@@ -342,9 +342,9 @@ namespace FileShare.DataAccess.Migrations.Primary
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_DeviceToken", x => x.Id);
+                    table.PrimaryKey("PK_DeviceTokens", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_DeviceToken_Login_LoginId",
+                        name: "FK_DeviceTokens_Login_LoginId",
                         column: x => x.LoginId,
                         principalTable: "Login",
                         principalColumn: "Id",
@@ -353,7 +353,7 @@ namespace FileShare.DataAccess.Migrations.Primary
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "LoginDetail",
+                name: "LoginDetails",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
@@ -367,9 +367,9 @@ namespace FileShare.DataAccess.Migrations.Primary
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_LoginDetail", x => x.Id);
+                    table.PrimaryKey("PK_LoginDetails", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_LoginDetail_Login_LoginId",
+                        name: "FK_LoginDetails_Login_LoginId",
                         column: x => x.LoginId,
                         principalTable: "Login",
                         principalColumn: "Id",
@@ -378,7 +378,7 @@ namespace FileShare.DataAccess.Migrations.Primary
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "RefreshToken",
+                name: "RefreshTokens",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
@@ -392,9 +392,9 @@ namespace FileShare.DataAccess.Migrations.Primary
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_RefreshToken", x => x.Id);
+                    table.PrimaryKey("PK_RefreshTokens", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_RefreshToken_Login_LoginId",
+                        name: "FK_RefreshTokens_Login_LoginId",
                         column: x => x.LoginId,
                         principalTable: "Login",
                         principalColumn: "Id",
@@ -444,22 +444,22 @@ namespace FileShare.DataAccess.Migrations.Primary
                 {
                     table.PrimaryKey("PK_DocumentShare", x => new { x.DocumentsId, x.SharesId });
                     table.ForeignKey(
-                        name: "FK_DocumentShare_Document_DocumentsId",
+                        name: "FK_DocumentShare_Documents_DocumentsId",
                         column: x => x.DocumentsId,
-                        principalTable: "Document",
+                        principalTable: "Documents",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_DocumentShare_Share_SharesId",
+                        name: "FK_DocumentShare_Shares_SharesId",
                         column: x => x.SharesId,
-                        principalTable: "Share",
+                        principalTable: "Shares",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "ShareDetail",
+                name: "ShareDetails",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
@@ -473,11 +473,11 @@ namespace FileShare.DataAccess.Migrations.Primary
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ShareDetail", x => x.Id);
+                    table.PrimaryKey("PK_ShareDetails", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ShareDetail_Share_ShareId",
+                        name: "FK_ShareDetails_Shares_ShareId",
                         column: x => x.ShareId,
-                        principalTable: "Share",
+                        principalTable: "Shares",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 })
@@ -502,36 +502,36 @@ namespace FileShare.DataAccess.Migrations.Primary
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_DeviceToken_Id",
-                table: "DeviceToken",
+                name: "IX_DeviceTokens_Id",
+                table: "DeviceTokens",
                 column: "Id",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_DeviceToken_LoginId",
-                table: "DeviceToken",
+                name: "IX_DeviceTokens_LoginId",
+                table: "DeviceTokens",
                 column: "LoginId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Document_AccountId",
-                table: "Document",
-                column: "AccountId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Document_Id",
-                table: "Document",
-                column: "Id",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_DocumentDetail_DocumentId",
-                table: "DocumentDetail",
+                name: "IX_DocumentDetails_DocumentId",
+                table: "DocumentDetails",
                 column: "DocumentId",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_DocumentDetail_Id",
-                table: "DocumentDetail",
+                name: "IX_DocumentDetails_Id",
+                table: "DocumentDetails",
+                column: "Id",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Documents_AccountId",
+                table: "Documents",
+                column: "AccountId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Documents_Id",
+                table: "Documents",
                 column: "Id",
                 unique: true);
 
@@ -541,13 +541,13 @@ namespace FileShare.DataAccess.Migrations.Primary
                 column: "SharesId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_DocumentSignature_DocumentId",
-                table: "DocumentSignature",
+                name: "IX_DocumentSignatures_DocumentId",
+                table: "DocumentSignatures",
                 column: "DocumentId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_DocumentSignature_Id",
-                table: "DocumentSignature",
+                name: "IX_DocumentSignatures_Id",
+                table: "DocumentSignatures",
                 column: "Id",
                 unique: true);
 
@@ -606,14 +606,14 @@ namespace FileShare.DataAccess.Migrations.Primary
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_LoginDetail_Id",
-                table: "LoginDetail",
+                name: "IX_LoginDetails_Id",
+                table: "LoginDetails",
                 column: "Id",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_LoginDetail_LoginId",
-                table: "LoginDetail",
+                name: "IX_LoginDetails_LoginId",
+                table: "LoginDetails",
                 column: "LoginId");
 
             migrationBuilder.CreateIndex(
@@ -653,46 +653,46 @@ namespace FileShare.DataAccess.Migrations.Primary
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_RefreshToken_Id",
-                table: "RefreshToken",
+                name: "IX_RefreshTokens_Id",
+                table: "RefreshTokens",
                 column: "Id",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_RefreshToken_LoginId",
-                table: "RefreshToken",
+                name: "IX_RefreshTokens_LoginId",
+                table: "RefreshTokens",
                 column: "LoginId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Share_AccountId",
-                table: "Share",
-                column: "AccountId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Share_Id",
-                table: "Share",
+                name: "IX_ShareDetails_Id",
+                table: "ShareDetails",
                 column: "Id",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_ShareDetail_Id",
-                table: "ShareDetail",
-                column: "Id",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ShareDetail_ShareId",
-                table: "ShareDetail",
+                name: "IX_ShareDetails_ShareId",
+                table: "ShareDetails",
                 column: "ShareId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_SocialSecurityNumber_AccountId",
-                table: "SocialSecurityNumber",
+                name: "IX_Shares_AccountId",
+                table: "Shares",
                 column: "AccountId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_SocialSecurityNumber_Id",
-                table: "SocialSecurityNumber",
+                name: "IX_Shares_Id",
+                table: "Shares",
+                column: "Id",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SocialSecurityNumbers_AccountId",
+                table: "SocialSecurityNumbers",
+                column: "AccountId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SocialSecurityNumbers_Id",
+                table: "SocialSecurityNumbers",
                 column: "Id",
                 unique: true);
 
@@ -715,40 +715,40 @@ namespace FileShare.DataAccess.Migrations.Primary
                 name: "Address");
 
             migrationBuilder.DropTable(
-                name: "DeviceToken");
+                name: "DeviceTokens");
 
             migrationBuilder.DropTable(
-                name: "DocumentDetail");
+                name: "DocumentDetails");
 
             migrationBuilder.DropTable(
                 name: "DocumentShare");
 
             migrationBuilder.DropTable(
-                name: "DocumentSignature");
+                name: "DocumentSignatures");
 
             migrationBuilder.DropTable(
                 name: "EmailVerificationCode");
 
             migrationBuilder.DropTable(
-                name: "LoginDetail");
+                name: "LoginDetails");
 
             migrationBuilder.DropTable(
                 name: "PhoneNumberVerificationCode");
 
             migrationBuilder.DropTable(
-                name: "RefreshToken");
+                name: "RefreshTokens");
 
             migrationBuilder.DropTable(
-                name: "ShareDetail");
+                name: "ShareDetails");
 
             migrationBuilder.DropTable(
-                name: "SocialSecurityNumber");
+                name: "SocialSecurityNumbers");
 
             migrationBuilder.DropTable(
                 name: "User");
 
             migrationBuilder.DropTable(
-                name: "Document");
+                name: "Documents");
 
             migrationBuilder.DropTable(
                 name: "Email");
@@ -760,7 +760,7 @@ namespace FileShare.DataAccess.Migrations.Primary
                 name: "Login");
 
             migrationBuilder.DropTable(
-                name: "Share");
+                name: "Shares");
 
             migrationBuilder.DropTable(
                 name: "Account");
