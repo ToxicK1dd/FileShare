@@ -8,16 +8,17 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace FileShare.DataAccess.Migrations.Primary
+namespace FileShare.DataAccess.Migrations
 {
     [DbContext(typeof(PrimaryContext))]
-    [Migration("20220804125056_Initial")]
+    [Migration("20220804164135_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
+                .HasDefaultSchema("Identity")
                 .HasAnnotation("ProductVersion", "6.0.7")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
@@ -33,48 +34,13 @@ namespace FileShare.DataAccess.Migrations.Primary
 
                     b.HasIndex("SharesId");
 
-                    b.ToTable("DocumentShare");
-                });
-
-            modelBuilder.Entity("FileShare.DataAccess.Models.Primary.Account.Account", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
-
-                    b.Property<DateTimeOffset>("Changed")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<DateTimeOffset>("Created")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<bool>("Deleted")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<bool>("Enabled")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<int>("Type")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("Verified")
-                        .HasColumnType("tinyint(1)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Id")
-                        .IsUnique();
-
-                    b.ToTable("Account");
+                    b.ToTable("DocumentShare", "Identity");
                 });
 
             modelBuilder.Entity("FileShare.DataAccess.Models.Primary.Address.Address", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
-
-                    b.Property<Guid>("AccountId")
                         .HasColumnType("char(36)");
 
                     b.Property<string>("AdditionalStreet")
@@ -114,15 +80,18 @@ namespace FileShare.DataAccess.Migrations.Primary
                         .HasMaxLength(256)
                         .HasColumnType("varchar(256)");
 
-                    b.HasKey("Id");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("char(36)");
 
-                    b.HasIndex("AccountId")
-                        .IsUnique();
+                    b.HasKey("Id");
 
                     b.HasIndex("Id")
                         .IsUnique();
 
-                    b.ToTable("Address");
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
+                    b.ToTable("Address", "Identity");
                 });
 
             modelBuilder.Entity("FileShare.DataAccess.Models.Primary.DeviceToken.DeviceToken", b =>
@@ -143,31 +112,28 @@ namespace FileShare.DataAccess.Migrations.Primary
                     b.Property<int>("DeviceType")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("LoginId")
-                        .HasColumnType("char(36)");
-
                     b.Property<string>("Token")
                         .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("varchar(256)");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("char(36)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("Id")
                         .IsUnique();
 
-                    b.HasIndex("LoginId");
+                    b.HasIndex("UserId");
 
-                    b.ToTable("DeviceTokens", (string)null);
+                    b.ToTable("DeviceTokens", "Identity");
                 });
 
             modelBuilder.Entity("FileShare.DataAccess.Models.Primary.Document.Document", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
-
-                    b.Property<Guid>("AccountId")
                         .HasColumnType("char(36)");
 
                     b.Property<DateTimeOffset>("Changed")
@@ -186,14 +152,17 @@ namespace FileShare.DataAccess.Migrations.Primary
                     b.Property<string>("Json")
                         .HasColumnType("longtext");
 
-                    b.HasKey("Id");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("char(36)");
 
-                    b.HasIndex("AccountId");
+                    b.HasKey("Id");
 
                     b.HasIndex("Id")
                         .IsUnique();
 
-                    b.ToTable("Documents", (string)null);
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Documents", "Identity");
                 });
 
             modelBuilder.Entity("FileShare.DataAccess.Models.Primary.DocumentDetail.DocumentDetail", b =>
@@ -240,7 +209,7 @@ namespace FileShare.DataAccess.Migrations.Primary
                     b.HasIndex("Id")
                         .IsUnique();
 
-                    b.ToTable("DocumentDetails", (string)null);
+                    b.ToTable("DocumentDetails", "Identity");
                 });
 
             modelBuilder.Entity("FileShare.DataAccess.Models.Primary.DocumentSignature.DocumentSignature", b =>
@@ -268,132 +237,10 @@ namespace FileShare.DataAccess.Migrations.Primary
                     b.HasIndex("Id")
                         .IsUnique();
 
-                    b.ToTable("DocumentSignatures", (string)null);
+                    b.ToTable("DocumentSignatures", "Identity");
                 });
 
-            modelBuilder.Entity("FileShare.DataAccess.Models.Primary.Email.Email", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
-
-                    b.Property<Guid>("AccountId")
-                        .HasColumnType("char(36)");
-
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("varchar(256)");
-
-                    b.Property<DateTimeOffset>("Changed")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<DateTimeOffset>("Created")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<bool>("Deleted")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<bool>("Verified")
-                        .HasColumnType("tinyint(1)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AccountId")
-                        .IsUnique();
-
-                    b.HasIndex("Address")
-                        .IsUnique();
-
-                    b.HasIndex("Id")
-                        .IsUnique();
-
-                    b.ToTable("Email");
-                });
-
-            modelBuilder.Entity("FileShare.DataAccess.Models.Primary.EmailVerificationCode.EmailVerificationCode", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
-
-                    b.Property<Guid>("AccountId")
-                        .HasColumnType("char(36)");
-
-                    b.Property<DateTimeOffset>("Changed")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<string>("Code")
-                        .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)");
-
-                    b.Property<DateTimeOffset>("Created")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<bool>("Deleted")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<Guid>("EmailId")
-                        .HasColumnType("char(36)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AccountId")
-                        .IsUnique();
-
-                    b.HasIndex("EmailId")
-                        .IsUnique();
-
-                    b.HasIndex("Id")
-                        .IsUnique();
-
-                    b.ToTable("EmailVerificationCode");
-                });
-
-            modelBuilder.Entity("FileShare.DataAccess.Models.Primary.Login.Login", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
-
-                    b.Property<Guid>("AccountId")
-                        .HasColumnType("char(36)");
-
-                    b.Property<DateTimeOffset>("Changed")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<DateTimeOffset>("Created")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<bool>("Deleted")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)");
-
-                    b.Property<string>("Username")
-                        .IsRequired()
-                        .HasMaxLength(64)
-                        .HasColumnType("varchar(64)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AccountId")
-                        .IsUnique();
-
-                    b.HasIndex("Id")
-                        .IsUnique();
-
-                    b.HasIndex("Username")
-                        .IsUnique();
-
-                    b.ToTable("Login");
-                });
-
-            modelBuilder.Entity("FileShare.DataAccess.Models.Primary.LoginDetail.LoginDetail", b =>
+            modelBuilder.Entity("FileShare.DataAccess.Models.Primary.LoginAttempt.LoginAttempt", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -411,103 +258,23 @@ namespace FileShare.DataAccess.Migrations.Primary
                     b.Property<int>("DeviceType")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("LoginId")
-                        .HasColumnType("char(36)");
-
                     b.Property<bool>("Success")
                         .HasColumnType("tinyint(1)");
 
                     b.Property<DateTimeOffset>("Time")
                         .HasColumnType("datetime(6)");
 
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("char(36)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("Id")
                         .IsUnique();
 
-                    b.HasIndex("LoginId");
+                    b.HasIndex("UserId");
 
-                    b.ToTable("LoginDetails", (string)null);
-                });
-
-            modelBuilder.Entity("FileShare.DataAccess.Models.Primary.PhoneNumber.PhoneNumber", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
-
-                    b.Property<Guid>("AccountId")
-                        .HasColumnType("char(36)");
-
-                    b.Property<DateTimeOffset>("Changed")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<DateTimeOffset>("Created")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<bool>("Deleted")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<string>("Number")
-                        .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("varchar(256)");
-
-                    b.Property<bool>("Verified")
-                        .HasColumnType("tinyint(1)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AccountId")
-                        .IsUnique();
-
-                    b.HasIndex("Id")
-                        .IsUnique();
-
-                    b.HasIndex("Number")
-                        .IsUnique();
-
-                    b.ToTable("PhoneNumber");
-                });
-
-            modelBuilder.Entity("FileShare.DataAccess.Models.Primary.PhoneNumberVerificationCode.PhoneNumberVerificationCode", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
-
-                    b.Property<Guid>("AccountId")
-                        .HasColumnType("char(36)");
-
-                    b.Property<DateTimeOffset>("Changed")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<string>("Code")
-                        .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)");
-
-                    b.Property<DateTimeOffset>("Created")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<bool>("Deleted")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<Guid>("PhoneNumberId")
-                        .HasColumnType("char(36)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AccountId")
-                        .IsUnique();
-
-                    b.HasIndex("Id")
-                        .IsUnique();
-
-                    b.HasIndex("PhoneNumberId")
-                        .IsUnique();
-
-                    b.ToTable("PhoneNumberVerificationCode");
+                    b.ToTable("LoginAttempts", "Identity");
                 });
 
             modelBuilder.Entity("FileShare.DataAccess.Models.Primary.RefreshToken.RefreshToken", b =>
@@ -528,31 +295,28 @@ namespace FileShare.DataAccess.Migrations.Primary
                     b.Property<DateTimeOffset>("Expiration")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<Guid>("LoginId")
-                        .HasColumnType("char(36)");
-
                     b.Property<string>("Token")
                         .IsRequired()
                         .HasMaxLength(512)
                         .HasColumnType("varchar(512)");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("char(36)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("Id")
                         .IsUnique();
 
-                    b.HasIndex("LoginId");
+                    b.HasIndex("UserId");
 
-                    b.ToTable("RefreshTokens", (string)null);
+                    b.ToTable("RefreshTokens", "Identity");
                 });
 
             modelBuilder.Entity("FileShare.DataAccess.Models.Primary.Share.Share", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
-
-                    b.Property<Guid>("AccountId")
                         .HasColumnType("char(36)");
 
                     b.Property<DateTimeOffset>("Changed")
@@ -567,14 +331,17 @@ namespace FileShare.DataAccess.Migrations.Primary
                     b.Property<DateTimeOffset>("Expiration")
                         .HasColumnType("datetime(6)");
 
-                    b.HasKey("Id");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("char(36)");
 
-                    b.HasIndex("AccountId");
+                    b.HasKey("Id");
 
                     b.HasIndex("Id")
                         .IsUnique();
 
-                    b.ToTable("Shares", (string)null);
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Shares", "Identity");
                 });
 
             modelBuilder.Entity("FileShare.DataAccess.Models.Primary.ShareDetail.ShareDetail", b =>
@@ -610,16 +377,13 @@ namespace FileShare.DataAccess.Migrations.Primary
 
                     b.HasIndex("ShareId");
 
-                    b.ToTable("ShareDetails", (string)null);
+                    b.ToTable("ShareDetails", "Identity");
                 });
 
             modelBuilder.Entity("FileShare.DataAccess.Models.Primary.SocialSecurityNumber.SocialSecurityNumber", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
-
-                    b.Property<Guid>("AccountId")
                         .HasColumnType("char(36)");
 
                     b.Property<DateTimeOffset>("Changed")
@@ -639,14 +403,17 @@ namespace FileShare.DataAccess.Migrations.Primary
                     b.Property<int>("Type")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("char(36)");
 
-                    b.HasIndex("AccountId");
+                    b.HasKey("Id");
 
                     b.HasIndex("Id")
                         .IsUnique();
 
-                    b.ToTable("SocialSecurityNumbers", (string)null);
+                    b.HasIndex("UserId");
+
+                    b.ToTable("SocialSecurityNumbers", "Identity");
                 });
 
             modelBuilder.Entity("FileShare.DataAccess.Models.Primary.User.User", b =>
@@ -655,118 +422,30 @@ namespace FileShare.DataAccess.Migrations.Primary
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
-                    b.Property<Guid>("AccountId")
-                        .HasColumnType("char(36)");
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
 
                     b.Property<DateTimeOffset>("Changed")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<DateTimeOffset>("Created")
-                        .HasColumnType("datetime(6)");
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("longtext");
 
-                    b.Property<DateTimeOffset>("DateOfBirth")
+                    b.Property<DateTimeOffset>("Created")
                         .HasColumnType("datetime(6)");
 
                     b.Property<bool>("Deleted")
                         .HasColumnType("tinyint(1)");
-
-                    b.Property<string>("Firstname")
-                        .HasMaxLength(64)
-                        .HasColumnType("varchar(64)");
-
-                    b.Property<string>("Lastname")
-                        .HasMaxLength(64)
-                        .HasColumnType("varchar(64)");
-
-                    b.Property<string>("Middlenames")
-                        .HasMaxLength(768)
-                        .HasColumnType("varchar(768)");
-
-                    b.Property<string>("Nationality")
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)");
-
-                    b.Property<int>("Sex")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AccountId")
-                        .IsUnique();
-
-                    b.HasIndex("Id")
-                        .IsUnique();
-
-                    b.ToTable("User");
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Name")
-                        .HasMaxLength(256)
-                        .HasColumnType("varchar(256)");
-
-                    b.Property<string>("NormalizedName")
-                        .HasMaxLength(256)
-                        .HasColumnType("varchar(256)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NormalizedName")
-                        .IsUnique()
-                        .HasDatabaseName("RoleNameIndex");
-
-                    b.ToTable("Identity.Role", (string)null);
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<string>("ClaimType")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("ClaimValue")
-                        .HasColumnType("longtext");
-
-                    b.Property<Guid>("RoleId")
-                        .HasColumnType("char(36)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RoleId");
-
-                    b.ToTable("Identity.RoleClaims", (string)null);
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUser<System.Guid>", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
-
-                    b.Property<int>("AccessFailedCount")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("longtext");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)
                         .HasColumnType("varchar(256)");
 
                     b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<bool>("Enabled")
                         .HasColumnType("tinyint(1)");
 
                     b.Property<bool>("LockoutEnabled")
@@ -802,6 +481,9 @@ namespace FileShare.DataAccess.Migrations.Primary
                         .HasMaxLength(256)
                         .HasColumnType("varchar(256)");
 
+                    b.Property<bool>("Verified")
+                        .HasColumnType("tinyint(1)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedEmail")
@@ -811,7 +493,196 @@ namespace FileShare.DataAccess.Migrations.Primary
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex");
 
-                    b.ToTable("Identity.User", (string)null);
+                    b.ToTable("AspNetUsers", "Identity");
+                });
+
+            modelBuilder.Entity("FileShare.DataAccess.Models.Primary.UserInformation.UserInformation", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTimeOffset>("Changed")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTimeOffset>("Created")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTimeOffset>("DateOfBirth")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("Firstname")
+                        .HasMaxLength(64)
+                        .HasColumnType("varchar(64)");
+
+                    b.Property<string>("Lastname")
+                        .HasMaxLength(64)
+                        .HasColumnType("varchar(64)");
+
+                    b.Property<string>("Middlenames")
+                        .HasMaxLength(768)
+                        .HasColumnType("varchar(768)");
+
+                    b.Property<string>("Nationality")
+                        .HasMaxLength(128)
+                        .HasColumnType("varchar(128)");
+
+                    b.Property<int>("Sex")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("char(36)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Id")
+                        .IsUnique();
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
+                    b.ToTable("UserInformation", "Identity");
+                });
+
+            modelBuilder.Entity("FileShare.DataAccess.Models.Primary.VerificationCode.VerificationCode", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTimeOffset>("Changed")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("varchar(128)");
+
+                    b.Property<DateTimeOffset>("Created")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<byte>("Type")
+                        .HasColumnType("tinyint unsigned");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("char(36)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Id")
+                        .IsUnique();
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("VerificationCodes", "Identity");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256)");
+
+                    b.Property<string>("NormalizedName")
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedName")
+                        .IsUnique()
+                        .HasDatabaseName("RoleNameIndex");
+
+                    b.ToTable("Role", "Identity");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("longtext");
+
+                    b.Property<Guid>("RoleId")
+                        .HasColumnType("char(36)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("RoleClaims", "Identity");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUser<System.Guid>", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("longtext");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("longtext");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("longtext");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("UserName")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("User", "Identity");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>", b =>
@@ -833,7 +704,7 @@ namespace FileShare.DataAccess.Migrations.Primary
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Identity.Claims", (string)null);
+                    b.ToTable("Claims", "Identity");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
@@ -854,7 +725,7 @@ namespace FileShare.DataAccess.Migrations.Primary
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Identity.Logins", (string)null);
+                    b.ToTable("Logins", "Identity");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>", b =>
@@ -869,7 +740,7 @@ namespace FileShare.DataAccess.Migrations.Primary
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("Identity.UserRole", (string)null);
+                    b.ToTable("UserRole", "Identity");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
@@ -888,7 +759,7 @@ namespace FileShare.DataAccess.Migrations.Primary
 
                     b.HasKey("UserId", "LoginProvider", "Name");
 
-                    b.ToTable("Identity.Tokens", (string)null);
+                    b.ToTable("Tokens", "Identity");
                 });
 
             modelBuilder.Entity("DocumentShare", b =>
@@ -908,35 +779,35 @@ namespace FileShare.DataAccess.Migrations.Primary
 
             modelBuilder.Entity("FileShare.DataAccess.Models.Primary.Address.Address", b =>
                 {
-                    b.HasOne("FileShare.DataAccess.Models.Primary.Account.Account", "Account")
+                    b.HasOne("FileShare.DataAccess.Models.Primary.User.User", "User")
                         .WithOne("Address")
-                        .HasForeignKey("FileShare.DataAccess.Models.Primary.Address.Address", "AccountId")
+                        .HasForeignKey("FileShare.DataAccess.Models.Primary.Address.Address", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Account");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("FileShare.DataAccess.Models.Primary.DeviceToken.DeviceToken", b =>
                 {
-                    b.HasOne("FileShare.DataAccess.Models.Primary.Login.Login", "Login")
+                    b.HasOne("FileShare.DataAccess.Models.Primary.User.User", "User")
                         .WithMany("DeviceTokens")
-                        .HasForeignKey("LoginId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Login");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("FileShare.DataAccess.Models.Primary.Document.Document", b =>
                 {
-                    b.HasOne("FileShare.DataAccess.Models.Primary.Account.Account", "Account")
+                    b.HasOne("FileShare.DataAccess.Models.Primary.User.User", "User")
                         .WithMany("Documents")
-                        .HasForeignKey("AccountId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Account");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("FileShare.DataAccess.Models.Primary.DocumentDetail.DocumentDetail", b =>
@@ -961,108 +832,37 @@ namespace FileShare.DataAccess.Migrations.Primary
                     b.Navigation("Document");
                 });
 
-            modelBuilder.Entity("FileShare.DataAccess.Models.Primary.Email.Email", b =>
+            modelBuilder.Entity("FileShare.DataAccess.Models.Primary.LoginAttempt.LoginAttempt", b =>
                 {
-                    b.HasOne("FileShare.DataAccess.Models.Primary.Account.Account", "Account")
-                        .WithOne("Email")
-                        .HasForeignKey("FileShare.DataAccess.Models.Primary.Email.Email", "AccountId")
+                    b.HasOne("FileShare.DataAccess.Models.Primary.User.User", "User")
+                        .WithMany("LoginAttempts")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Account");
-                });
-
-            modelBuilder.Entity("FileShare.DataAccess.Models.Primary.EmailVerificationCode.EmailVerificationCode", b =>
-                {
-                    b.HasOne("FileShare.DataAccess.Models.Primary.Account.Account", "Account")
-                        .WithOne("EmailVerificationCode")
-                        .HasForeignKey("FileShare.DataAccess.Models.Primary.EmailVerificationCode.EmailVerificationCode", "AccountId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("FileShare.DataAccess.Models.Primary.Email.Email", "Email")
-                        .WithOne("EmailVerificationCode")
-                        .HasForeignKey("FileShare.DataAccess.Models.Primary.EmailVerificationCode.EmailVerificationCode", "EmailId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Account");
-
-                    b.Navigation("Email");
-                });
-
-            modelBuilder.Entity("FileShare.DataAccess.Models.Primary.Login.Login", b =>
-                {
-                    b.HasOne("FileShare.DataAccess.Models.Primary.Account.Account", "Account")
-                        .WithOne("Login")
-                        .HasForeignKey("FileShare.DataAccess.Models.Primary.Login.Login", "AccountId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Account");
-                });
-
-            modelBuilder.Entity("FileShare.DataAccess.Models.Primary.LoginDetail.LoginDetail", b =>
-                {
-                    b.HasOne("FileShare.DataAccess.Models.Primary.Login.Login", "Login")
-                        .WithMany("LoginDetails")
-                        .HasForeignKey("LoginId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Login");
-                });
-
-            modelBuilder.Entity("FileShare.DataAccess.Models.Primary.PhoneNumber.PhoneNumber", b =>
-                {
-                    b.HasOne("FileShare.DataAccess.Models.Primary.Account.Account", "Account")
-                        .WithOne("PhoneNumber")
-                        .HasForeignKey("FileShare.DataAccess.Models.Primary.PhoneNumber.PhoneNumber", "AccountId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Account");
-                });
-
-            modelBuilder.Entity("FileShare.DataAccess.Models.Primary.PhoneNumberVerificationCode.PhoneNumberVerificationCode", b =>
-                {
-                    b.HasOne("FileShare.DataAccess.Models.Primary.Account.Account", "Account")
-                        .WithOne("PhoneNumberVerificationCode")
-                        .HasForeignKey("FileShare.DataAccess.Models.Primary.PhoneNumberVerificationCode.PhoneNumberVerificationCode", "AccountId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("FileShare.DataAccess.Models.Primary.PhoneNumber.PhoneNumber", "PhoneNumber")
-                        .WithOne("PhoneNumberVerificationCode")
-                        .HasForeignKey("FileShare.DataAccess.Models.Primary.PhoneNumberVerificationCode.PhoneNumberVerificationCode", "PhoneNumberId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Account");
-
-                    b.Navigation("PhoneNumber");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("FileShare.DataAccess.Models.Primary.RefreshToken.RefreshToken", b =>
                 {
-                    b.HasOne("FileShare.DataAccess.Models.Primary.Login.Login", "Login")
+                    b.HasOne("FileShare.DataAccess.Models.Primary.User.User", "User")
                         .WithMany("RefreshTokens")
-                        .HasForeignKey("LoginId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Login");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("FileShare.DataAccess.Models.Primary.Share.Share", b =>
                 {
-                    b.HasOne("FileShare.DataAccess.Models.Primary.Account.Account", "Account")
+                    b.HasOne("FileShare.DataAccess.Models.Primary.User.User", "User")
                         .WithMany("Shares")
-                        .HasForeignKey("AccountId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Account");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("FileShare.DataAccess.Models.Primary.ShareDetail.ShareDetail", b =>
@@ -1078,24 +878,35 @@ namespace FileShare.DataAccess.Migrations.Primary
 
             modelBuilder.Entity("FileShare.DataAccess.Models.Primary.SocialSecurityNumber.SocialSecurityNumber", b =>
                 {
-                    b.HasOne("FileShare.DataAccess.Models.Primary.Account.Account", "Account")
+                    b.HasOne("FileShare.DataAccess.Models.Primary.User.User", "User")
                         .WithMany("SocialSecurityNumbers")
-                        .HasForeignKey("AccountId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Account");
+                    b.Navigation("User");
                 });
 
-            modelBuilder.Entity("FileShare.DataAccess.Models.Primary.User.User", b =>
+            modelBuilder.Entity("FileShare.DataAccess.Models.Primary.UserInformation.UserInformation", b =>
                 {
-                    b.HasOne("FileShare.DataAccess.Models.Primary.Account.Account", "Account")
-                        .WithOne("User")
-                        .HasForeignKey("FileShare.DataAccess.Models.Primary.User.User", "AccountId")
+                    b.HasOne("FileShare.DataAccess.Models.Primary.User.User", "User")
+                        .WithOne("UserInformation")
+                        .HasForeignKey("FileShare.DataAccess.Models.Primary.UserInformation.UserInformation", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Account");
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("FileShare.DataAccess.Models.Primary.VerificationCode.VerificationCode", b =>
+                {
+                    b.HasOne("FileShare.DataAccess.Models.Primary.User.User", "User")
+                        .WithMany("VerificationCodes")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
@@ -1109,7 +920,7 @@ namespace FileShare.DataAccess.Migrations.Primary
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser<System.Guid>", null)
+                    b.HasOne("FileShare.DataAccess.Models.Primary.User.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1118,7 +929,7 @@ namespace FileShare.DataAccess.Migrations.Primary
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser<System.Guid>", null)
+                    b.HasOne("FileShare.DataAccess.Models.Primary.User.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1133,7 +944,7 @@ namespace FileShare.DataAccess.Migrations.Primary
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser<System.Guid>", null)
+                    b.HasOne("FileShare.DataAccess.Models.Primary.User.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1142,34 +953,11 @@ namespace FileShare.DataAccess.Migrations.Primary
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser<System.Guid>", null)
+                    b.HasOne("FileShare.DataAccess.Models.Primary.User.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("FileShare.DataAccess.Models.Primary.Account.Account", b =>
-                {
-                    b.Navigation("Address");
-
-                    b.Navigation("Documents");
-
-                    b.Navigation("Email");
-
-                    b.Navigation("EmailVerificationCode");
-
-                    b.Navigation("Login");
-
-                    b.Navigation("PhoneNumber");
-
-                    b.Navigation("PhoneNumberVerificationCode");
-
-                    b.Navigation("Shares");
-
-                    b.Navigation("SocialSecurityNumbers");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("FileShare.DataAccess.Models.Primary.Document.Document", b =>
@@ -1179,28 +967,30 @@ namespace FileShare.DataAccess.Migrations.Primary
                     b.Navigation("Signatures");
                 });
 
-            modelBuilder.Entity("FileShare.DataAccess.Models.Primary.Email.Email", b =>
-                {
-                    b.Navigation("EmailVerificationCode");
-                });
-
-            modelBuilder.Entity("FileShare.DataAccess.Models.Primary.Login.Login", b =>
-                {
-                    b.Navigation("DeviceTokens");
-
-                    b.Navigation("LoginDetails");
-
-                    b.Navigation("RefreshTokens");
-                });
-
-            modelBuilder.Entity("FileShare.DataAccess.Models.Primary.PhoneNumber.PhoneNumber", b =>
-                {
-                    b.Navigation("PhoneNumberVerificationCode");
-                });
-
             modelBuilder.Entity("FileShare.DataAccess.Models.Primary.Share.Share", b =>
                 {
                     b.Navigation("ShareDetails");
+                });
+
+            modelBuilder.Entity("FileShare.DataAccess.Models.Primary.User.User", b =>
+                {
+                    b.Navigation("Address");
+
+                    b.Navigation("DeviceTokens");
+
+                    b.Navigation("Documents");
+
+                    b.Navigation("LoginAttempts");
+
+                    b.Navigation("RefreshTokens");
+
+                    b.Navigation("Shares");
+
+                    b.Navigation("SocialSecurityNumbers");
+
+                    b.Navigation("UserInformation");
+
+                    b.Navigation("VerificationCodes");
                 });
 #pragma warning restore 612, 618
         }

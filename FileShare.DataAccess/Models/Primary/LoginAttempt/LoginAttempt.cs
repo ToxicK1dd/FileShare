@@ -2,9 +2,9 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace FileShare.DataAccess.Models.Primary.LoginDetail
+namespace FileShare.DataAccess.Models.Primary.LoginAttempt
 {
-    public class LoginDetail : BaseEntity
+    public class LoginAttempt : BaseEntity
     {
         /// <summary>
         /// Indicates if the login attempt was successful
@@ -24,20 +24,20 @@ namespace FileShare.DataAccess.Models.Primary.LoginDetail
 
         #region Navigation Properties
 
-        public Guid LoginId { get; set; }
+        public Guid UserId { get; set; }
 
-        public Login.Login Login { get; set; } 
+        public User.User User { get; set; }
 
         #endregion
     }
 
-    public class LoginDetailEntityTypeConfiguration : BaseEntityTypeConfiguration<LoginDetail>
+    public class LoginAttemptEntityTypeConfiguration : BaseEntityTypeConfiguration<LoginAttempt>
     {
-        public override void Configure(EntityTypeBuilder<LoginDetail> builder)
+        public override void Configure(EntityTypeBuilder<LoginAttempt> builder)
         {
             base.Configure(builder);
 
-            builder.ToTable("LoginDetails");
+            builder.ToTable("LoginAttempts");
 
             builder.Property(x => x.Success)
                 .IsRequired();
@@ -48,9 +48,9 @@ namespace FileShare.DataAccess.Models.Primary.LoginDetail
             builder.Property(x => x.Time)
                 .IsRequired();
 
-            builder.HasOne(x => x.Login)
-                .WithMany(x => x.LoginDetails)
-                .HasForeignKey(x => x.LoginId);
+            builder.HasOne(x => x.User)
+                .WithMany(x => x.LoginAttempts)
+                .HasForeignKey(x => x.UserId);
         }
     }
 

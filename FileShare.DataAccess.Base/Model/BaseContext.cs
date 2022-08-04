@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
 namespace FileShare.DataAccess.Base.Model
 {
@@ -6,18 +8,20 @@ namespace FileShare.DataAccess.Base.Model
     /// Abstract base class for easy, and fast creation of databases.
     /// </summary>
     /// <typeparam name="TContext">The database context of which the data is stored.</typeparam>
-    public abstract class BaseContext<TContext> : BaseIdentityContext<TContext>
-            where TContext : BaseContext<TContext>
+    public abstract class BaseContext<TContext, TUser> : IdentityDbContext<TUser, IdentityRole<Guid>, Guid>
+        where TContext : BaseContext<TContext, TUser>
+        where TUser : BaseIdentityUser.BaseIdentityUser
     {
         public BaseContext(DbContextOptions<TContext> options) : base(options) { }
-        
+
         public BaseContext() { }
 
-        
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             // Connection string should be injected
         }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -27,6 +31,18 @@ namespace FileShare.DataAccess.Base.Model
             modelBuilder.ApplyConfigurationsFromAssembly(
                 GetType().Assembly,
                 t => t.Namespace.Contains(GetType().Namespace));
+
+            // Change schema name
+            modelBuilder.HasDefaultSchema("Identity");
+
+            // Change Identity table names
+            modelBuilder.Entity<IdentityUser<Guid>>().ToTable(name: "User");
+            modelBuilder.Entity<IdentityRole<Guid>>().ToTable(name: "Role");
+            modelBuilder.Entity<IdentityUserRole<Guid>>().ToTable(name: "UserRole");
+            modelBuilder.Entity<IdentityUserClaim<Guid>>().ToTable(name: "Claims");
+            modelBuilder.Entity<IdentityUserLogin<Guid>>().ToTable(name: "Logins");
+            modelBuilder.Entity<IdentityRoleClaim<Guid>>().ToTable(name: "RoleClaims");
+            modelBuilder.Entity<IdentityUserToken<Guid>>().ToTable(name: "Tokens");
         }
 
 

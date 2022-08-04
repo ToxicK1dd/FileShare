@@ -21,9 +21,9 @@ namespace FileShare.DataAccess.Models.Primary.Document
 
         #region Navigation Properties
 
-        public Guid AccountId { get; set; }
+        public Guid UserId { get; set; }
 
-        public Account.Account Account { get; set; }
+        public User.User User { get; set; }
 
 
         public DocumentDetail.DocumentDetail Detail { get; set; }
@@ -31,6 +31,7 @@ namespace FileShare.DataAccess.Models.Primary.Document
         public ICollection<DocumentSignature.DocumentSignature> Signatures { get; set; }
 
         public ICollection<Share.Share> Shares { get; set; }
+
         #endregion
     }
 
@@ -52,9 +53,9 @@ namespace FileShare.DataAccess.Models.Primary.Document
                     value => JsonConvert.DeserializeObject<JsonObject>(value))
                 .IsRequired(false);
 
-            builder.HasOne(x => x.Account)
+            builder.HasOne(x => x.User)
                 .WithMany(x => x.Documents)
-                .HasForeignKey(x => x.AccountId);
+                .HasForeignKey(x => x.UserId);
         }
     }
 }

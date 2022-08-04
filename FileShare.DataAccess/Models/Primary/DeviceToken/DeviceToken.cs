@@ -19,10 +19,10 @@ namespace FileShare.DataAccess.Models.Primary.DeviceToken
 
         #region Navigation Properties
 
-        public Guid LoginId { get; set; }
+        public Guid UserId { get; set; }
 
-        public Login.Login Login { get; set; }
-    
+        public User.User User { get; set; }
+
         #endregion
     }
 
@@ -41,9 +41,9 @@ namespace FileShare.DataAccess.Models.Primary.DeviceToken
                 .HasMaxLength(256)
                 .IsRequired();
 
-            builder.HasOne(x => x.Login)
+            builder.HasOne(x => x.User)
                 .WithMany(x => x.DeviceTokens)
-                .HasForeignKey(x => x.LoginId);
+                .HasForeignKey(x => x.UserId);
         }
     }
 

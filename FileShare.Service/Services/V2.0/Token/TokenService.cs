@@ -26,14 +26,14 @@ namespace FileShare.Service.Services.V2._0.Token
         }
 
 
-        public string GetAccessToken(Guid accountId)
+        public string GetAccessToken(Guid userId)
         {
             var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
             var signingCredentials = new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha512);
 
             var claims = new[]
             {
-                new Claim("AccountId", $"{accountId}"),
+                new Claim("UserId", $"{userId}"),
             };
 
             var tokenOptions = new JwtSecurityToken(
@@ -47,19 +47,19 @@ namespace FileShare.Service.Services.V2._0.Token
 
         public async Task<string> GetAccessTokenFromUsernameAsync(string username, CancellationToken cancellationToken)
         {
-            var accountId = await _unitOfWork.LoginRepository.GetAccountIdByUsernameAsync(username, cancellationToken);
+            var userId = await _unitOfWork.UserRepository.GetIdByUsernameAsync(username, cancellationToken);
 
-            return GetAccessToken(accountId);
+            return GetAccessToken(userId);
         }
 
         public async Task<string> GetRefreshTokenFromUsernameAsync(string username, CancellationToken cancellationToken)
         {
-            var loginId = await _unitOfWork.LoginRepository.GetIdFromUsername(username, cancellationToken);
+            var userId = await _unitOfWork.UserRepository.GetIdByUsernameAsync(username, cancellationToken);
 
-            return await GetRefreshTokenAsync(loginId, cancellationToken);
+            return await GetRefreshTokenAsync(userId, cancellationToken);
         }
 
-        public async Task<string> GetRefreshTokenAsync(Guid loginId, CancellationToken cancellationToken)
+        public async Task<string> GetRefreshTokenAsync(Guid userId, CancellationToken cancellationToken)
         {
             var refreshTokenString = _randomGenerator.GenerateBase64String();
 
@@ -67,7 +67,7 @@ namespace FileShare.Service.Services.V2._0.Token
             {
                 Token = refreshTokenString,
                 Expiration = DateTimeOffset.UtcNow.AddDays(30),
-                LoginId = loginId
+                UserId = userId
             };
             await _unitOfWork.RefreshTokenRepository.AddAsync(refreshToken, cancellationToken);
 

@@ -1,11 +1,12 @@
-﻿using FileShare.DataAccess.Base.Model.BaseEntity.Interface;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace FileShare.DataAccess.Base.Model.BaseEntity
+namespace FileShare.DataAccess.Base.Model.BaseEntity.Interface
 {
-    /// <summary>
-    /// Base class for all database models
-    /// </summary>
-    public abstract class BaseEntity : IBaseEntity
+    public interface IBaseEntity
     {
         /// <summary>
         /// Primary id

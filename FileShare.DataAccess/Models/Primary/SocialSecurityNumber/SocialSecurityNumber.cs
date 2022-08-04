@@ -19,9 +19,9 @@ namespace FileShare.DataAccess.Models.Primary.SocialSecurityNumber
 
         #region Navigation Properties
 
-        public Guid AccountId { get; set; }
+        public Guid UserId { get; set; }
 
-        public Account.Account Account { get; set; }
+        public User.User User { get; set; }
 
         #endregion
     }
@@ -41,9 +41,9 @@ namespace FileShare.DataAccess.Models.Primary.SocialSecurityNumber
                 .HasMaxLength(128)
                 .IsRequired();
 
-            builder.HasOne(x => x.Account)
+            builder.HasOne(x => x.User)
                 .WithMany(x => x.SocialSecurityNumbers)
-                .HasForeignKey(x => x.AccountId);
+                .HasForeignKey(x => x.UserId);
         }
     }
 

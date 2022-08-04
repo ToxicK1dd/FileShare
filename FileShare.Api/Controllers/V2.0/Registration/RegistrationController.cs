@@ -58,7 +58,7 @@ namespace FileShare.Api.Controllers.V2._0.Registration
         {
             var result = await _registrationService.RegisterAsync(model.Username, model.Email, model.Password, _httpContextAccessor.HttpContext.RequestAborted);
 
-            var token = _tokenService.GetAccessToken(result.AccountId);
+            var token = _tokenService.GetAccessToken(result.UserId);
             var refreshToken = await _tokenService.GetRefreshTokenAsync(result.LoginId, _httpContextAccessor.HttpContext.RequestAborted);
 
             await _unitOfWork.SaveChangesAsync(_httpContextAccessor.HttpContext.RequestAborted);

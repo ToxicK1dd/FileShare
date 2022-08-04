@@ -2,14 +2,14 @@
 {
     public record RegistrationResultDto
     {
-        public RegistrationResultDto(Guid accountId, Guid loginId)
+        public RegistrationResultDto(Guid userId, Guid loginId)
         {
-            AccountId = accountId;
+            UserId = userId;
             LoginId = loginId;
         }
 
 
-        public Guid AccountId { get; }
+        public Guid UserId { get; }
 
         public Guid LoginId { get; }
     }

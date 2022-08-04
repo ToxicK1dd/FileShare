@@ -30,38 +30,38 @@ namespace FileShare.Service.Services.V2._0.Registration
             if (isEmailValid is not true)
                 throw new ArgumentException("Email is not in a valid format.");
 
-            var isUsernameTaken = await _unitOfWork.LoginRepository.ExistsFromUsernameAsync(username, cancellationToken);
-            if (isUsernameTaken)
-                throw new ArgumentException("Username is already being used.");
+            //var isUsernameTaken = await _unitOfWork.LoginRepository.ExistsFromUsernameAsync(username, cancellationToken);
+            //if (isUsernameTaken)
+            //    throw new ArgumentException("Username is already being used.");
 
-            var isEmailTaken = await _unitOfWork.EmailRepository.ExistsFromAddressAsync(email, cancellationToken);
-            if (isEmailTaken)
-                throw new ArgumentException("Email is already being used.");
+            //var isEmailTaken = await _unitOfWork.EmailRepository.ExistsFromAddressAsync(email, cancellationToken);
+            //if (isEmailTaken)
+            //    throw new ArgumentException("Email is already being used.");
 
-            var accountId = Guid.NewGuid();
+            var userId = Guid.NewGuid();
             var loginId = Guid.NewGuid();
             var hashedPassword = _passwordHasher.HashPassword(null, password);
 
-            var account = new DataAccess.Models.Primary.Account.Account()
-            {
-                Id = accountId,
-                Enabled = true,
-                Verified = false,
-                Login = new()
-                {
-                    Id = loginId,
-                    AccountId = accountId,
-                    Username = username,
-                    Password = hashedPassword
-                },
-                Email = new()
-                {
-                    Address = email,
-                }
-            };
-            await _unitOfWork.AccountRepository.AddAsync(account, cancellationToken);
+            //var account = new DataAccess.Models.Primary.Account.Account()
+            //{
+            //    Id = userId,
+            //    Enabled = true,
+            //    Verified = false,
+            //    Login = new()
+            //    {
+            //        Id = loginId,
+            //        UserId = userId,
+            //        Username = username,
+            //        Password = hashedPassword
+            //    },
+            //    Email = new()
+            //    {
+            //        Address = email,
+            //    }
+            //};
+            //await _unitOfWork.UserRepository.AddAsync(account, cancellationToken);
 
-            return new(accountId, loginId);
+            return new(userId, loginId);
         }
 
 

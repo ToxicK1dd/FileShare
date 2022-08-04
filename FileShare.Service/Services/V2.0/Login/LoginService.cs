@@ -35,30 +35,30 @@ namespace FileShare.Service.Services.V2._0.Login
 
         public async Task<bool> ValidateCredentialsAsync(string username, string password, CancellationToken cancellationToken)
         {
-            var login = await _unitOfWork.LoginRepository.GetFromUsernameAsync(username, cancellationToken);
+            var login = await _unitOfWork.UserRepository.GetByUsernameAsync(username, cancellationToken);
             if (login is null)
                 return false;
 
-            var verificationResult = _passwordHasher.VerifyHashedPassword(null, login.Password, password);
+            var verificationResult = _passwordHasher.VerifyHashedPassword(null, login.PasswordHash, password);
 
             return verificationResult is PasswordVerificationResult.Success;
         }
 
         public async Task<bool> ChangeCredentialsAsync(string newPassword, string oldPassword, CancellationToken cancellationToken)
         {
-            var accountId = _identityClaimsHelper.GetAccountIdFromHttpContext(_httpContextAccessor.HttpContext);
-            if (accountId == Guid.Empty)
+            var userId = _identityClaimsHelper.GetUserIdFromHttpContext(_httpContextAccessor.HttpContext);
+            if (userId == Guid.Empty)
                 return false;
 
-            var login = await _unitOfWork.LoginRepository.GetByIdAsync(accountId, cancellationToken);
-            if (login is null)
+            var user = await _unitOfWork.UserRepository.GetByIdAsync(userId, cancellationToken);
+            if (user is null)
                 return false;
 
-            var verificationResult = _passwordHasher.VerifyHashedPassword(null, login.Password, oldPassword);
+            var verificationResult = _passwordHasher.VerifyHashedPassword(null, user.PasswordHash, oldPassword);
             if (verificationResult is not PasswordVerificationResult.Success)
                 return false;
 
-            login.Password = _passwordHasher.HashPassword(null, newPassword);
+            user.PasswordHash = _passwordHasher.HashPassword(null, newPassword);
             return true;
         }
 

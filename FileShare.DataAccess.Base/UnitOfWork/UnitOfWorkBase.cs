@@ -1,5 +1,5 @@
-﻿using FileShare.DataAccess.Base.Model;
-using FileShare.DataAccess.Base.UnitOfWork.Interface;
+﻿using FileShare.DataAccess.Base.UnitOfWork.Interface;
+using Microsoft.EntityFrameworkCore;
 
 namespace FileShare.DataAccess.Base.UnitOfWork
 {
@@ -8,7 +8,7 @@ namespace FileShare.DataAccess.Base.UnitOfWork
     /// </summary>
     /// <typeparam name="TContext"></typeparam>
     public abstract class UnitOfWorkBase<TContext> : IUnitOfWorkBase
-        where TContext : BaseContext<TContext>
+        where TContext : DbContext
     {
         protected readonly TContext context;
 

@@ -1,5 +1,4 @@
-﻿using FileShare.DataAccess.Base.Model;
-using FileShare.DataAccess.Base.Model.BaseEntity;
+﻿using FileShare.DataAccess.Base.Model.BaseEntity;
 using FileShare.DataAccess.Base.Repository.Interface;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,7 +11,7 @@ namespace FileShare.DataAccess.Base.Repository
     /// <typeparam name="TContext">The database context which the repository makes the changes to.</typeparam>
     public abstract class RepositoryBase<TModel, TContext> : IRepositoryBase<TModel>
         where TModel : BaseEntity
-        where TContext : BaseContext<TContext>
+        where TContext : DbContext
     {
         protected DbSet<TModel> dbSet;
 
