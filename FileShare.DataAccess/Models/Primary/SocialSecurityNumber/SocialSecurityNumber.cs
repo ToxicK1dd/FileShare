@@ -1,4 +1,5 @@
 ﻿using FileShare.DataAccess.Base.Model.BaseEntity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace FileShare.DataAccess.Models.Primary.SocialSecurityNumber
@@ -18,9 +19,9 @@ namespace FileShare.DataAccess.Models.Primary.SocialSecurityNumber
 
         #region Navigation Properties
 
-        public Guid AccountId { get; set; }
+        public Guid UserId { get; set; }
 
-        public Account.Account Account { get; set; }
+        public User.User User { get; set; }
 
         #endregion
     }
@@ -31,6 +32,8 @@ namespace FileShare.DataAccess.Models.Primary.SocialSecurityNumber
         {
             base.Configure(builder);
 
+            builder.ToTable("SocialSecurityNumbers");
+
             builder.Property(x => x.Type)
                 .IsRequired();
 
@@ -38,9 +41,9 @@ namespace FileShare.DataAccess.Models.Primary.SocialSecurityNumber
                 .HasMaxLength(128)
                 .IsRequired();
 
-            builder.HasOne(x => x.Account)
+            builder.HasOne(x => x.User)
                 .WithMany(x => x.SocialSecurityNumbers)
-                .HasForeignKey(x => x.AccountId);
+                .HasForeignKey(x => x.UserId);
         }
     }
 

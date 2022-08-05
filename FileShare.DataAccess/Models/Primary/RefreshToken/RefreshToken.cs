@@ -1,4 +1,5 @@
 ﻿using FileShare.DataAccess.Base.Model.BaseEntity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace FileShare.DataAccess.Models.Primary.RefreshToken
@@ -18,9 +19,9 @@ namespace FileShare.DataAccess.Models.Primary.RefreshToken
 
         #region Navigation Properties
 
-        public Guid LoginId { get; set; }
+        public Guid UserId { get; set; }
 
-        public Login.Login Login { get; set; } 
+        public User.User User { get; set; }
 
         #endregion
     }
@@ -31,6 +32,8 @@ namespace FileShare.DataAccess.Models.Primary.RefreshToken
         {
             base.Configure(builder);
 
+            builder.ToTable("RefreshTokens");
+
             builder.Property(x => x.Token)
                 .HasMaxLength(512)
                 .IsRequired();
@@ -38,9 +41,9 @@ namespace FileShare.DataAccess.Models.Primary.RefreshToken
             builder.Property(x => x.Expiration)
                 .IsRequired();
 
-            builder.HasOne(x => x.Login)
+            builder.HasOne(x => x.User)
                 .WithMany(x => x.RefreshTokens)
-                .HasForeignKey(x => x.LoginId);
+                .HasForeignKey(x => x.UserId);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using FileShare.DataAccess.Base.Model.BaseEntity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace FileShare.DataAccess.Models.Primary.DocumentSignature
@@ -23,6 +24,8 @@ namespace FileShare.DataAccess.Models.Primary.DocumentSignature
         public override void Configure(EntityTypeBuilder<DocumentSignature> builder)
         {
             base.Configure(builder);
+
+            builder.ToTable("DocumentSignatures");
 
             builder.HasOne(x => x.Document)
                 .WithMany(x => x.Signatures)

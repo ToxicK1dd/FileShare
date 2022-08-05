@@ -17,12 +17,12 @@ namespace FileShare.DataAccess.Repository.Primary.RefreshToken
                 .FirstOrDefaultAsync(x => x.Token == token, cancellationToken);
         }
 
-        public async Task<Guid> GetAccountIdFromToken(string token, CancellationToken cancellation = default)
+        public async Task<Guid> GetUserIdFromToken(string token, CancellationToken cancellation = default)
         {
             return await dbSet
                 .Where(x => x.Token == token)
-                .Include(x => x.Login)
-                .Select(x => x.Login.AccountId)
+                .Include(x => x.User)
+                .Select(x => x.User.Id)
                 .FirstOrDefaultAsync(cancellation);
         }
     }

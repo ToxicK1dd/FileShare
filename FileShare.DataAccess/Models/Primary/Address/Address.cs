@@ -38,9 +38,9 @@ namespace FileShare.DataAccess.Models.Primary.Address
 
         #region Navigation Properties
 
-        public Guid AccountId { get; set; }
+        public Guid UserId { get; set; }
 
-        public Account.Account Account { get; set; }
+        public User.User User { get; set; }
 
         #endregion
     }
@@ -75,9 +75,9 @@ namespace FileShare.DataAccess.Models.Primary.Address
                 .HasMaxLength(256)
                 .IsRequired();
 
-            builder.HasOne(x => x.Account)
+            builder.HasOne(x => x.User)
                 .WithOne(x => x.Address)
-                .HasForeignKey<Address>(x => x.AccountId);
+                .HasForeignKey<Address>(x => x.UserId);
         }
     }
 }

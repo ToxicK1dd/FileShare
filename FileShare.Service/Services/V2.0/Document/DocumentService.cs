@@ -32,10 +32,10 @@ namespace FileShare.Service.Services.V2._0.Document
 
         public async Task<Guid> UploadFileAsync(IFormFile file, CancellationToken cancellationToken)
         {
-            var accountId = GetAccountId();
+            var userId = await GetUserId(cancellationToken);
             var fileModel = new FileModel()
             {
-                AccountId = accountId,
+                UserId = userId,
                 Detail = new()
                 {
                     FileName = file.FileName,
@@ -57,8 +57,8 @@ namespace FileShare.Service.Services.V2._0.Document
 
         public async Task<FileDto> DownloadFileAsync(Guid id, CancellationToken cancellationToken)
         {
-            var accountId = GetAccountId();
-            var dbFile = await GetDocumentAsync(id, accountId, cancellationToken);
+            var userId = await GetUserId(cancellationToken);
+            var dbFile = await GetDocumentAsync(id, userId, cancellationToken);
 
             return new FileDto()
             {
@@ -70,8 +70,8 @@ namespace FileShare.Service.Services.V2._0.Document
 
         public async Task DeleteFileAsync(Guid id, CancellationToken cancellationToken)
         {
-            var accountId = GetAccountId();
-            var dbFile = await GetDocumentAsync(id, accountId, cancellationToken);
+            var userId = await GetUserId(cancellationToken);
+            var dbFile = await GetDocumentAsync(id, userId, cancellationToken);
 
             _unitOfWork.DocumentRepository.RemoveById(dbFile.Id);
         }
@@ -79,24 +79,24 @@ namespace FileShare.Service.Services.V2._0.Document
 
         #region Helpers
 
-        public async Task<FileModel> GetDocumentAsync(Guid id, Guid accountId, CancellationToken cancellationToken)
+        private async Task<FileModel> GetDocumentAsync(Guid id, Guid userId, CancellationToken cancellationToken)
         {
             var dbFile = await _unitOfWork.DocumentRepository.GetByIdWithDetailAsync(id, cancellationToken);
             if (dbFile is null)
                 throw new KeyNotFoundException($"File with id {id} was not found.");
-            if (dbFile.AccountId != accountId)
+            if (dbFile.UserId != userId)
                 throw new UnauthorizedAccessException($"File with id {id} does not belong to this user.");
 
             return dbFile;
         }
 
-        public Guid GetAccountId()
+        private async Task<Guid> GetUserId(CancellationToken cancellationToken)
         {
-            var accountId = _identityClaimsHelper.GetAccountIdFromHttpContext(_httpContextAccessor.HttpContext);
-            if (accountId == Guid.Empty)
+            var username = _identityClaimsHelper.GetUsernameFromHttpContext(_httpContextAccessor.HttpContext);
+            if (username is null)
                 throw new UnauthorizedAccessException();
 
-            return accountId;
+            return await _unitOfWork.UserRepository.GetIdByUsernameAsync(username, cancellationToken);
         }
 
         private async Task<byte[]> CompressFile(byte[] buffer, CancellationToken cancellationToken)

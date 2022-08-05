@@ -107,15 +107,15 @@ namespace FileShare.Api.Controllers.V2._0.Login
             if (newRefreshToken is null)
                 return NotFound();
 
-            var accountId = await _unitOfWork.RefreshTokenRepository.GetAccountIdFromToken(refreshToken, _httpContextAccessor.HttpContext.RequestAborted);
-            var token = _tokenService.GetAccessToken(accountId);
+            var userId = await _unitOfWork.RefreshTokenRepository.GetUserIdFromToken(refreshToken, _httpContextAccessor.HttpContext.RequestAborted);
+            var token = _tokenService.GetAccessTokenAsync(userId);
 
             await _unitOfWork.SaveChangesAsync(_httpContextAccessor.HttpContext.RequestAborted);
 
             return Created(string.Empty, new
             {
                 token,
-                newRefreshToken
+                refreshToken = newRefreshToken
             });
         }
 

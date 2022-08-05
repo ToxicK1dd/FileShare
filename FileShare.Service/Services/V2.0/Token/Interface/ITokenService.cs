@@ -5,9 +5,9 @@
         /// <summary>
         /// Generate JWT for authenticating.
         /// </summary>
-        /// <param name="accountId"></param>
+        /// <param name="userId"></param>
         /// <returns></returns>
-        string GetAccessToken(Guid accountId);
+        Task<string> GetAccessTokenAsync(Guid userId);
 
         /// <summary>
         /// Generate JWT from username.
@@ -20,10 +20,10 @@
         /// <summary>
         /// Generate refresh tokem for authenticating.
         /// </summary>
-        /// <param name="accountId"></param>
+        /// <param name="userId"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        Task<string> GetRefreshTokenAsync(Guid accountId, CancellationToken cancellationToken);
+        Task<string> GetRefreshTokenAsync(Guid userId, CancellationToken cancellationToken);
 
         /// <summary>
         /// Generate refresh token from username.

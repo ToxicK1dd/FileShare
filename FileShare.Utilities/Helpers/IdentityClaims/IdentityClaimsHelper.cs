@@ -14,19 +14,19 @@ namespace FileShare.Utilities.Helpers.IdentityClaims
         /// </summary>
         /// <param name="httpContext"></param>
         /// <returns>The id of the account if found. Otherwise Guid.Empty.</returns>
-        public Guid GetAccountIdFromHttpContext(HttpContext httpContext)
+        public string GetUsernameFromHttpContext(HttpContext httpContext)
         {
             if (httpContext.User.Identity.IsAuthenticated is false)
-                return Guid.Empty;
+                return null;
 
             if (httpContext.User.Identity is not ClaimsIdentity identity)
-                return Guid.Empty;
+                return null;
 
-            var accountId = identity.FindFirst("AccountId")?.Value;
-            if (accountId is null)
-                return Guid.Empty;
+            var username = identity.FindFirst(ClaimTypes.Name)?.Value;
+            if (username is null)
+                return null;
 
-            return Guid.Parse(accountId);
+            return username;
         }
     }
 }

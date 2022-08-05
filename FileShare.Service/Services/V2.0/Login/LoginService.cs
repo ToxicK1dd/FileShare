@@ -16,49 +16,50 @@ namespace FileShare.Service.Services.V2._0.Login
         private readonly IPrimaryUnitOfWork _unitOfWork;
         private readonly IIdentityClaimsHelper _identityClaimsHelper;
         private readonly IRandomGenerator _randomGenerator;
-        private readonly IPasswordHasher<object> _passwordHasher;
+        private readonly UserManager<DataAccess.Models.Primary.User.User> _userManager;
+
 
         public LoginService(
             IHttpContextAccessor httpContextAccessor,
             IPrimaryUnitOfWork unitOfWork,
             IIdentityClaimsHelper identityClaimsHelper,
             IRandomGenerator randomGenerator,
-            IPasswordHasher<object> passwordHasher)
+            UserManager<DataAccess.Models.Primary.User.User> userManager)
         {
             _httpContextAccessor = httpContextAccessor;
             _unitOfWork = unitOfWork;
             _identityClaimsHelper = identityClaimsHelper;
             _randomGenerator = randomGenerator;
-            _passwordHasher = passwordHasher;
+            _userManager = userManager;
         }
 
 
         public async Task<bool> ValidateCredentialsAsync(string username, string password, CancellationToken cancellationToken)
         {
-            var login = await _unitOfWork.LoginRepository.GetFromUsernameAsync(username, cancellationToken);
-            if (login is null)
+            var user = await _userManager.FindByNameAsync(username);
+            if (user is null)
                 return false;
 
-            var verificationResult = _passwordHasher.VerifyHashedPassword(null, login.Password, password);
-
-            return verificationResult is PasswordVerificationResult.Success;
+            return await _userManager.CheckPasswordAsync(user, password);
         }
 
         public async Task<bool> ChangeCredentialsAsync(string newPassword, string oldPassword, CancellationToken cancellationToken)
         {
-            var accountId = _identityClaimsHelper.GetAccountIdFromHttpContext(_httpContextAccessor.HttpContext);
-            if (accountId == Guid.Empty)
+            var username = _identityClaimsHelper.GetUsernameFromHttpContext(_httpContextAccessor.HttpContext);
+            if (username is null)
                 return false;
 
-            var login = await _unitOfWork.LoginRepository.GetByIdAsync(accountId, cancellationToken);
-            if (login is null)
+            var user = await _userManager.FindByNameAsync(username);
+            if (user is null)
                 return false;
 
-            var verificationResult = _passwordHasher.VerifyHashedPassword(null, login.Password, oldPassword);
-            if (verificationResult is not PasswordVerificationResult.Success)
+            var result = _userManager.PasswordHasher.VerifyHashedPassword(user, user.PasswordHash, oldPassword);
+            if (result is PasswordVerificationResult.Failed)
                 return false;
 
-            login.Password = _passwordHasher.HashPassword(null, newPassword);
+            await _userManager.RemovePasswordAsync(user);
+            await _userManager.AddPasswordAsync(user, newPassword);
+
             return true;
         }
 

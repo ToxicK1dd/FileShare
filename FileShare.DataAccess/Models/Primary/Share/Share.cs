@@ -1,4 +1,5 @@
 ﻿using FileShare.DataAccess.Base.Model.BaseEntity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace FileShare.DataAccess.Models.Primary.Share
@@ -13,9 +14,9 @@ namespace FileShare.DataAccess.Models.Primary.Share
 
         #region Navigation Properties
 
-        public Guid AccountId { get; set; }
+        public Guid UserId { get; set; }
 
-        public Account.Account Account { get; set; }
+        public User.User User { get; set; }
 
 
         public ICollection<Document.Document> Documents { get; set; }
@@ -31,15 +32,17 @@ namespace FileShare.DataAccess.Models.Primary.Share
         {
             base.Configure(builder);
 
+            builder.ToTable("Shares");
+
             builder.Property(x => x.Expiration)
                 .IsRequired();
 
             builder.HasMany(x => x.Documents)
                 .WithMany(x => x.Shares);
 
-            builder.HasOne(x => x.Account)
+            builder.HasOne(x => x.User)
                 .WithMany(x => x.Shares)
-                .HasForeignKey(x => x.AccountId);
+                .HasForeignKey(x => x.UserId);
         }
     }
 }

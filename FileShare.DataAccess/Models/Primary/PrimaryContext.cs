@@ -1,12 +1,13 @@
 ﻿using FileShare.DataAccess.Base.Model;
 using Microsoft.EntityFrameworkCore;
+using CustomIdentityUser = FileShare.DataAccess.Models.Primary.User.User;
 
 namespace FileShare.DataAccess.Models.Primary
 {
-    public class PrimaryContext : BaseContext<PrimaryContext>
+    public class PrimaryContext : BaseContext<PrimaryContext, CustomIdentityUser>
     {
-        public PrimaryContext() { }
-
         public PrimaryContext(DbContextOptions<PrimaryContext> options) : base(options) { }
+
+        public PrimaryContext() { }
     }
 }

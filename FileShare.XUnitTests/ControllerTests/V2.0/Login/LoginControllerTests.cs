@@ -168,10 +168,10 @@ namespace FileShare.XUnitTests.ControllerTests.V2._0.Login
             _mockLoginService.Setup(service => service.ValidateRefreshTokenAsync(It.IsAny<string>(), cancellationToken))
                 .ReturnsAsync(string.Empty);
 
-            _mockTokenService.Setup(service => service.GetAccessToken(It.IsAny<Guid>()))
-                .Returns(string.Empty);
+            _mockTokenService.Setup(service => service.GetAccessTokenAsync(It.IsAny<Guid>()))
+                .ReturnsAsync(string.Empty);
 
-            _mockUnitOfWork.Setup(repo => repo.RefreshTokenRepository.GetAccountIdFromToken(It.IsAny<string>(), cancellationToken))
+            _mockUnitOfWork.Setup(repo => repo.RefreshTokenRepository.GetUserIdFromToken(It.IsAny<string>(), cancellationToken))
                 .ReturnsAsync(Guid.NewGuid());
 
             // Act
