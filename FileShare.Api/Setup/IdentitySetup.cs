@@ -33,6 +33,11 @@ namespace FileShare.Api.Setup
                 // User settings.  
                 options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+#";
                 options.User.RequireUniqueEmail = false;
+
+                // SignIn settings.
+                options.SignIn.RequireConfirmedAccount = false;
+                options.SignIn.RequireConfirmedEmail = false;
+                options.SignIn.RequireConfirmedPhoneNumber = false;
             });
         }
     }
