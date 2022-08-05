@@ -16,7 +16,6 @@ namespace FileShare.Service.Services.V2._0.Login
         private readonly IPrimaryUnitOfWork _unitOfWork;
         private readonly IIdentityClaimsHelper _identityClaimsHelper;
         private readonly IRandomGenerator _randomGenerator;
-        private readonly IPasswordHasher<object> _passwordHasher;
         private readonly UserManager<DataAccess.Models.Primary.User.User> _userManager;
 
 
@@ -25,14 +24,12 @@ namespace FileShare.Service.Services.V2._0.Login
             IPrimaryUnitOfWork unitOfWork,
             IIdentityClaimsHelper identityClaimsHelper,
             IRandomGenerator randomGenerator,
-            IPasswordHasher<object> passwordHasher,
             UserManager<DataAccess.Models.Primary.User.User> userManager)
         {
             _httpContextAccessor = httpContextAccessor;
             _unitOfWork = unitOfWork;
             _identityClaimsHelper = identityClaimsHelper;
             _randomGenerator = randomGenerator;
-            _passwordHasher = passwordHasher;
             _userManager = userManager;
         }
 

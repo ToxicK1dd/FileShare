@@ -1,4 +1,5 @@
-﻿using FileShare.DataAccess.UnitOfWork.Primary.Interface;
+﻿using FileShare.DataAccess.Models.Primary.User;
+using FileShare.DataAccess.UnitOfWork.Primary.Interface;
 using FileShare.Service.Services.V2._0.Login;
 using FileShare.Utilities.Generators.Random.Interface;
 using FileShare.Utilities.Helpers.IdentityClaims.Interface;
@@ -15,7 +16,9 @@ namespace FileShare.XUnitTests.ServiceTests.V2._0.Login
         private readonly Mock<IPrimaryUnitOfWork> _mockUnitOfWork;
         private readonly Mock<IIdentityClaimsHelper> _mockIdentityClaimsHelper;
         private readonly Mock<IRandomGenerator> _mockRandomGenerator;
-        private readonly Mock<IPasswordHasher<object>> _mockPasswordHasher;
+        private readonly Mock<IPasswordHasher<User>> _mockPasswordHasher;
+        private readonly Mock<IUserStore<User>> _mockUserStore;
+        private readonly Mock<UserManager<User>> _mockUserManager;
         private readonly LoginService _loginService;
 
         public LoginServiceTests()
@@ -24,14 +27,16 @@ namespace FileShare.XUnitTests.ServiceTests.V2._0.Login
             _mockUnitOfWork = new Mock<IPrimaryUnitOfWork>();
             _mockIdentityClaimsHelper = new Mock<IIdentityClaimsHelper>();
             _mockRandomGenerator = new Mock<IRandomGenerator>();
-            _mockPasswordHasher = new Mock<IPasswordHasher<object>>();
+            _mockPasswordHasher = new Mock<IPasswordHasher<User>>();
+            _mockUserStore = new Mock<IUserStore<User>>();
+            _mockUserManager = new Mock<UserManager<User>>(_mockUserStore.Object, null, _mockPasswordHasher.Object, null, null, null, null, null, null);
 
             _loginService = new LoginService(
                 _mockHttpContextAccessor.Object,
                 _mockUnitOfWork.Object,
                 _mockIdentityClaimsHelper.Object,
                 _mockRandomGenerator.Object,
-                _mockPasswordHasher.Object);
+                _mockUserManager.Object);
         }
 
 
@@ -39,70 +44,56 @@ namespace FileShare.XUnitTests.ServiceTests.V2._0.Login
         public async Task ValidateCredentials_ShouldReturnTrue_WhenCredentialsAreValid()
         {
             // Arrange
-            string username = "Test";
-            string password = "!Test1234";
-            string hashedPassword = new PasswordHasher<object>().HashPassword(null, password);
-            CancellationToken cancellationToken = CancellationToken.None;
+            _mockUserManager.Setup(manager => manager.FindByNameAsync(It.IsAny<string>()))
+                .ReturnsAsync(value: new());
 
-            _mockHttpContextAccessor.Setup(accessor => accessor.HttpContext)
-                .Returns(new DefaultHttpContext());
-
-            _mockUnitOfWork.Setup(x => x.LoginRepository.GetFromUsernameAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
-                .ReturnsAsync(new DataAccess.Models.Primary.Login.Login() { Password = hashedPassword });
-
-            _mockPasswordHasher.Setup(hasher => hasher.VerifyHashedPassword(It.IsAny<object>(), It.IsAny<string>(), It.IsAny<string>()))
-                .Returns(PasswordVerificationResult.Success);
+            _mockUserManager.Setup(manager => manager.CheckPasswordAsync(It.IsAny<User>(), It.IsAny<string>()))
+                .ReturnsAsync(true);
 
             // Act
-            var result = await _loginService.ValidateCredentialsAsync(username, password, cancellationToken);
+            var result = await _loginService.ValidateCredentialsAsync("Test", "!Test1234", CancellationToken.None);
 
             // Assert
             Assert.True(result);
+
+            _mockUserManager.Verify(manager => manager.FindByNameAsync(It.IsAny<string>()), Times.Once);
+            _mockUserManager.Verify(manager => manager.CheckPasswordAsync(It.IsAny<User>(), It.IsAny<string>()), Times.Once);
         }
 
         [Fact]
         public async Task ValidateCredentials_ShouldReturnFalse_WhenCredentialsAreInvalid()
         {
             // Arrange
-            string username = "Test";
-            string password = "!Test1234";
-            string hashedPassword = new PasswordHasher<object>().HashPassword(null, password);
-            CancellationToken cancellationToken = CancellationToken.None;
+            _mockUserManager.Setup(manager => manager.FindByNameAsync(It.IsAny<string>()))
+                .ReturnsAsync(value: new());
 
-            _mockHttpContextAccessor.Setup(accessor => accessor.HttpContext)
-                .Returns(new DefaultHttpContext());
-
-            _mockUnitOfWork.Setup(x => x.LoginRepository.GetFromUsernameAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
-                .ReturnsAsync(new DataAccess.Models.Primary.Login.Login() { Password = hashedPassword });
+            _mockUserManager.Setup(manager => manager.CheckPasswordAsync(It.IsAny<User>(), It.IsAny<string>()))
+                .ReturnsAsync(false);
 
             // Act
-            var result = await _loginService.ValidateCredentialsAsync(username, "InvalidPassword", cancellationToken);
+            var result = await _loginService.ValidateCredentialsAsync("Test", "InvalidPassword", CancellationToken.None);
 
             // Assert
             Assert.False(result);
+
+            _mockUserManager.Verify(manager => manager.FindByNameAsync(It.IsAny<string>()), Times.Once);
+            _mockUserManager.Verify(manager => manager.CheckPasswordAsync(It.IsAny<User>(), It.IsAny<string>()), Times.Once);
         }
 
         [Fact]
-        public async Task ValidateCredentials_ShouldReturnFalse_WhenLoginDoesNotExist()
+        public async Task ValidateCredentials_ShouldReturnFalse_WhenUserDoesNotExist()
         {
             // Arrange
-            string username = "Test";
-            string password = "!Test1234";
-            string hashedPassword = new PasswordHasher<object>().HashPassword(null, password);
-            CancellationToken cancellationToken = CancellationToken.None;
-
-            _mockHttpContextAccessor.Setup(accessor => accessor.HttpContext)
-                .Returns(new DefaultHttpContext());
-
-            _mockUnitOfWork.Setup(x => x.LoginRepository.GetFromUsernameAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
-                .ReturnsAsync((DataAccess.Models.Primary.Login.Login)null);
+            _mockUserManager.Setup(manager => manager.FindByNameAsync(It.IsAny<string>()))
+                .ReturnsAsync(value: null);
 
             // Act
-            var result = await _loginService.ValidateCredentialsAsync(username, password, cancellationToken);
+            var result = await _loginService.ValidateCredentialsAsync("Test", "!Test1234", CancellationToken.None);
 
             // Assert
             Assert.False(result);
-            _mockUnitOfWork.Verify(repo => repo.LoginRepository.GetFromUsernameAsync(It.IsAny<string>(), cancellationToken), Times.Once);
+
+            _mockUserManager.Verify(manager => manager.FindByNameAsync(It.IsAny<string>()), Times.Once);
         }
 
 
@@ -116,23 +107,33 @@ namespace FileShare.XUnitTests.ServiceTests.V2._0.Login
             _mockHttpContextAccessor.Setup(accessor => accessor.HttpContext)
                 .Returns(new DefaultHttpContext());
 
-            _mockIdentityClaimsHelper.Setup(helper => helper.GetAccountIdFromHttpContext(It.IsAny<HttpContext>()))
-                .Returns(Guid.NewGuid());
+            _mockIdentityClaimsHelper.Setup(helper => helper.GetUsernameFromHttpContext(It.IsAny<HttpContext>()))
+                .Returns("Test");
 
-            _mockUnitOfWork.Setup(x => x.LoginRepository.GetByIdAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
-                .ReturnsAsync(new DataAccess.Models.Primary.Login.Login());
+            _mockUserManager.Setup(manager => manager.FindByNameAsync(It.IsAny<string>()))
+                .ReturnsAsync(value: new());
 
-            _mockPasswordHasher.Setup(hasher => hasher.VerifyHashedPassword(It.IsAny<object>(), It.IsAny<string>(), It.IsAny<string>()))
+            _mockPasswordHasher.Setup(hasher => hasher.VerifyHashedPassword(It.IsAny<User>(), It.IsAny<string>(), It.IsAny<string>()))
                 .Returns(PasswordVerificationResult.Success);
 
-            _mockPasswordHasher.Setup(hasher => hasher.HashPassword(It.IsAny<object>(), It.IsAny<string>()))
-                .Returns(password);
+            _mockUserManager.Setup(manager => manager.RemovePasswordAsync(It.IsAny<User>()))
+                .ReturnsAsync(IdentityResult.Success);
+
+            _mockUserManager.Setup(manager => manager.AddPasswordAsync(It.IsAny<User>(), It.IsAny<string>()))
+                .ReturnsAsync(IdentityResult.Success);
 
             // Act
             var result = await _loginService.ChangeCredentialsAsync(password, password, cancellationToken);
 
             // Assert
             Assert.True(result);
+
+            _mockHttpContextAccessor.Verify(accessor => accessor.HttpContext, Times.Once);
+            _mockIdentityClaimsHelper.Verify(helper => helper.GetUsernameFromHttpContext(It.IsAny<HttpContext>()), Times.Once);
+            _mockUserManager.Verify(manager => manager.FindByNameAsync(It.IsAny<string>()), Times.Once);
+            _mockPasswordHasher.Verify(hasher => hasher.VerifyHashedPassword(It.IsAny<User>(), It.IsAny<string>(), It.IsAny<string>()), Times.Once);
+            _mockUserManager.Verify(manager => manager.RemovePasswordAsync(It.IsAny<User>()), Times.Once);
+            _mockUserManager.Verify(manager => manager.AddPasswordAsync(It.IsAny<User>(), It.IsAny<string>()), Times.Once);
         }
 
         [Fact]
@@ -142,8 +143,8 @@ namespace FileShare.XUnitTests.ServiceTests.V2._0.Login
             string password = "!Test1234";
             CancellationToken cancellationToken = CancellationToken.None;
 
-            _mockIdentityClaimsHelper.Setup(helper => helper.GetAccountIdFromHttpContext(It.IsAny<HttpContext>()))
-                .Returns(Guid.Empty);
+            _mockIdentityClaimsHelper.Setup(helper => helper.GetUsernameFromHttpContext(It.IsAny<HttpContext>()))
+                .Returns(value: null);
 
             // Act
             var result = await _loginService.ChangeCredentialsAsync(password, password, cancellationToken);
@@ -151,14 +152,16 @@ namespace FileShare.XUnitTests.ServiceTests.V2._0.Login
             // Assert
             Assert.False(result);
 
-            _mockIdentityClaimsHelper.Verify(helper => helper.GetAccountIdFromHttpContext(It.IsAny<HttpContext>()), Times.Once);
-            _mockUnitOfWork.Verify(repo => repo.LoginRepository.GetByIdAsync(It.IsAny<Guid>(), cancellationToken), Times.Never);
-            _mockPasswordHasher.Verify(hasher => hasher.VerifyHashedPassword(It.IsAny<object>(), It.IsAny<string>(), It.IsAny<string>()), Times.Never);
-            _mockPasswordHasher.Verify(hasher => hasher.HashPassword(It.IsAny<object>(), It.IsAny<string>()), Times.Never);
+            _mockHttpContextAccessor.Verify(accessor => accessor.HttpContext, Times.Once);
+            _mockIdentityClaimsHelper.Verify(helper => helper.GetUsernameFromHttpContext(It.IsAny<HttpContext>()), Times.Once);
+            _mockUserManager.Verify(manager => manager.FindByNameAsync(It.IsAny<string>()), Times.Never);
+            _mockPasswordHasher.Verify(hasher => hasher.VerifyHashedPassword(It.IsAny<User>(), It.IsAny<string>(), It.IsAny<string>()), Times.Never);
+            _mockUserManager.Verify(manager => manager.RemovePasswordAsync(It.IsAny<User>()), Times.Never);
+            _mockUserManager.Verify(manager => manager.AddPasswordAsync(It.IsAny<User>(), It.IsAny<string>()), Times.Never);
         }
 
         [Fact]
-        public async Task ChangeCredentials_ShouldReturnFalse_WhenLoginIsNotFound()
+        public async Task ChangeCredentials_ShouldReturnFalse_WhenUserIsNotFound()
         {
             // Arrange
             string password = "!Test1234";
@@ -167,11 +170,12 @@ namespace FileShare.XUnitTests.ServiceTests.V2._0.Login
             _mockHttpContextAccessor.Setup(accessor => accessor.HttpContext)
                 .Returns(new DefaultHttpContext());
 
-            _mockIdentityClaimsHelper.Setup(helper => helper.GetAccountIdFromHttpContext(It.IsAny<HttpContext>()))
-                .Returns(Guid.NewGuid());
+            _mockIdentityClaimsHelper.Setup(helper => helper.GetUsernameFromHttpContext(It.IsAny<HttpContext>()))
+                .Returns("Test");
 
-            _mockUnitOfWork.Setup(x => x.LoginRepository.GetByIdAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
-                .ReturnsAsync((DataAccess.Models.Primary.Login.Login)null);
+            _mockUserManager.Setup(manager => manager.FindByNameAsync(It.IsAny<string>()))
+                .ReturnsAsync(value: null);
+
 
             // Act
             var result = await _loginService.ChangeCredentialsAsync(password, password, cancellationToken);
@@ -179,10 +183,12 @@ namespace FileShare.XUnitTests.ServiceTests.V2._0.Login
             // Assert
             Assert.False(result);
 
-            _mockIdentityClaimsHelper.Verify(helper => helper.GetAccountIdFromHttpContext(It.IsAny<HttpContext>()), Times.Once);
-            _mockUnitOfWork.Verify(repo => repo.LoginRepository.GetByIdAsync(It.IsAny<Guid>(), cancellationToken), Times.Once);
-            _mockPasswordHasher.Verify(hasher => hasher.VerifyHashedPassword(It.IsAny<object>(), It.IsAny<string>(), It.IsAny<string>()), Times.Never);
-            _mockPasswordHasher.Verify(hasher => hasher.HashPassword(It.IsAny<object>(), It.IsAny<string>()), Times.Never);
+            _mockHttpContextAccessor.Verify(accessor => accessor.HttpContext, Times.Once);
+            _mockIdentityClaimsHelper.Verify(helper => helper.GetUsernameFromHttpContext(It.IsAny<HttpContext>()), Times.Once);
+            _mockUserManager.Verify(manager => manager.FindByNameAsync(It.IsAny<string>()), Times.Once);
+            _mockPasswordHasher.Verify(hasher => hasher.VerifyHashedPassword(It.IsAny<User>(), It.IsAny<string>(), It.IsAny<string>()), Times.Never);
+            _mockUserManager.Verify(manager => manager.RemovePasswordAsync(It.IsAny<User>()), Times.Never);
+            _mockUserManager.Verify(manager => manager.AddPasswordAsync(It.IsAny<User>(), It.IsAny<string>()), Times.Never);
         }
 
         [Fact]
@@ -195,13 +201,13 @@ namespace FileShare.XUnitTests.ServiceTests.V2._0.Login
             _mockHttpContextAccessor.Setup(accessor => accessor.HttpContext)
                 .Returns(new DefaultHttpContext());
 
-            _mockIdentityClaimsHelper.Setup(helper => helper.GetAccountIdFromHttpContext(It.IsAny<HttpContext>()))
-                .Returns(Guid.NewGuid());
+            _mockIdentityClaimsHelper.Setup(helper => helper.GetUsernameFromHttpContext(It.IsAny<HttpContext>()))
+                .Returns("Test");
 
-            _mockUnitOfWork.Setup(x => x.LoginRepository.GetByIdAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
-                .ReturnsAsync(new DataAccess.Models.Primary.Login.Login());
+            _mockUserManager.Setup(manager => manager.FindByNameAsync(It.IsAny<string>()))
+                .ReturnsAsync(value: new());
 
-            _mockPasswordHasher.Setup(hasher => hasher.VerifyHashedPassword(It.IsAny<object>(), It.IsAny<string>(), It.IsAny<string>()))
+            _mockPasswordHasher.Setup(hasher => hasher.VerifyHashedPassword(It.IsAny<User>(), It.IsAny<string>(), It.IsAny<string>()))
                 .Returns(PasswordVerificationResult.Failed);
 
             // Act
@@ -210,10 +216,12 @@ namespace FileShare.XUnitTests.ServiceTests.V2._0.Login
             // Assert
             Assert.False(result);
 
-            _mockIdentityClaimsHelper.Verify(helper => helper.GetAccountIdFromHttpContext(It.IsAny<HttpContext>()), Times.Once);
-            _mockUnitOfWork.Verify(repo => repo.LoginRepository.GetByIdAsync(It.IsAny<Guid>(), cancellationToken), Times.Once);
-            _mockPasswordHasher.Verify(hasher => hasher.VerifyHashedPassword(It.IsAny<object>(), It.IsAny<string>(), It.IsAny<string>()), Times.Once);
-            _mockPasswordHasher.Verify(hasher => hasher.HashPassword(It.IsAny<object>(), It.IsAny<string>()), Times.Never);
+            _mockHttpContextAccessor.Verify(accessor => accessor.HttpContext, Times.Once);
+            _mockIdentityClaimsHelper.Verify(helper => helper.GetUsernameFromHttpContext(It.IsAny<HttpContext>()), Times.Once);
+            _mockUserManager.Verify(manager => manager.FindByNameAsync(It.IsAny<string>()), Times.Once);
+            _mockPasswordHasher.Verify(hasher => hasher.VerifyHashedPassword(It.IsAny<User>(), It.IsAny<string>(), It.IsAny<string>()), Times.Once);
+            _mockUserManager.Verify(manager => manager.RemovePasswordAsync(It.IsAny<User>()), Times.Never);
+            _mockUserManager.Verify(manager => manager.AddPasswordAsync(It.IsAny<User>(), It.IsAny<string>()), Times.Never);
         }
 
 
