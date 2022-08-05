@@ -20,6 +20,11 @@ This file contains a list of todo, and done tasks for the project.
     - [ ] Implement forgot password
 	- [ ] Implement password validation
 
+- [ ] TOTP Two-Factor
+    - [ ] Implement Enable/Disable 2FA
+	- [ ] Implement Generate/Reset recovery tokens
+	- [ ] Implement Reset authenticator app
+
 ### Account
 - [ ] Manage account
     - [ ] Implement change username
