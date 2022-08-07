@@ -14,20 +14,14 @@ namespace FileShare.Api.Controllers.V2._0.Document
     [RequireVerified]
     public class DocumentController : BaseController
     {
-        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IPrimaryUnitOfWork _unitOfWork;
-        private readonly ILogger<DocumentController> _logger;
         private readonly IDocumentService _documentService;
 
         public DocumentController(
-            IHttpContextAccessor httpContextAccessor,
             IPrimaryUnitOfWork unitOfWork,
-            ILogger<DocumentController> logger,
             IDocumentService documentService)
         {
-            _httpContextAccessor = httpContextAccessor;
             _unitOfWork = unitOfWork;
-            _logger = logger;
             _documentService = documentService;
         }
 
@@ -46,8 +40,8 @@ namespace FileShare.Api.Controllers.V2._0.Document
             [AllowedExtensions(new string[] { ".jpg", ".png", ".mp3", ".mp4", ".pdf", ".gif", ".txt" })]
             IFormFile file)
         {
-            var fileId = await _documentService.UploadFileAsync(file, _httpContextAccessor.HttpContext.RequestAborted);
-            await _unitOfWork.SaveChangesAsync(_httpContextAccessor.HttpContext.RequestAborted);
+            var fileId = await _documentService.UploadFileAsync(file);
+            await _unitOfWork.SaveChangesAsync();
 
             return Created(string.Empty, new UploadFileDto() { FileId = fileId });
         }
@@ -65,7 +59,7 @@ namespace FileShare.Api.Controllers.V2._0.Document
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetFile(Guid id)
         {
-            var file = await _documentService.DownloadFileAsync(id, _httpContextAccessor.HttpContext.RequestAborted);
+            var file = await _documentService.DownloadFileAsync(id);
 
             var cd = new ContentDisposition
             {
@@ -90,8 +84,8 @@ namespace FileShare.Api.Controllers.V2._0.Document
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<IActionResult> DeleteFile(Guid id)
         {
-            await _documentService.DeleteFileAsync(id, _httpContextAccessor.HttpContext.RequestAborted);
-            await _unitOfWork.SaveChangesAsync(_httpContextAccessor.HttpContext.RequestAborted);
+            await _documentService.DeleteFileAsync(id);
+            await _unitOfWork.SaveChangesAsync();
 
             return NoContent();
         }

@@ -11,7 +11,6 @@ namespace FileShare.XUnitTests.ControllerTests.V2._0.Registration
 {
     public class RegistrationControllerTests
     {
-        private readonly Mock<IHttpContextAccessor> _mockHttpContextAccessor;
         private readonly Mock<IPrimaryUnitOfWork> _mockUnitOfWork;
         private readonly Mock<IRegistrationService> _mockRegistrationService;
         private readonly Mock<ITokenService> _mockTokenService;
@@ -19,13 +18,11 @@ namespace FileShare.XUnitTests.ControllerTests.V2._0.Registration
 
         public RegistrationControllerTests()
         {
-            _mockHttpContextAccessor = new Mock<IHttpContextAccessor>();
             _mockUnitOfWork = new Mock<IPrimaryUnitOfWork>();
             _mockRegistrationService = new Mock<IRegistrationService>();
             _mockTokenService = new Mock<ITokenService>();
 
             _controller = new RegistrationController(
-                _mockHttpContextAccessor.Object,
                 _mockUnitOfWork.Object,
                 _mockRegistrationService.Object,
                 _mockTokenService.Object);
@@ -36,17 +33,14 @@ namespace FileShare.XUnitTests.ControllerTests.V2._0.Registration
         public async Task Register_ReturnsCreatedResult()
         {
             // Arrange
-            _mockRegistrationService.Setup(service => service.RegisterAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()))
+            _mockRegistrationService.Setup(service => service.RegisterAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
                 .ReturnsAsync(value: new(true, string.Empty));
 
             _mockTokenService.Setup(service => service.GetAccessTokenFromUserIdAsync(It.IsAny<Guid>()))
                 .ReturnsAsync(string.Empty);
 
-            _mockTokenService.Setup(service => service.GetRefreshTokenFromUserIdAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
+            _mockTokenService.Setup(service => service.GetRefreshTokenFromUserIdAsync(It.IsAny<Guid>()))
                 .ReturnsAsync(string.Empty);
-
-            _mockHttpContextAccessor.Setup(accessor => accessor.HttpContext)
-                .Returns(new DefaultHttpContext());
 
             // Act
             var result = await _controller.Register(new(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()));

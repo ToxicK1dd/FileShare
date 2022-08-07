@@ -13,18 +13,15 @@ namespace FileShare.Api.Controllers.V2._0.Registration
     [ApiVersion("2.0")]
     public class RegistrationController : BaseController
     {
-        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IPrimaryUnitOfWork _unitOfWork;
         private readonly IRegistrationService _registrationService;
         private readonly ITokenService _tokenService;
 
         public RegistrationController(
-            IHttpContextAccessor httpContextAccessor,
             IPrimaryUnitOfWork unitOfWork,
             IRegistrationService registrationService,
             ITokenService tokenService)
         {
-            _httpContextAccessor = httpContextAccessor;
             _unitOfWork = unitOfWork;
             _registrationService = registrationService;
             _tokenService = tokenService;
@@ -53,14 +50,14 @@ namespace FileShare.Api.Controllers.V2._0.Registration
         [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<IActionResult> Register([FromBody] RegistrationModel model)
         {
-            var result = await _registrationService.RegisterAsync(model.Username, model.Email, model.Password, _httpContextAccessor.HttpContext.RequestAborted);
+            var result = await _registrationService.RegisterAsync(model.Username, model.Email, model.Password);
             if (result.Successful is false)
                 return Problem(result.ErrorMessage, statusCode: 400);
 
-            var token = await _tokenService.GetAccessTokenFromUsernameAsync(model.Username, _httpContextAccessor.HttpContext.RequestAborted);
-            var refreshToken = await _tokenService.GetRefreshTokenFromUsernameAsync(model.Username, _httpContextAccessor.HttpContext.RequestAborted);
+            var token = await _tokenService.GetAccessTokenFromUsernameAsync(model.Username);
+            var refreshToken = await _tokenService.GetRefreshTokenFromUsernameAsync(model.Username);
 
-            await _unitOfWork.SaveChangesAsync(_httpContextAccessor.HttpContext.RequestAborted);
+            await _unitOfWork.SaveChangesAsync();
 
             return Created(string.Empty, new
             {

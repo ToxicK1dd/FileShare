@@ -52,22 +52,18 @@ namespace FileShare.Service.Services.V2._0.Login
             return await _userManager.CheckPasswordAsync(user, password);
         }
 
-        public async Task<bool> ValidateTotpCodeAsync(string username, string password, string code)
+        public async Task<bool> ValidateTotpCodeAsync(string username, string code)
         {
             var user = await _userManager.FindByNameAsync(username);
             if (user is null)
                 return false;
 
-            var passwordResult = await _userManager.CheckPasswordAsync(user, password);
-            if (passwordResult is false)
-                return false;
-
             return await _userManager.VerifyTwoFactorTokenAsync(user, "Authenticator", code);
         }
 
-        public async Task<string> ValidateRefreshTokenAsync(string oldRefreshToken, CancellationToken cancellationToken)
+        public async Task<string> ValidateRefreshTokenAsync(string oldRefreshToken)
         {
-            var refreshToken = await _unitOfWork.RefreshTokenRepository.GetFromTokenAsync(oldRefreshToken, cancellationToken);
+            var refreshToken = await _unitOfWork.RefreshTokenRepository.GetFromTokenAsync(oldRefreshToken, _httpContextAccessor.HttpContext.RequestAborted);
             if (refreshToken is null)
                 return null;
 

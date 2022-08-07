@@ -23,7 +23,7 @@ namespace FileShare.Service.Services.V2._0.Registration
         }
 
 
-        public async Task<RegistrationResultDto> RegisterAsync(string username, string email, string password, CancellationToken cancellationToken)
+        public async Task<RegistrationResultDto> RegisterAsync(string username, string email, string password)
         {
             var emailValid = IsValidEmailAddress(email);
             if (emailValid is false)

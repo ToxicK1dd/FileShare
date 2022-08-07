@@ -217,6 +217,9 @@ namespace FileShare.XUnitTests.ServiceTests.V2._0.Login
         public async Task ValidateRefreshToken_ShouldReturnString_WhenOldTokenIsValid()
         {
             // Arrange
+            _mockHttpContextAccessor.Setup(accessor => accessor.HttpContext)
+                .Returns(new DefaultHttpContext());
+
             _mockUnitOfWork.Setup(repo => repo.RefreshTokenRepository.GetFromTokenAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(new DataAccess.Models.Primary.RefreshToken.RefreshToken());
 
@@ -224,7 +227,7 @@ namespace FileShare.XUnitTests.ServiceTests.V2._0.Login
                 .Returns("12345");
 
             // Act
-            var result = await _loginService.ValidateRefreshTokenAsync(string.Empty, CancellationToken.None);
+            var result = await _loginService.ValidateRefreshTokenAsync(string.Empty);
 
             // Assert
             Assert.NotNull(result);
@@ -238,11 +241,14 @@ namespace FileShare.XUnitTests.ServiceTests.V2._0.Login
         public async Task ValidateRefreshToken_ShouldReturnNull_WhenOldTokenIsInvalid()
         {
             // Arrange
+            _mockHttpContextAccessor.Setup(accessor => accessor.HttpContext)
+                .Returns(new DefaultHttpContext());
+
             _mockUnitOfWork.Setup(repo => repo.RefreshTokenRepository.GetFromTokenAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync((DataAccess.Models.Primary.RefreshToken.RefreshToken)null);
 
             // Act
-            var result = await _loginService.ValidateRefreshTokenAsync(string.Empty, CancellationToken.None);
+            var result = await _loginService.ValidateRefreshTokenAsync(string.Empty);
 
             // Assert
             Assert.Null(result);

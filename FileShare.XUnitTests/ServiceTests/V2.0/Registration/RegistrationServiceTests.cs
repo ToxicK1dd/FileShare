@@ -55,7 +55,7 @@ namespace FileShare.XUnitTests.ServiceTests.V2._0.Registration
                 .ReturnsAsync(IdentityResult.Success);
 
             // Act
-            var result = await _registrationService.RegisterAsync(username, email, password, CancellationToken.None);
+            var result = await _registrationService.RegisterAsync(username, email, password);
 
             // Assert
             var dto = Assert.IsType<RegistrationResultDto>(result);
@@ -79,7 +79,7 @@ namespace FileShare.XUnitTests.ServiceTests.V2._0.Registration
         {
             // Act
             var result = await _registrationService
-                .RegisterAsync("test", "test", "!Test1234", CancellationToken.None);
+                .RegisterAsync("test", "test", "!Test1234");
 
             // Assert
             Assert.False(result.Successful);
@@ -102,7 +102,7 @@ namespace FileShare.XUnitTests.ServiceTests.V2._0.Registration
 
             // Act
             var result = await _registrationService
-                .RegisterAsync("test", "test@test.test", "!Test1234", CancellationToken.None);
+                .RegisterAsync("test", "test@test.test", "!Test1234");
 
             // Assert
             Assert.False(result.Successful);
@@ -128,7 +128,7 @@ namespace FileShare.XUnitTests.ServiceTests.V2._0.Registration
 
             // Act
             var result = await _registrationService
-                .RegisterAsync("test", "test@test.test", "!Test1234", CancellationToken.None);
+                .RegisterAsync("test", "test@test.test", "!Test1234");
 
             // Assert
             Assert.False(result.Successful);

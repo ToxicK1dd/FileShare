@@ -2,6 +2,7 @@
 using FileShare.DataAccess.UnitOfWork.Primary.Interface;
 using FileShare.Service.Services.V2._0.Token.Interface;
 using FileShare.Utilities.Generators.Random.Interface;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -16,13 +17,20 @@ namespace FileShare.Service.Services.V2._0.Token
     /// </summary>
     public class TokenService : ITokenService
     {
+        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IPrimaryUnitOfWork _unitOfWork;
         private readonly IConfiguration _configuration;
         private readonly IRandomGenerator _randomGenerator;
         private readonly UserManager<User> _userManager;
 
-        public TokenService(IPrimaryUnitOfWork primaryUnitOfWork, IConfiguration configuration, IRandomGenerator randomGenerator, UserManager<User> userManager)
+        public TokenService(
+            IHttpContextAccessor httpContextAccessor,
+            IPrimaryUnitOfWork primaryUnitOfWork,
+            IConfiguration configuration,
+            IRandomGenerator randomGenerator,
+            UserManager<User> userManager)
         {
+            _httpContextAccessor = httpContextAccessor;
             _unitOfWork = primaryUnitOfWork;
             _configuration = configuration;
             _randomGenerator = randomGenerator;
@@ -57,21 +65,21 @@ namespace FileShare.Service.Services.V2._0.Token
             return new JwtSecurityTokenHandler().WriteToken(tokenOptions);
         }
 
-        public async Task<string> GetAccessTokenFromUsernameAsync(string username, CancellationToken cancellationToken)
+        public async Task<string> GetAccessTokenFromUsernameAsync(string username)
         {
-            var userId = await _unitOfWork.UserRepository.GetIdByUsernameAsync(username, cancellationToken);
+            var userId = await _unitOfWork.UserRepository.GetIdByUsernameAsync(username, _httpContextAccessor.HttpContext.RequestAborted);
 
             return await GetAccessTokenFromUserIdAsync(userId);
         }
 
-        public async Task<string> GetRefreshTokenFromUsernameAsync(string username, CancellationToken cancellationToken)
+        public async Task<string> GetRefreshTokenFromUsernameAsync(string username)
         {
-            var userId = await _unitOfWork.UserRepository.GetIdByUsernameAsync(username, cancellationToken);
+            var userId = await _unitOfWork.UserRepository.GetIdByUsernameAsync(username, _httpContextAccessor.HttpContext.RequestAborted);
 
-            return await GetRefreshTokenFromUserIdAsync(userId, cancellationToken);
+            return await GetRefreshTokenFromUserIdAsync(userId);
         }
 
-        public async Task<string> GetRefreshTokenFromUserIdAsync(Guid userId, CancellationToken cancellationToken)
+        public async Task<string> GetRefreshTokenFromUserIdAsync(Guid userId)
         {
             var refreshTokenString = _randomGenerator.GenerateBase64String();
 
@@ -81,7 +89,7 @@ namespace FileShare.Service.Services.V2._0.Token
                 Expiration = DateTimeOffset.UtcNow.AddDays(30),
                 UserId = userId
             };
-            await _unitOfWork.RefreshTokenRepository.AddAsync(refreshToken, cancellationToken);
+            await _unitOfWork.RefreshTokenRepository.AddAsync(refreshToken, _httpContextAccessor.HttpContext.RequestAborted);
 
             return refreshToken.Token;
         }

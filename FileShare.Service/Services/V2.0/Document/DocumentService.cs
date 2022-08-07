@@ -30,9 +30,9 @@ namespace FileShare.Service.Services.V2._0.Document
         }
 
 
-        public async Task<Guid> UploadFileAsync(IFormFile file, CancellationToken cancellationToken)
+        public async Task<Guid> UploadFileAsync(IFormFile file)
         {
-            var userId = await GetUserId(cancellationToken);
+            var userId = await GetUserId();
             var fileModel = new FileModel()
             {
                 UserId = userId,
@@ -46,32 +46,32 @@ namespace FileShare.Service.Services.V2._0.Document
             };
 
             using var memoryStream = new MemoryStream();
-            await file.CopyToAsync(memoryStream, cancellationToken);
+            await file.CopyToAsync(memoryStream, _httpContextAccessor.HttpContext.RequestAborted);
 
-            var compressedFile = await CompressFile(memoryStream.ToArray(), cancellationToken);
+            var compressedFile = await CompressFile(memoryStream.ToArray());
             fileModel.Contents = compressedFile;
 
-            await _unitOfWork.DocumentRepository.AddAsync(fileModel, cancellationToken);
+            await _unitOfWork.DocumentRepository.AddAsync(fileModel);
             return fileModel.Id;
         }
 
-        public async Task<FileDto> DownloadFileAsync(Guid id, CancellationToken cancellationToken)
+        public async Task<FileDto> DownloadFileAsync(Guid id)
         {
-            var userId = await GetUserId(cancellationToken);
-            var dbFile = await GetDocumentAsync(id, userId, cancellationToken);
+            var userId = await GetUserId();
+            var dbFile = await GetDocumentAsync(id, userId);
 
             return new FileDto()
             {
-                FileContents = await DecompressFile(dbFile.Contents, cancellationToken),
+                FileContents = await DecompressFile(dbFile.Contents),
                 FileName = dbFile.Detail.FileName,
                 ContentType = dbFile.Detail.ContentType
             };
         }
 
-        public async Task DeleteFileAsync(Guid id, CancellationToken cancellationToken)
+        public async Task DeleteFileAsync(Guid id)
         {
-            var userId = await GetUserId(cancellationToken);
-            var dbFile = await GetDocumentAsync(id, userId, cancellationToken);
+            var userId = await GetUserId();
+            var dbFile = await GetDocumentAsync(id, userId);
 
             _unitOfWork.DocumentRepository.RemoveById(dbFile.Id);
         }
@@ -79,9 +79,9 @@ namespace FileShare.Service.Services.V2._0.Document
 
         #region Helpers
 
-        private async Task<FileModel> GetDocumentAsync(Guid id, Guid userId, CancellationToken cancellationToken)
+        private async Task<FileModel> GetDocumentAsync(Guid id, Guid userId)
         {
-            var dbFile = await _unitOfWork.DocumentRepository.GetByIdWithDetailAsync(id, cancellationToken);
+            var dbFile = await _unitOfWork.DocumentRepository.GetByIdWithDetailAsync(id, _httpContextAccessor.HttpContext.RequestAborted);
             if (dbFile is null)
                 throw new KeyNotFoundException($"File with id {id} was not found.");
             if (dbFile.UserId != userId)
@@ -90,27 +90,27 @@ namespace FileShare.Service.Services.V2._0.Document
             return dbFile;
         }
 
-        private async Task<Guid> GetUserId(CancellationToken cancellationToken)
+        private async Task<Guid> GetUserId()
         {
             var username = _identityClaimsHelper.GetUsernameFromHttpContext(_httpContextAccessor.HttpContext);
             if (username is null)
                 throw new UnauthorizedAccessException();
 
-            return await _unitOfWork.UserRepository.GetIdByUsernameAsync(username, cancellationToken);
+            return await _unitOfWork.UserRepository.GetIdByUsernameAsync(username, _httpContextAccessor.HttpContext.RequestAborted);
         }
 
-        private async Task<byte[]> CompressFile(byte[] buffer, CancellationToken cancellationToken)
+        private async Task<byte[]> CompressFile(byte[] buffer)
         {
             using MemoryStream stream = new();
             using (GZipStream zip = new(stream, CompressionMode.Compress))
             {
-                await zip.WriteAsync(buffer.AsMemory(0, buffer.Length), cancellationToken);
+                await zip.WriteAsync(buffer.AsMemory(0, buffer.Length), _httpContextAccessor.HttpContext.RequestAborted);
                 zip.Close();
             }
             return stream.ToArray();
         }
 
-        private async Task<byte[]> DecompressFile(byte[] buffer, CancellationToken cancellationToken)
+        private async Task<byte[]> DecompressFile(byte[] buffer)
         {
             using MemoryStream stream = new(buffer);
             using IReader reader = ReaderFactory.Open(stream);
@@ -121,7 +121,7 @@ namespace FileShare.Service.Services.V2._0.Document
                     using MemoryStream ms = new();
 
                     using var entryStream = reader.OpenEntryStream();
-                    await entryStream.CopyToAsync(ms, cancellationToken);
+                    await entryStream.CopyToAsync(ms, _httpContextAccessor.HttpContext.RequestAborted);
 
                     return ms.ToArray();
                 }

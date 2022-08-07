@@ -13,18 +13,15 @@ namespace FileShare.Api.Controllers.V2._0.Login
     [ApiVersion("2.0")]
     public class LoginController : BaseController
     {
-        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IPrimaryUnitOfWork _unitOfWork;
         private readonly ILoginService _loginService;
         private readonly ITokenService _tokenService;
 
         public LoginController(
-            IHttpContextAccessor httpContextAccessor,
             IPrimaryUnitOfWork unitOfWork,
             ILoginService loginService,
             ITokenService tokenService)
         {
-            _httpContextAccessor = httpContextAccessor;
             _unitOfWork = unitOfWork;
             _loginService = loginService;
             _tokenService = tokenService;
@@ -54,12 +51,12 @@ namespace FileShare.Api.Controllers.V2._0.Login
         {
             var isValidated = await _loginService.ValidateCredentialsByUsernameAsync(model.Username, model.Password);
             if (!isValidated)
-                return Unauthorized();
+                return Unauthorized("Password is incorrect.");
 
-            var token = await _tokenService.GetAccessTokenFromUsernameAsync(model.Username, _httpContextAccessor.HttpContext.RequestAborted);
-            var refreshToken = await _tokenService.GetRefreshTokenFromUsernameAsync(model.Username, _httpContextAccessor.HttpContext.RequestAborted);
+            var token = await _tokenService.GetAccessTokenFromUsernameAsync(model.Username);
+            var refreshToken = await _tokenService.GetRefreshTokenFromUsernameAsync(model.Username);
 
-            await _unitOfWork.SaveChangesAsync(_httpContextAccessor.HttpContext.RequestAborted);
+            await _unitOfWork.SaveChangesAsync();
 
             return Created(string.Empty, new
             {
@@ -90,14 +87,18 @@ namespace FileShare.Api.Controllers.V2._0.Login
         [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<IActionResult> AuthenticateTotp([FromBody] AuthenticateTotpLoginModel model)
         {
-            var isValidated = await _loginService.ValidateTotpCodeAsync(model.Username, model.Password, model.Code);
-            if (!isValidated)
-                return Unauthorized();
+            var isPasswordValidated = await _loginService.ValidateCredentialsByUsernameAsync(model.Username, model.Password);
+            if (isPasswordValidated is false)
+                return Unauthorized("Password is incorrect.");
 
-            var token = await _tokenService.GetAccessTokenFromUsernameAsync(model.Username, _httpContextAccessor.HttpContext.RequestAborted);
-            var refreshToken = await _tokenService.GetRefreshTokenFromUsernameAsync(model.Username, _httpContextAccessor.HttpContext.RequestAborted);
+            var isCodeValidated = await _loginService.ValidateTotpCodeAsync(model.Username, model.Code);
+            if (isCodeValidated is false)
+                return Unauthorized("2FA code is incorrect.");
 
-            await _unitOfWork.SaveChangesAsync(_httpContextAccessor.HttpContext.RequestAborted);
+            var token = await _tokenService.GetAccessTokenFromUsernameAsync(model.Username);
+            var refreshToken = await _tokenService.GetRefreshTokenFromUsernameAsync(model.Username);
+
+            await _unitOfWork.SaveChangesAsync();
 
             return Created(string.Empty, new
             {
@@ -117,12 +118,12 @@ namespace FileShare.Api.Controllers.V2._0.Login
         [ActionName("RefreshToken")]
         public async Task<IActionResult> DeleteRefreshToken([FromQuery] string refreshToken)
         {
-            var token = await _unitOfWork.RefreshTokenRepository.GetFromTokenAsync(refreshToken, _httpContextAccessor.HttpContext.RequestAborted);
+            var token = await _unitOfWork.RefreshTokenRepository.GetFromTokenAsync(refreshToken);
             if (token is null)
-                return NotFound();
+                return NotFound("Refresh token could not be found.");
 
             _unitOfWork.RefreshTokenRepository.Remove(token);
-            await _unitOfWork.SaveChangesAsync(_httpContextAccessor.HttpContext.RequestAborted);
+            await _unitOfWork.SaveChangesAsync();
 
             return NoContent();
         }
@@ -138,14 +139,14 @@ namespace FileShare.Api.Controllers.V2._0.Login
         [ActionName("RefreshToken")]
         public async Task<IActionResult> UpdateRefreshToken([FromQuery] string refreshToken)
         {
-            var newRefreshToken = await _loginService.ValidateRefreshTokenAsync(refreshToken, _httpContextAccessor.HttpContext.RequestAborted);
+            var newRefreshToken = await _loginService.ValidateRefreshTokenAsync(refreshToken);
             if (newRefreshToken is null)
-                return NotFound();
+                return NotFound("Refresh token is invalid.");
 
-            var userId = await _unitOfWork.RefreshTokenRepository.GetUserIdFromToken(refreshToken, _httpContextAccessor.HttpContext.RequestAborted);
+            var userId = await _unitOfWork.RefreshTokenRepository.GetUserIdFromToken(refreshToken);
             var token = _tokenService.GetAccessTokenFromUserIdAsync(userId);
 
-            await _unitOfWork.SaveChangesAsync(_httpContextAccessor.HttpContext.RequestAborted);
+            await _unitOfWork.SaveChangesAsync();
 
             return Created(string.Empty, new
             {
@@ -164,7 +165,7 @@ namespace FileShare.Api.Controllers.V2._0.Login
         public async Task<IActionResult> ChangeCredentials([FromBody] ChangePasswordModel model)
         {
             await _loginService.ChangeCredentialsAsync(model.NewPassword, model.OldPassword);
-            await _unitOfWork.SaveChangesAsync(_httpContextAccessor.HttpContext.RequestAborted);
+            await _unitOfWork.SaveChangesAsync();
 
             return NoContent();
         }

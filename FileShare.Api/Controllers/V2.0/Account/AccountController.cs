@@ -7,16 +7,15 @@ namespace FileShare.Api.Controllers.V2._0.Account
     [ApiVersion("2.0")]
     public class AccountController : BaseController
     {
-        private readonly ILogger<AccountController> _logger;
         private readonly IAccountService _accountService;
         private readonly IQrCodeService _qrCodeService;
 
-        public AccountController(ILogger<AccountController> logger, IAccountService accountService, IQrCodeService qrCodeService)
+        public AccountController(IAccountService accountService, IQrCodeService qrCodeService)
         {
-            _logger = logger;
             _accountService = accountService;
             _qrCodeService = qrCodeService;
         }
+
 
         /// <summary>
         /// Enable Time-Based One-Time Password (TOTP) Multi-Factor Authentication (MFA)

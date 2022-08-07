@@ -12,19 +12,15 @@ namespace FileShare.XUnitTests.ControllerTests.V2._0.Document
 {
     public class DocumentControllerTests
     {
-        private readonly Mock<IHttpContextAccessor> _mockHttpContextAccessor;
         private readonly Mock<IPrimaryUnitOfWork> _mockUnitOfWork;
-        private readonly Mock<ILogger<DocumentController>> _mockLogger;
         private readonly Mock<IDocumentService> _mockDocumentService;
         private readonly DocumentController _documentController;
 
         public DocumentControllerTests()
         {
-            _mockHttpContextAccessor = new Mock<IHttpContextAccessor>();
             _mockUnitOfWork = new Mock<IPrimaryUnitOfWork>();
-            _mockLogger = new Mock<ILogger<DocumentController>>();
             _mockDocumentService = new Mock<IDocumentService>();
-            _documentController = new DocumentController(_mockHttpContextAccessor.Object, _mockUnitOfWork.Object, _mockLogger.Object, _mockDocumentService.Object);
+            _documentController = new DocumentController(_mockUnitOfWork.Object, _mockDocumentService.Object);
         }
 
 
@@ -37,10 +33,7 @@ namespace FileShare.XUnitTests.ControllerTests.V2._0.Document
             using var stream = new MemoryStream();
             IFormFile file = new FormFile(stream, 0, stream.Length, "test", "test.pdf");
 
-            _mockHttpContextAccessor.Setup(accessor => accessor.HttpContext)
-                .Returns(new DefaultHttpContext());
-
-            _mockDocumentService.Setup(service => service.UploadFileAsync(It.IsAny<IFormFile>(), It.IsAny<CancellationToken>()))
+            _mockDocumentService.Setup(service => service.UploadFileAsync(It.IsAny<IFormFile>()))
                 .ReturnsAsync(fileId);
 
             // Act
@@ -51,7 +44,7 @@ namespace FileShare.XUnitTests.ControllerTests.V2._0.Document
             var dto = Assert.IsType<UploadFileDto>(createdResult.Value);
             Assert.Equal(fileId, dto.FileId);
 
-            _mockDocumentService.Verify(service => service.UploadFileAsync(It.IsAny<IFormFile>(), It.IsAny<CancellationToken>()), Times.Once);
+            _mockDocumentService.Verify(service => service.UploadFileAsync(It.IsAny<IFormFile>()), Times.Once);
         }
     }
 }
