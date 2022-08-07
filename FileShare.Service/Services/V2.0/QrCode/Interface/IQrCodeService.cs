@@ -2,6 +2,12 @@
 {
     public interface IQrCodeService
     {
-        string GenerateQrCode(string text);
+        /// <summary>
+        /// Generate a QR code from text.
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="pixelsPerModule"></param>
+        /// <returns>Base64 QR code.</returns>
+        string GenerateQrCode(string text, int pixelsPerModule = 10);
     }
 }

@@ -21,9 +21,9 @@ This file contains a list of todo, and done tasks for the project.
 	- [ ] Implement password validation
 
 - [ ] TOTP Two-Factor
-    - [ ] Implement Enable/Disable 2FA
-	- [ ] Implement Generate/Reset recovery tokens
-	- [ ] Implement Reset authenticator app
+    - [x] Implement enable/disable 2FA
+	- [x] Implement generate qrcode key 
+	- [ ] Implement recovery codes
 
 ### Account
 - [ ] Manage account

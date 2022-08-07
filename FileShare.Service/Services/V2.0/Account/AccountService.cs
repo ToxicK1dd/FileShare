@@ -37,19 +37,19 @@ namespace FileShare.Service.Services.V2._0.Account
             if (user is null)
                 return null;
 
-            var result = await _userManager.SetTwoFactorEnabledAsync(user, true);
-            if (!result.Succeeded)
-                return null;
-
             var key = await _userManager.GetAuthenticatorKeyAsync(user);
             if (string.IsNullOrEmpty(key))
             {
-                result = await _userManager.ResetAuthenticatorKeyAsync(user);
-                if (!result.Succeeded)
+                var resetAuthResult = await _userManager.ResetAuthenticatorKeyAsync(user);
+                if (resetAuthResult.Succeeded is false)
                     return null;
 
                 key = await _userManager.GetAuthenticatorKeyAsync(user);
             }
+
+            var enableTwoFactorResult = await _userManager.SetTwoFactorEnabledAsync(user, true);
+            if (enableTwoFactorResult.Succeeded is false)
+                return null;
 
             return key;
         }
@@ -62,6 +62,10 @@ namespace FileShare.Service.Services.V2._0.Account
 
             var user = await _userManager.FindByNameAsync(username);
             if (user is null)
+                return false;
+
+            var resetKeyResult = await _userManager.ResetAuthenticatorKeyAsync(user);
+            if (resetKeyResult.Succeeded is false)
                 return false;
 
             var result = await _userManager.SetTwoFactorEnabledAsync(user, false);
