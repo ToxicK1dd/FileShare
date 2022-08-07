@@ -52,6 +52,31 @@ namespace FileShare.Service.Services.V2._0.Login
             return await _userManager.CheckPasswordAsync(user, password);
         }
 
+        public async Task<bool> ValidateTotpCodeAsync(string username, string password, string code)
+        {
+            var user = await _userManager.FindByNameAsync(username);
+            if (user is null)
+                return false;
+
+            var passwordResult = await _userManager.CheckPasswordAsync(user, password);
+            if (passwordResult is false)
+                return false;
+
+            return await _userManager.VerifyTwoFactorTokenAsync(user, "Authenticator", code);
+        }
+
+        public async Task<string> ValidateRefreshTokenAsync(string oldRefreshToken, CancellationToken cancellationToken)
+        {
+            var refreshToken = await _unitOfWork.RefreshTokenRepository.GetFromTokenAsync(oldRefreshToken, cancellationToken);
+            if (refreshToken is null)
+                return null;
+
+            refreshToken.Token = _randomGenerator.GenerateBase64String();
+            refreshToken.Expiration = DateTimeOffset.UtcNow.AddDays(30);
+
+            return refreshToken.Token;
+        }
+
         public async Task<bool> ChangeCredentialsAsync(string newPassword, string oldPassword)
         {
             var username = _identityClaimsHelper.GetUsernameFromHttpContext(_httpContextAccessor.HttpContext);
@@ -70,18 +95,6 @@ namespace FileShare.Service.Services.V2._0.Login
             await _userManager.AddPasswordAsync(user, newPassword);
 
             return true;
-        }
-
-        public async Task<string> ValidateRefreshTokenAsync(string oldRefreshToken, CancellationToken cancellationToken)
-        {
-            var refreshToken = await _unitOfWork.RefreshTokenRepository.GetFromTokenAsync(oldRefreshToken, cancellationToken);
-            if (refreshToken is null)
-                return null;
-
-            refreshToken.Token = _randomGenerator.GenerateBase64String();
-            refreshToken.Expiration = DateTimeOffset.UtcNow.AddDays(30);
-
-            return refreshToken.Token;
         }
     }
 }

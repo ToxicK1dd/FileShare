@@ -69,6 +69,44 @@ namespace FileShare.Api.Controllers.V2._0.Login
         }
 
         /// <summary>
+        /// Get a new JWT, and refresh token using user credentials and TOTP code.
+        /// </summary>
+        /// <param name="model"></param>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     POST /authenticatetotp
+        ///     {
+        ///        "username": "Superman",
+        ///        "password": "!Krypton1t3",
+        ///        "code": "12345"
+        ///     }
+        ///
+        /// </remarks>
+        /// <response code="201">A new JWt, and refresh token has been created.</response>
+        /// <response code="401">The credentials are incorrect.</response>
+        [HttpPost]
+        [AllowAnonymous]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        public async Task<IActionResult> AuthenticateTotp([FromBody] AuthenticateTotpLoginModel model)
+        {
+            var isValidated = await _loginService.ValidateTotpCodeAsync(model.Username, model.Password, model.Code);
+            if (!isValidated)
+                return Unauthorized();
+
+            var token = await _tokenService.GetAccessTokenFromUsernameAsync(model.Username, _httpContextAccessor.HttpContext.RequestAborted);
+            var refreshToken = await _tokenService.GetRefreshTokenFromUsernameAsync(model.Username, _httpContextAccessor.HttpContext.RequestAborted);
+
+            await _unitOfWork.SaveChangesAsync(_httpContextAccessor.HttpContext.RequestAborted);
+
+            return Created(string.Empty, new
+            {
+                token,
+                refreshToken
+            });
+        }
+
+        /// <summary>
         /// Remove the specified refresh token, to prevent the user from optaining a new JWT.
         /// </summary>
         /// <param name="refreshToken"></param>
