@@ -9,7 +9,7 @@ namespace FileShare.Service.Services.V2._0.Registration.Interface
         /// </summary>
         /// <param name="dto"></param>
         /// <param name="cancellationToken"></param>
-        /// <returns>Returns login, and account id for the newly created account.</returns>
+        /// <returns><see cref="RegistrationResultDto"/> indicating whether or not the registration was successful. And a potential error message.</returns>
         Task<RegistrationResultDto> RegisterAsync(string username, string email, string password, CancellationToken cancellationToken);
     }
 }

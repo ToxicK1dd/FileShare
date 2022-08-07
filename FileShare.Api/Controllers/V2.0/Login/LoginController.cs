@@ -14,20 +14,17 @@ namespace FileShare.Api.Controllers.V2._0.Login
     public class LoginController : BaseController
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly ILogger<LoginController> _logger;
         private readonly IPrimaryUnitOfWork _unitOfWork;
         private readonly ILoginService _loginService;
         private readonly ITokenService _tokenService;
 
         public LoginController(
             IHttpContextAccessor httpContextAccessor,
-            ILogger<LoginController> logger,
             IPrimaryUnitOfWork unitOfWork,
             ILoginService loginService,
             ITokenService tokenService)
         {
             _httpContextAccessor = httpContextAccessor;
-            _logger = logger;
             _unitOfWork = unitOfWork;
             _loginService = loginService;
             _tokenService = tokenService;
@@ -55,7 +52,7 @@ namespace FileShare.Api.Controllers.V2._0.Login
         [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<IActionResult> Authenticate([FromBody] AuthenticateLoginModel model)
         {
-            var isValidated = await _loginService.ValidateCredentialsAsync(model.Username, model.Password, _httpContextAccessor.HttpContext.RequestAborted);
+            var isValidated = await _loginService.ValidateCredentialsByUsernameAsync(model.Username, model.Password);
             if (!isValidated)
                 return Unauthorized();
 
@@ -108,7 +105,7 @@ namespace FileShare.Api.Controllers.V2._0.Login
                 return NotFound();
 
             var userId = await _unitOfWork.RefreshTokenRepository.GetUserIdFromToken(refreshToken, _httpContextAccessor.HttpContext.RequestAborted);
-            var token = _tokenService.GetAccessTokenAsync(userId);
+            var token = _tokenService.GetAccessTokenFromUserIdAsync(userId);
 
             await _unitOfWork.SaveChangesAsync(_httpContextAccessor.HttpContext.RequestAborted);
 
@@ -128,7 +125,7 @@ namespace FileShare.Api.Controllers.V2._0.Login
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<IActionResult> ChangeCredentials([FromBody] ChangePasswordModel model)
         {
-            await _loginService.ChangeCredentialsAsync(model.NewPassword, model.OldPassword, _httpContextAccessor.HttpContext.RequestAborted);
+            await _loginService.ChangeCredentialsAsync(model.NewPassword, model.OldPassword);
             await _unitOfWork.SaveChangesAsync(_httpContextAccessor.HttpContext.RequestAborted);
 
             return NoContent();

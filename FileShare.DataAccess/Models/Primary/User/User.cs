@@ -40,6 +40,12 @@ namespace FileShare.DataAccess.Models.Primary.User
         public void Configure(EntityTypeBuilder<User> builder)
         {
             builder.ToTable(name: "User");
+
+            builder.HasIndex(x => x.UserName).IsUnique();
+            builder.HasIndex(x => x.NormalizedUserName).IsUnique();
+            builder.HasIndex(x => x.Email).IsUnique();
+            builder.HasIndex(x => x.NormalizedEmail).IsUnique();
+            builder.HasIndex(x => x.PhoneNumber).IsUnique();
         }
     }
 }

@@ -51,7 +51,7 @@ namespace FileShare.XUnitTests.ServiceTests.V2._0.Login
                 .ReturnsAsync(true);
 
             // Act
-            var result = await _loginService.ValidateCredentialsAsync("Test", "!Test1234", CancellationToken.None);
+            var result = await _loginService.ValidateCredentialsByUsernameAsync("Test", "!Test1234");
 
             // Assert
             Assert.True(result);
@@ -71,7 +71,7 @@ namespace FileShare.XUnitTests.ServiceTests.V2._0.Login
                 .ReturnsAsync(false);
 
             // Act
-            var result = await _loginService.ValidateCredentialsAsync("Test", "InvalidPassword", CancellationToken.None);
+            var result = await _loginService.ValidateCredentialsByUsernameAsync("Test", "InvalidPassword");
 
             // Assert
             Assert.False(result);
@@ -88,7 +88,7 @@ namespace FileShare.XUnitTests.ServiceTests.V2._0.Login
                 .ReturnsAsync(value: null);
 
             // Act
-            var result = await _loginService.ValidateCredentialsAsync("Test", "!Test1234", CancellationToken.None);
+            var result = await _loginService.ValidateCredentialsByUsernameAsync("Test", "!Test1234");
 
             // Assert
             Assert.False(result);
@@ -101,9 +101,6 @@ namespace FileShare.XUnitTests.ServiceTests.V2._0.Login
         public async Task ChangeCredentials_ShouldReturnTrue_WhenCredentialsAreValid()
         {
             // Arrange
-            string password = "!Test1234";
-            CancellationToken cancellationToken = CancellationToken.None;
-
             _mockHttpContextAccessor.Setup(accessor => accessor.HttpContext)
                 .Returns(new DefaultHttpContext());
 
@@ -123,7 +120,7 @@ namespace FileShare.XUnitTests.ServiceTests.V2._0.Login
                 .ReturnsAsync(IdentityResult.Success);
 
             // Act
-            var result = await _loginService.ChangeCredentialsAsync(password, password, cancellationToken);
+            var result = await _loginService.ChangeCredentialsAsync("!Test1234", "!Test1234");
 
             // Assert
             Assert.True(result);
@@ -140,14 +137,11 @@ namespace FileShare.XUnitTests.ServiceTests.V2._0.Login
         public async Task ChangeCredentials_ShouldReturnFalse_WhenHttpContextIsInvalid()
         {
             // Arrange
-            string password = "!Test1234";
-            CancellationToken cancellationToken = CancellationToken.None;
-
             _mockIdentityClaimsHelper.Setup(helper => helper.GetUsernameFromHttpContext(It.IsAny<HttpContext>()))
                 .Returns(value: null);
 
             // Act
-            var result = await _loginService.ChangeCredentialsAsync(password, password, cancellationToken);
+            var result = await _loginService.ChangeCredentialsAsync("!Test1234", "!Test1234");
 
             // Assert
             Assert.False(result);
@@ -164,9 +158,6 @@ namespace FileShare.XUnitTests.ServiceTests.V2._0.Login
         public async Task ChangeCredentials_ShouldReturnFalse_WhenUserIsNotFound()
         {
             // Arrange
-            string password = "!Test1234";
-            CancellationToken cancellationToken = CancellationToken.None;
-
             _mockHttpContextAccessor.Setup(accessor => accessor.HttpContext)
                 .Returns(new DefaultHttpContext());
 
@@ -178,7 +169,7 @@ namespace FileShare.XUnitTests.ServiceTests.V2._0.Login
 
 
             // Act
-            var result = await _loginService.ChangeCredentialsAsync(password, password, cancellationToken);
+            var result = await _loginService.ChangeCredentialsAsync("!Test1234", "!Test1234");
 
             // Assert
             Assert.False(result);
@@ -195,9 +186,6 @@ namespace FileShare.XUnitTests.ServiceTests.V2._0.Login
         public async Task ChangeCredentials_ShouldReturnFalse_WhenPasswordIsInvalid()
         {
             // Arrange
-            string password = "!Test1234";
-            CancellationToken cancellationToken = CancellationToken.None;
-
             _mockHttpContextAccessor.Setup(accessor => accessor.HttpContext)
                 .Returns(new DefaultHttpContext());
 
@@ -211,7 +199,7 @@ namespace FileShare.XUnitTests.ServiceTests.V2._0.Login
                 .Returns(PasswordVerificationResult.Failed);
 
             // Act
-            var result = await _loginService.ChangeCredentialsAsync(password, password, cancellationToken);
+            var result = await _loginService.ChangeCredentialsAsync("!Test1234", "!Test1234");
 
             // Assert
             Assert.False(result);

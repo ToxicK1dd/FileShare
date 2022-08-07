@@ -34,7 +34,7 @@ namespace FileShare.Service.Services.V2._0.Login
         }
 
 
-        public async Task<bool> ValidateCredentialsAsync(string username, string password, CancellationToken cancellationToken)
+        public async Task<bool> ValidateCredentialsByUsernameAsync(string username, string password)
         {
             var user = await _userManager.FindByNameAsync(username);
             if (user is null)
@@ -43,7 +43,16 @@ namespace FileShare.Service.Services.V2._0.Login
             return await _userManager.CheckPasswordAsync(user, password);
         }
 
-        public async Task<bool> ChangeCredentialsAsync(string newPassword, string oldPassword, CancellationToken cancellationToken)
+        public async Task<bool> ValidateCredentialsByEmailAsync(string email, string password)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+            if (user is null)
+                return false;
+
+            return await _userManager.CheckPasswordAsync(user, password);
+        }
+
+        public async Task<bool> ChangeCredentialsAsync(string newPassword, string oldPassword)
         {
             var username = _identityClaimsHelper.GetUsernameFromHttpContext(_httpContextAccessor.HttpContext);
             if (username is null)

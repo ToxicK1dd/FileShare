@@ -8,8 +8,16 @@
         /// <param name="username"></param>
         /// <param name="password"></param>
         /// <param name="cancellationToken"></param>
-        /// <returns>Returns boolean indicating if the credentials are valid.</returns>
-        Task<bool> ValidateCredentialsAsync(string username, string password, CancellationToken cancellationToken);
+        /// <returns><see langword="true"/> if the credentials are valid. Otherwise <see langword="false"/>.</returns>
+        Task<bool> ValidateCredentialsByUsernameAsync(string username, string password);
+
+        /// <summary>
+        /// Ensure the email and password are correct.
+        /// </summary>
+        /// <param name="email"></param>
+        /// <param name="password"></param>
+        /// <returns><see langword="true"/> if the credentials are valid. Otherwise <see langword="false"/>.</returns>
+        Task<bool> ValidateCredentialsByEmailAsync(string email, string password);
 
         /// <summary>
         /// Change the password for the user.
@@ -17,15 +25,15 @@
         /// <param name="newPassword"></param>
         /// <param name="oldPassword"></param>
         /// <param name="cancellationToken"></param>
-        /// <returns>Returns boolean indicating a successful change of the password.</returns>
-        Task<bool> ChangeCredentialsAsync(string newPassword, string oldPassword, CancellationToken cancellationToken);
+        /// <returns><see langword="true"/> if the credentials were successfully changed. Otherwise <see langword="false"/>.</returns>
+        Task<bool> ChangeCredentialsAsync(string newPassword, string oldPassword);
 
         /// <summary>
         /// Ensure the refresh token are correct.
         /// </summary>
         /// <param name="oldRefreshToken"></param>
         /// <param name="cancellationToken"></param>
-        /// <returns>Returns an updated refresh token.</returns>
+        /// <returns>An updated refresh token, or null if the old refresh token did not exist.</returns>
         Task<string> ValidateRefreshTokenAsync(string oldRefreshToken, CancellationToken cancellationToken);
     }
 }

@@ -78,14 +78,15 @@ namespace FileShare.XUnitTests.ServiceTests.V2._0.Registration
         public async Task Register_Should_Throw_When_Email_Is_Invalid()
         {
             // Act
-            var result = await _registrationService.RegisterAsync("test", "test", "!Test1234", CancellationToken.None);
+            var result = await _registrationService
+                .RegisterAsync("test", "test", "!Test1234", CancellationToken.None);
 
             // Assert
             Assert.False(result.Successful);
             Assert.Equal("Email is not valid format.", result.ErrorMessage);
 
-            _mockUserManager.Verify(manager => manager.FindByNameAsync(It.IsAny<string>()), Times.Once);
-            _mockUserManager.Verify(manager => manager.FindByEmailAsync(It.IsAny<string>()), Times.Once);
+            _mockUserManager.Verify(manager => manager.FindByNameAsync(It.IsAny<string>()), Times.Never);
+            _mockUserManager.Verify(manager => manager.FindByEmailAsync(It.IsAny<string>()), Times.Never);
             _mockRoleManager.Verify(manager => manager.RoleExistsAsync(It.IsAny<string>()), Times.Never);
             _mockRoleManager.Verify(manager => manager.CreateAsync(It.IsAny<IdentityRole<Guid>>()), Times.Never);
             _mockUserManager.Verify(manager => manager.AddToRoleAsync(It.IsAny<User>(), It.IsAny<string>()), Times.Never);
@@ -96,20 +97,19 @@ namespace FileShare.XUnitTests.ServiceTests.V2._0.Registration
         public async Task Register_Should_Throw_When_Username_Is_Taken()
         {
             // Arrange
-            var cancellationToken = CancellationToken.None;
-
             _mockUserManager.Setup(manager => manager.FindByNameAsync(It.IsAny<string>()))
                 .ReturnsAsync(value: new());
 
             // Act
-            var result = await _registrationService.RegisterAsync("test", "test@test.test", "!Test1234", CancellationToken.None);
+            var result = await _registrationService
+                .RegisterAsync("test", "test@test.test", "!Test1234", CancellationToken.None);
 
             // Assert
             Assert.False(result.Successful);
             Assert.Equal("Username is already taken.", result.ErrorMessage);
 
+            _mockUserManager.Verify(manager => manager.FindByEmailAsync(It.IsAny<string>()), Times.Once);
             _mockUserManager.Verify(manager => manager.FindByNameAsync(It.IsAny<string>()), Times.Once);
-            _mockUserManager.Verify(manager => manager.FindByEmailAsync(It.IsAny<string>()), Times.Never);
             _mockRoleManager.Verify(manager => manager.RoleExistsAsync(It.IsAny<string>()), Times.Never);
             _mockRoleManager.Verify(manager => manager.CreateAsync(It.IsAny<IdentityRole<Guid>>()), Times.Never);
             _mockUserManager.Verify(manager => manager.AddToRoleAsync(It.IsAny<User>(), It.IsAny<string>()), Times.Never);
@@ -120,8 +120,6 @@ namespace FileShare.XUnitTests.ServiceTests.V2._0.Registration
         public async Task Register_Should_Throw_When_Email_Is_Taken()
         {
             // Arrange
-            var cancellationToken = CancellationToken.None;
-
             _mockUserManager.Setup(manager => manager.FindByNameAsync(It.IsAny<string>()))
                 .ReturnsAsync(value: null);
 
@@ -129,14 +127,15 @@ namespace FileShare.XUnitTests.ServiceTests.V2._0.Registration
                 .ReturnsAsync(value: new());
 
             // Act
-            var result = await _registrationService.RegisterAsync("test", "test@test.test", "!Test1234", CancellationToken.None);
+            var result = await _registrationService
+                .RegisterAsync("test", "test@test.test", "!Test1234", CancellationToken.None);
 
             // Assert
             Assert.False(result.Successful);
             Assert.Equal("Email is already taken.", result.ErrorMessage);
 
-            _mockUserManager.Verify(manager => manager.FindByNameAsync(It.IsAny<string>()), Times.Once);
             _mockUserManager.Verify(manager => manager.FindByEmailAsync(It.IsAny<string>()), Times.Once);
+            _mockUserManager.Verify(manager => manager.FindByNameAsync(It.IsAny<string>()), Times.Never);
             _mockRoleManager.Verify(manager => manager.RoleExistsAsync(It.IsAny<string>()), Times.Never);
             _mockRoleManager.Verify(manager => manager.CreateAsync(It.IsAny<IdentityRole<Guid>>()), Times.Never);
             _mockUserManager.Verify(manager => manager.AddToRoleAsync(It.IsAny<User>(), It.IsAny<string>()), Times.Never);

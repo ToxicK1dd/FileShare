@@ -30,7 +30,7 @@ namespace FileShare.Service.Services.V2._0.Token
         }
 
 
-        public async Task<string> GetAccessTokenAsync(Guid userId)
+        public async Task<string> GetAccessTokenFromUserIdAsync(Guid userId)
         {
             var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
             var signingCredentials = new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha512);
@@ -61,17 +61,17 @@ namespace FileShare.Service.Services.V2._0.Token
         {
             var userId = await _unitOfWork.UserRepository.GetIdByUsernameAsync(username, cancellationToken);
 
-            return await GetAccessTokenAsync(userId);
+            return await GetAccessTokenFromUserIdAsync(userId);
         }
 
         public async Task<string> GetRefreshTokenFromUsernameAsync(string username, CancellationToken cancellationToken)
         {
             var userId = await _unitOfWork.UserRepository.GetIdByUsernameAsync(username, cancellationToken);
 
-            return await GetRefreshTokenAsync(userId, cancellationToken);
+            return await GetRefreshTokenFromUserIdAsync(userId, cancellationToken);
         }
 
-        public async Task<string> GetRefreshTokenAsync(Guid userId, CancellationToken cancellationToken)
+        public async Task<string> GetRefreshTokenFromUserIdAsync(Guid userId, CancellationToken cancellationToken)
         {
             var refreshTokenString = _randomGenerator.GenerateBase64String();
 
