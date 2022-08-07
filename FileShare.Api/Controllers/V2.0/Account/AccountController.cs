@@ -1,4 +1,5 @@
 ﻿using FileShare.Service.Services.V2._0.Account.Interface;
+using FileShare.Service.Services.V2._0.QrCode.Interface;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FileShare.Api.Controllers.V2._0.Account
@@ -8,11 +9,13 @@ namespace FileShare.Api.Controllers.V2._0.Account
     {
         private readonly ILogger<AccountController> _logger;
         private readonly IAccountService _accountService;
+        private readonly IQrCodeService _qrCodeService;
 
-        public AccountController(ILogger<AccountController> logger, IAccountService accountService)
+        public AccountController(ILogger<AccountController> logger, IAccountService accountService, IQrCodeService qrCodeService)
         {
             _logger = logger;
             _accountService = accountService;
+            _qrCodeService = qrCodeService;
         }
 
         /// <summary>
@@ -25,7 +28,10 @@ namespace FileShare.Api.Controllers.V2._0.Account
         public async Task<IActionResult> EnableTotpMfa()
         {
             var key = await _accountService.EnableTotpMfaAsync();
-            return Ok(key);
+
+            var qrCode = _qrCodeService.GenerateQrCode($"otpauth://totp/FileShare?secret={key}");
+
+            return Ok(qrCode);
         }
 
         /// <summary>
