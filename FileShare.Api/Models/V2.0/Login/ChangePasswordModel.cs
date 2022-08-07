@@ -5,18 +5,18 @@ namespace FileShare.Api.Models.V2._0.Login
     /// <summary>
     /// Model for changing the password of a user.
     /// </summary>
-    public class ChangePasswordModel
+    public record ChangePasswordModel
     {
         /// <summary>
         /// The current password of the user.
         /// </summary>
         [Required]
-        public string OldPassword { get; set; }
+        public string OldPassword { get; init; }
 
         /// <summary>
         /// The new password of the user.
         /// </summary>
         [Required]
-        public string NewPassword { get; set; }
+        public string NewPassword { get; init; }
     }
 }

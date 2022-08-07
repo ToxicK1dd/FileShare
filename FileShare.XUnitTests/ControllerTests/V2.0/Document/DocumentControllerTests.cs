@@ -1,10 +1,9 @@
-﻿using FileShare.Api.Dtos.V2._0.Document;
-using FileShare.Api.Controllers.V2._0.Document;
+﻿using FileShare.Api.Controllers.V2._0.Document;
+using FileShare.Api.Models.V2._0.Document;
 using FileShare.DataAccess.UnitOfWork.Primary.Interface;
 using FileShare.Service.Services.V2._0.Document.Interface;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using Moq;
 using Xunit;
 
@@ -41,7 +40,7 @@ namespace FileShare.XUnitTests.ControllerTests.V2._0.Document
 
             // Assert
             var createdResult = Assert.IsType<CreatedResult>(result);
-            var dto = Assert.IsType<UploadFileDto>(createdResult.Value);
+            var dto = Assert.IsType<UploadFileModel>(createdResult.Value);
             Assert.Equal(fileId, dto.FileId);
 
             _mockDocumentService.Verify(service => service.UploadFileAsync(It.IsAny<IFormFile>()), Times.Once);

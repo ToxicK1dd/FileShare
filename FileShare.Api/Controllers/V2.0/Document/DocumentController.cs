@@ -1,9 +1,9 @@
-﻿using FileShare.Api.Dtos.V2._0.Document;
-using FileShare.Api.Attributes;
+﻿using FileShare.Api.Attributes;
 using FileShare.DataAccess.UnitOfWork.Primary.Interface;
 using FileShare.Service.Services.V2._0.Document.Interface;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Mime;
+using FileShare.Api.Models.V2._0.Document;
 
 namespace FileShare.Api.Controllers.V2._0.Document
 {
@@ -43,7 +43,7 @@ namespace FileShare.Api.Controllers.V2._0.Document
             var fileId = await _documentService.UploadFileAsync(file);
             await _unitOfWork.SaveChangesAsync();
 
-            return Created(string.Empty, new UploadFileDto() { FileId = fileId });
+            return Created(string.Empty, new UploadFileModel() { FileId = fileId });
         }
 
         /// <summary>
