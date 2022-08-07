@@ -1,21 +1,14 @@
 ﻿using FileShare.DataAccess.Base.Model.BaseEntity.Interface;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace FileShare.DataAccess.Base.Model
 {
-    /// <summary>
-    /// Abstract base class for easy, and fast creation of databases.
-    /// </summary>
-    /// <typeparam name="TContext">The database context of which the data is stored.</typeparam>
-    public abstract class BaseContext<TContext, TUser> : IdentityDbContext<TUser, IdentityRole<Guid>, Guid>
-        where TContext : BaseContext<TContext, TUser>
-        where TUser : BaseIdentityUser.BaseIdentityUser
+    public abstract class BaseDbContext<TContext> : DbContext
+         where TContext : BaseDbContext<TContext>
     {
-        public BaseContext(DbContextOptions<TContext> options) : base(options) { }
+        public BaseDbContext(DbContextOptions<TContext> options) : base(options) { }
 
-        public BaseContext() { }
+        public BaseDbContext() { }
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -32,17 +25,6 @@ namespace FileShare.DataAccess.Base.Model
             modelBuilder.ApplyConfigurationsFromAssembly(
                 GetType().Assembly,
                 t => t.Namespace.Contains(GetType().Namespace));
-
-            // Change schema name
-            modelBuilder.HasDefaultSchema("Identity");
-
-            // Change Identity table names
-            modelBuilder.Entity<IdentityRole<Guid>>().ToTable(name: "Role");
-            modelBuilder.Entity<IdentityUserRole<Guid>>().ToTable(name: "UserRole");
-            modelBuilder.Entity<IdentityUserClaim<Guid>>().ToTable(name: "Claims");
-            modelBuilder.Entity<IdentityUserLogin<Guid>>().ToTable(name: "Logins");
-            modelBuilder.Entity<IdentityRoleClaim<Guid>>().ToTable(name: "RoleClaims");
-            modelBuilder.Entity<IdentityUserToken<Guid>>().ToTable(name: "Tokens");
         }
 
 

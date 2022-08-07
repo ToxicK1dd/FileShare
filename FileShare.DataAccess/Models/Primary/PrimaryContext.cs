@@ -4,7 +4,7 @@ using CustomIdentityUser = FileShare.DataAccess.Models.Primary.User.User;
 
 namespace FileShare.DataAccess.Models.Primary
 {
-    public class PrimaryContext : BaseContext<PrimaryContext, CustomIdentityUser>
+    public class PrimaryContext : BaseIdentityDbContext<PrimaryContext, CustomIdentityUser>
     {
         public PrimaryContext(DbContextOptions<PrimaryContext> options) : base(options) { }
 

@@ -25,17 +25,17 @@ namespace FileShare.Service.Services.V2._0.Registration
 
         public async Task<RegistrationResultDto> RegisterAsync(string username, string email, string password, CancellationToken cancellationToken)
         {
-            var userExists = await _userManager.FindByNameAsync(username);
-            if (userExists is not null)
-                return new(false, "Username is already taken.");
+            var emailValid = IsValidEmailAddress(email);
+            if (emailValid is false)
+                return new(false, "Email is not valid format.");
 
             var emailExists = await _userManager.FindByEmailAsync(email);
             if (emailExists is not null)
                 return new(false, "Email is already taken.");
 
-            var emailValid = IsValidEmailAddress(email);
-            if (emailValid is false)
-                return new(false, "Email is not valid format.");
+            var userExists = await _userManager.FindByNameAsync(username);
+            if (userExists is not null)
+                return new(false, "Username is already taken.");
 
             DataAccess.Models.Primary.User.User user = new()
             {
