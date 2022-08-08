@@ -4,6 +4,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FileShare.Api.Controllers.V2._0.Account
 {
+    /// <summary>
+    /// Endpoints for managing accounts
+    /// </summary>
     [ApiVersion("2.0")]
     public class AccountController : BaseController
     {
@@ -27,8 +30,7 @@ namespace FileShare.Api.Controllers.V2._0.Account
         public async Task<IActionResult> EnableTotpMfa()
         {
             var key = await _accountService.EnableTotpMfaAsync();
-
-            var qrCode = _qrCodeService.GenerateQrCode($"otpauth://totp/FileShare?secret={key}");
+            var qrCode = _qrCodeService.GenerateTotpMfaQrCode(key);
 
             return Ok(qrCode);
         }

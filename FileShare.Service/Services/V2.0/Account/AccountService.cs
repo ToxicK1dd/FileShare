@@ -1,7 +1,6 @@
 ﻿using FileShare.DataAccess.UnitOfWork.Primary.Interface;
 using FileShare.Service.Services.V2._0.Account.Interface;
 using FileShare.Utilities.Helpers.IdentityClaims.Interface;
-using MapsterMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 
@@ -15,18 +14,15 @@ namespace FileShare.Service.Services.V2._0.Account
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IIdentityClaimsHelper _identityClaimsHelper;
         private readonly UserManager<DataAccess.Models.Primary.User.User> _userManager;
-        private readonly IPrimaryUnitOfWork _unitOfWork;
 
         public AccountService(
             IHttpContextAccessor httpContextAccessor,
             IIdentityClaimsHelper identityClaimsHelper,
-            UserManager<DataAccess.Models.Primary.User.User> userManager,
-            IPrimaryUnitOfWork unitOfWork)
+            UserManager<DataAccess.Models.Primary.User.User> userManager)
         {
             _httpContextAccessor = httpContextAccessor;
             _identityClaimsHelper = identityClaimsHelper;
             _userManager = userManager;
-            _unitOfWork = unitOfWork;
         }
 
 
