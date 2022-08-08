@@ -58,7 +58,7 @@ namespace FileShare.DataAccess.Migrations.Primary
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     ConcurrencyStamp = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    PhoneNumber = table.Column<string>(type: "longtext", nullable: true)
+                    PhoneNumber = table.Column<string>(type: "varchar(255)", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     PhoneNumberConfirmed = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     TwoFactorEnabled = table.Column<bool>(type: "tinyint(1)", nullable: false),
@@ -741,7 +741,29 @@ namespace FileShare.DataAccess.Migrations.Primary
                 name: "EmailIndex",
                 schema: "Identity",
                 table: "User",
-                column: "NormalizedEmail");
+                column: "NormalizedEmail",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_User_Email",
+                schema: "Identity",
+                table: "User",
+                column: "Email",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_User_PhoneNumber",
+                schema: "Identity",
+                table: "User",
+                column: "PhoneNumber",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_User_UserName",
+                schema: "Identity",
+                table: "User",
+                column: "UserName",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "UserNameIndex",
