@@ -1,5 +1,4 @@
-﻿using FileShare.DataAccess.UnitOfWork.Primary.Interface;
-using FileShare.Service.Services.V2._0.Account.Interface;
+﻿using FileShare.Service.Services.V2._0.Account.Interface;
 using FileShare.Utilities.Helpers.IdentityClaims.Interface;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
