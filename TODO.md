@@ -17,8 +17,8 @@ This file contains a list of todo, and done tasks for the project.
 
 - [ ] Password Management
     - [x] Implement change password
+	- [x] Implement password validation
     - [ ] Implement forgot password
-	- [ ] Implement password validation
 
 - [ ] TOTP Two-Factor
     - [x] Implement enable/disable 2FA
