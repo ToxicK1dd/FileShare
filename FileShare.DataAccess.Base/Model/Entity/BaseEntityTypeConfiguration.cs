@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace FileShare.DataAccess.Base.Model.Entity
 {
@@ -15,6 +17,10 @@ namespace FileShare.DataAccess.Base.Model.Entity
             // Configure primary key, and index
             builder.HasKey(x => x.Id);
             builder.HasIndex(x => x.Id).IsUnique();
+
+            // Prevent property from being changed once set
+            builder.Property(x => x.Created)
+                .Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Ignore);
 
             // Soft delete query filter
             builder.HasQueryFilter(x => !x.IsDeleted);
