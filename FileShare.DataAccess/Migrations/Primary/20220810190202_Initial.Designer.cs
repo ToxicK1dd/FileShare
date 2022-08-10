@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FileShare.DataAccess.Migrations.Primary
 {
     [DbContext(typeof(PrimaryContext))]
-    [Migration("20220810133716_Initial")]
+    [Migration("20220810190202_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

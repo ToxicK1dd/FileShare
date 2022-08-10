@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace FileShare.DataAccess.Base.Model.IdentityUser
 {
-    public class BaseIdentityUser : IdentityUser<Guid>, ICreatable, IRetrievable, IChangeable, ISoftDeletable
+    public class BaseIdentityUser : IdentityUser<Guid>, IIndexable, ICreatable, IRetrievable, IChangeable, ISoftDeletable
     {
         /// <summary>
         /// The time of which the entity was created

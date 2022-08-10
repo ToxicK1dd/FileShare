@@ -5,7 +5,7 @@ namespace FileShare.DataAccess.Base.Model.Entity
     /// <summary>
     /// Base class for all database models
     /// </summary>
-    public abstract class BaseEntity : ICreatable, IRetrievable, IChangeable, ISoftDeletable
+    public abstract class BaseEntity : IIndexable, ICreatable, IRetrievable, IChangeable, ISoftDeletable
     {
         /// <summary>
         /// Primary id
