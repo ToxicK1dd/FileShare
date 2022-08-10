@@ -23,10 +23,10 @@ builder.Services.SetupSwagger();
 builder.Services.SetupVersioning();
 builder.Services.SetupRateLimiting();
 builder.Services.SetupPostmark(builder.Configuration);
+builder.Services.SetupOptions(builder.Configuration);
 
 // Add DI to the container
 builder.Services.AddHttpContextAccessor();
-builder.Services.AddOptions();
 
 builder.Services.AddDataAccess(builder.Configuration);
 builder.Services.AddServices();
