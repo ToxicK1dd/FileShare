@@ -64,7 +64,8 @@ without the need for re-authentication.
 Refresh tokens are valid for 30 days, and after each use\
 the token is rotated, and expiration extended.
 
-If they are not used within 30 days, they will expire.
+If they are not used within 30 days, they will expire.\
+Otherwise they remain valid until unused for 30 days.
 
 ### License
 This project is available under the [MIT license](https://github.com/ToxicK1dd/FileShare/blob/master/LICENSE).
