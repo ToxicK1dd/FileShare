@@ -1,4 +1,4 @@
-ithub# File Share Api
+# File Share Api
 ASP&#46;NET Core Web API built with .NET 6, and Swagger
 
 ### Getting Started
