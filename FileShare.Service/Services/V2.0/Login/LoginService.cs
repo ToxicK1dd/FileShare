@@ -66,6 +66,8 @@ namespace FileShare.Service.Services.V2._0.Login
             var refreshToken = await _unitOfWork.RefreshTokenRepository.GetFromTokenAsync(oldRefreshToken, _httpContextAccessor.HttpContext.RequestAborted);
             if (refreshToken is null)
                 return null;
+            if (refreshToken.IsExpired)
+                return null;
 
             refreshToken.Token = _randomGenerator.GenerateBase64String();
             refreshToken.Expires = DateTimeOffset.UtcNow.AddDays(30);
