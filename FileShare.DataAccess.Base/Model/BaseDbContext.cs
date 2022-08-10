@@ -1,4 +1,4 @@
-﻿using FileShare.DataAccess.Base.Model.BaseEntity.Interface;
+﻿using FileShare.DataAccess.Base.Model.Entity.Interface;
 using Microsoft.EntityFrameworkCore;
 
 namespace FileShare.DataAccess.Base.Model
@@ -42,34 +42,28 @@ namespace FileShare.DataAccess.Base.Model
 
 
         #region Helpers
+
         /// <summary>
         /// Check and set created, deleted, or changed properties.
         /// </summary>
         private void CheckEntities()
         {
-            foreach (var entry in ChangeTracker.Entries<IBaseEntity>())
+            foreach (var entry in ChangeTracker.Entries<ICreatable>().Where(x => x.State is EntityState.Added))
             {
-                switch (entry.State)
-                {
-                    case EntityState.Added:
-                        entry.Entity.Deleted = false;
-                        entry.Entity.Created = DateTimeOffset.UtcNow;
-                        break;
-                    case EntityState.Modified:
-                        entry.Entity.Created = entry.OriginalValues.GetValue<DateTimeOffset>(nameof(entry.Entity.Created));
-                        entry.Entity.Changed = DateTimeOffset.UtcNow;
-                        break;
-                    case EntityState.Deleted:
-                        entry.State = EntityState.Modified;
-                        entry.Entity.Deleted = true;
-                        entry.Entity.Created = entry.OriginalValues.GetValue<DateTimeOffset>(nameof(entry.Entity.Created));
-                        entry.Entity.Changed = DateTimeOffset.UtcNow;
-                        break;
-                    default:
-                        break;
-                }
+                entry.Entity.Created = DateTimeOffset.UtcNow;
+            }
+            foreach (var entry in ChangeTracker.Entries<IChangeable>().Where(x => x.State is EntityState.Modified))
+            {
+                entry.Entity.Changed = DateTimeOffset.UtcNow;
+            }
+            foreach (var entry in ChangeTracker.Entries<ISoftDeletable>().Where(x => x.State is EntityState.Deleted))
+            {
+                entry.State = EntityState.Modified;
+                entry.Entity.IsDeleted = true;
+                entry.Entity.Deleted = DateTimeOffset.UtcNow;
             }
         }
+
         #endregion
     }
 }

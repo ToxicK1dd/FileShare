@@ -1,4 +1,4 @@
-﻿using FileShare.DataAccess.Base.Model.BaseEntity;
+﻿using FileShare.DataAccess.Base.Model.Entity;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace FileShare.DataAccess.Models.Primary.UserInformation

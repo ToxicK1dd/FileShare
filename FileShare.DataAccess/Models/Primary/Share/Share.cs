@@ -1,4 +1,4 @@
-﻿using FileShare.DataAccess.Base.Model.BaseEntity;
+﻿using FileShare.DataAccess.Base.Model.Entity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -9,8 +9,12 @@ namespace FileShare.DataAccess.Models.Primary.Share
         /// <summary>
         /// Date of which the access to the documents expires
         /// </summary>
-        public DateTimeOffset Expiration { get; set; }
+        public DateTimeOffset Expires { get; set; }
 
+        /// <summary>
+        /// Is the token expired
+        /// </summary>
+        public bool IsExpired { get => Expires < DateTimeOffset.UtcNow; }
 
         #region Navigation Properties
 
@@ -34,8 +38,10 @@ namespace FileShare.DataAccess.Models.Primary.Share
 
             builder.ToTable("Shares");
 
-            builder.Property(x => x.Expiration)
+            builder.Property(x => x.Expires)
                 .IsRequired();
+
+            builder.Ignore(x => x.IsExpired);
 
             builder.HasMany(x => x.Documents)
                 .WithMany(x => x.Shares);

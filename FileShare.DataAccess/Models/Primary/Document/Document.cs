@@ -1,4 +1,4 @@
-﻿using FileShare.DataAccess.Base.Model.BaseEntity;
+﻿using FileShare.DataAccess.Base.Model.Entity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Newtonsoft.Json;

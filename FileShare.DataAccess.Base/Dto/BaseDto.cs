@@ -1,4 +1,4 @@
-﻿using FileShare.DataAccess.Base.Model.BaseEntity;
+﻿using FileShare.DataAccess.Base.Model.Entity;
 using Mapster;
 
 namespace FileShare.DataAccess.Base.Dto

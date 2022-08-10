@@ -17,7 +17,7 @@ namespace FileShare.DataAccess.Migrations.Primary
 #pragma warning disable 612, 618
             modelBuilder
                 .HasDefaultSchema("Identity")
-                .HasAnnotation("ProductVersion", "6.0.7")
+                .HasAnnotation("ProductVersion", "6.0.8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("DocumentShare", b =>
@@ -60,7 +60,10 @@ namespace FileShare.DataAccess.Migrations.Primary
                     b.Property<DateTimeOffset>("Created")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<bool>("Deleted")
+                    b.Property<DateTimeOffset>("Deleted")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<bool>("IsDeleted")
                         .HasColumnType("tinyint(1)");
 
                     b.Property<string>("PostalCode")
@@ -72,6 +75,9 @@ namespace FileShare.DataAccess.Migrations.Primary
                         .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("varchar(256)");
+
+                    b.Property<DateTimeOffset>("Retrieved")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("Street")
                         .IsRequired()
@@ -104,11 +110,17 @@ namespace FileShare.DataAccess.Migrations.Primary
                     b.Property<DateTimeOffset>("Created")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<bool>("Deleted")
-                        .HasColumnType("tinyint(1)");
+                    b.Property<DateTimeOffset>("Deleted")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<int>("DeviceType")
                         .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<DateTimeOffset>("Retrieved")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("Token")
                         .IsRequired()
@@ -144,11 +156,17 @@ namespace FileShare.DataAccess.Migrations.Primary
                     b.Property<DateTimeOffset>("Created")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<bool>("Deleted")
+                    b.Property<DateTimeOffset>("Deleted")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<bool>("IsDeleted")
                         .HasColumnType("tinyint(1)");
 
                     b.Property<string>("Json")
                         .HasColumnType("longtext");
+
+                    b.Property<DateTimeOffset>("Retrieved")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("char(36)");
@@ -180,8 +198,8 @@ namespace FileShare.DataAccess.Migrations.Primary
                     b.Property<DateTimeOffset>("Created")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<bool>("Deleted")
-                        .HasColumnType("tinyint(1)");
+                    b.Property<DateTimeOffset>("Deleted")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<Guid>("DocumentId")
                         .HasColumnType("char(36)");
@@ -196,8 +214,14 @@ namespace FileShare.DataAccess.Migrations.Primary
                         .HasMaxLength(256)
                         .HasColumnType("varchar(256)");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("tinyint(1)");
+
                     b.Property<long>("Length")
                         .HasColumnType("bigint");
+
+                    b.Property<DateTimeOffset>("Retrieved")
+                        .HasColumnType("datetime(6)");
 
                     b.HasKey("Id");
 
@@ -222,11 +246,17 @@ namespace FileShare.DataAccess.Migrations.Primary
                     b.Property<DateTimeOffset>("Created")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<bool>("Deleted")
-                        .HasColumnType("tinyint(1)");
+                    b.Property<DateTimeOffset>("Deleted")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<Guid>("DocumentId")
                         .HasColumnType("char(36)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<DateTimeOffset>("Retrieved")
+                        .HasColumnType("datetime(6)");
 
                     b.HasKey("Id");
 
@@ -250,14 +280,20 @@ namespace FileShare.DataAccess.Migrations.Primary
                     b.Property<DateTimeOffset>("Created")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<bool>("Deleted")
-                        .HasColumnType("tinyint(1)");
+                    b.Property<DateTimeOffset>("Deleted")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<int>("DeviceType")
                         .HasColumnType("int");
 
-                    b.Property<bool>("Success")
+                    b.Property<bool>("IsDeleted")
                         .HasColumnType("tinyint(1)");
+
+                    b.Property<bool>("IsSuccessful")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<DateTimeOffset>("Retrieved")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<DateTimeOffset>("Time")
                         .HasColumnType("datetime(6)");
@@ -287,10 +323,16 @@ namespace FileShare.DataAccess.Migrations.Primary
                     b.Property<DateTimeOffset>("Created")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<bool>("Deleted")
+                    b.Property<DateTimeOffset>("Deleted")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTimeOffset>("Expires")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<bool>("IsDeleted")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<DateTimeOffset>("Expiration")
+                    b.Property<DateTimeOffset>("Retrieved")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("Token")
@@ -323,10 +365,16 @@ namespace FileShare.DataAccess.Migrations.Primary
                     b.Property<DateTimeOffset>("Created")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<bool>("Deleted")
+                    b.Property<DateTimeOffset>("Deleted")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTimeOffset>("Expires")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<bool>("IsDeleted")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<DateTimeOffset>("Expiration")
+                    b.Property<DateTimeOffset>("Retrieved")
                         .HasColumnType("datetime(6)");
 
                     b.Property<Guid>("UserId")
@@ -354,13 +402,19 @@ namespace FileShare.DataAccess.Migrations.Primary
                     b.Property<DateTimeOffset>("Created")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<bool>("Deleted")
-                        .HasColumnType("tinyint(1)");
+                    b.Property<DateTimeOffset>("Deleted")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("varchar(256)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<DateTimeOffset>("Retrieved")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<Guid>("ShareId")
                         .HasColumnType("char(36)");
@@ -390,13 +444,19 @@ namespace FileShare.DataAccess.Migrations.Primary
                     b.Property<DateTimeOffset>("Created")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<bool>("Deleted")
+                    b.Property<DateTimeOffset>("Deleted")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<bool>("IsDeleted")
                         .HasColumnType("tinyint(1)");
 
                     b.Property<string>("Number")
                         .IsRequired()
                         .HasMaxLength(128)
                         .HasColumnType("varchar(128)");
+
+                    b.Property<DateTimeOffset>("Retrieved")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<int>("Type")
                         .HasColumnType("int");
@@ -433,8 +493,8 @@ namespace FileShare.DataAccess.Migrations.Primary
                     b.Property<DateTimeOffset>("Created")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<bool>("Deleted")
-                        .HasColumnType("tinyint(1)");
+                    b.Property<DateTimeOffset>("Deleted")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)
@@ -443,7 +503,13 @@ namespace FileShare.DataAccess.Migrations.Primary
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<bool>("Enabled")
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<bool>("IsEnabled")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<bool>("IsVerified")
                         .HasColumnType("tinyint(1)");
 
                     b.Property<bool>("LockoutEnabled")
@@ -469,6 +535,9 @@ namespace FileShare.DataAccess.Migrations.Primary
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("tinyint(1)");
 
+                    b.Property<DateTimeOffset>("Retrieved")
+                        .HasColumnType("datetime(6)");
+
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("longtext");
 
@@ -478,9 +547,6 @@ namespace FileShare.DataAccess.Migrations.Primary
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
                         .HasColumnType("varchar(256)");
-
-                    b.Property<bool>("Verified")
-                        .HasColumnType("tinyint(1)");
 
                     b.HasKey("Id");
 
@@ -519,12 +585,15 @@ namespace FileShare.DataAccess.Migrations.Primary
                     b.Property<DateTimeOffset>("DateOfBirth")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<bool>("Deleted")
-                        .HasColumnType("tinyint(1)");
+                    b.Property<DateTimeOffset>("Deleted")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("Firstname")
                         .HasMaxLength(64)
                         .HasColumnType("varchar(64)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<string>("Lastname")
                         .HasMaxLength(64)
@@ -537,6 +606,9 @@ namespace FileShare.DataAccess.Migrations.Primary
                     b.Property<string>("Nationality")
                         .HasMaxLength(128)
                         .HasColumnType("varchar(128)");
+
+                    b.Property<DateTimeOffset>("Retrieved")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<int>("Sex")
                         .HasColumnType("int");
@@ -572,8 +644,14 @@ namespace FileShare.DataAccess.Migrations.Primary
                     b.Property<DateTimeOffset>("Created")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<bool>("Deleted")
+                    b.Property<DateTimeOffset>("Deleted")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<bool>("IsDeleted")
                         .HasColumnType("tinyint(1)");
+
+                    b.Property<DateTimeOffset>("Retrieved")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<byte>("Type")
                         .HasColumnType("tinyint unsigned");

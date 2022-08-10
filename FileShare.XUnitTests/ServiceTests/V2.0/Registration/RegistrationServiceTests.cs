@@ -63,8 +63,8 @@ namespace FileShare.XUnitTests.ServiceTests.V2._0.Registration
 
             Assert.Equal(username, user.UserName);
             Assert.Equal(email, user.Email);
-            Assert.True(user.Enabled);
-            Assert.False(user.Verified);
+            Assert.True(user.IsEnabled);
+            Assert.False(user.IsVerified);
 
             _mockUserManager.Verify(manager => manager.FindByNameAsync(It.IsAny<string>()), Times.Once);
             _mockUserManager.Verify(manager => manager.FindByEmailAsync(It.IsAny<string>()), Times.Once);

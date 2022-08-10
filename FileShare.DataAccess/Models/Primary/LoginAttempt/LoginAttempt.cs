@@ -1,4 +1,4 @@
-﻿using FileShare.DataAccess.Base.Model.BaseEntity;
+﻿using FileShare.DataAccess.Base.Model.Entity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -9,7 +9,7 @@ namespace FileShare.DataAccess.Models.Primary.LoginAttempt
         /// <summary>
         /// Indicates if the login attempt was successful
         /// </summary>
-        public bool Success { get; set; }
+        public bool IsSuccessful { get; set; }
 
         /// <summary>
         /// Indicates what type of device attempted to login
@@ -39,7 +39,7 @@ namespace FileShare.DataAccess.Models.Primary.LoginAttempt
 
             builder.ToTable("LoginAttempts");
 
-            builder.Property(x => x.Success)
+            builder.Property(x => x.IsSuccessful)
                 .IsRequired();
 
             builder.Property(x => x.DeviceType)

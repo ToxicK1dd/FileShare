@@ -86,7 +86,7 @@ namespace FileShare.Service.Services.V2._0.Token
             var refreshToken = new DataAccess.Models.Primary.RefreshToken.RefreshToken()
             {
                 Token = refreshTokenString,
-                Expiration = DateTimeOffset.UtcNow.AddDays(30),
+                Expires = DateTimeOffset.UtcNow.AddDays(30),
                 UserId = userId
             };
             await _unitOfWork.RefreshTokenRepository.AddAsync(refreshToken, _httpContextAccessor.HttpContext.RequestAborted);

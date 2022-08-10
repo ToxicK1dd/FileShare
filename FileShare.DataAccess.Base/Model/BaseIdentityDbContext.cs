@@ -1,4 +1,4 @@
-﻿using FileShare.DataAccess.Base.Model.BaseEntity.Interface;
+﻿using FileShare.DataAccess.Base.Model.Entity.Interface;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -11,7 +11,7 @@ namespace FileShare.DataAccess.Base.Model
     /// <typeparam name="TContext">The database context of which the data is stored.</typeparam>
     public abstract class BaseIdentityDbContext<TContext, TUser> : IdentityDbContext<TUser, IdentityRole<Guid>, Guid>
         where TContext : BaseIdentityDbContext<TContext, TUser>
-        where TUser : BaseIdentityUser.BaseIdentityUser
+        where TUser : IdentityUser.BaseIdentityUser
     {
         public BaseIdentityDbContext(DbContextOptions<TContext> options) : base(options) { }
 
@@ -60,34 +60,28 @@ namespace FileShare.DataAccess.Base.Model
 
 
         #region Helpers
+
         /// <summary>
         /// Check and set created, deleted, or changed properties.
         /// </summary>
         private void CheckEntities()
         {
-            foreach (var entry in ChangeTracker.Entries<IBaseEntity>())
+            foreach (var entry in ChangeTracker.Entries<ICreatable>().Where(x => x.State is EntityState.Added))
             {
-                switch (entry.State)
-                {
-                    case EntityState.Added:
-                        entry.Entity.Deleted = false;
-                        entry.Entity.Created = DateTimeOffset.UtcNow;
-                        break;
-                    case EntityState.Modified:
-                        entry.Entity.Created = entry.OriginalValues.GetValue<DateTimeOffset>(nameof(entry.Entity.Created));
-                        entry.Entity.Changed = DateTimeOffset.UtcNow;
-                        break;
-                    case EntityState.Deleted:
-                        entry.State = EntityState.Modified;
-                        entry.Entity.Deleted = true;
-                        entry.Entity.Created = entry.OriginalValues.GetValue<DateTimeOffset>(nameof(entry.Entity.Created));
-                        entry.Entity.Changed = DateTimeOffset.UtcNow;
-                        break;
-                    default:
-                        break;
-                }
+                entry.Entity.Created = DateTimeOffset.UtcNow;
+            }
+            foreach (var entry in ChangeTracker.Entries<IChangeable>().Where(x => x.State is EntityState.Modified))
+            {
+                entry.Entity.Changed = DateTimeOffset.UtcNow;
+            }
+            foreach (var entry in ChangeTracker.Entries<ISoftDeletable>().Where(x => x.State is EntityState.Deleted))
+            {
+                entry.State = EntityState.Modified;
+                entry.Entity.IsDeleted = true;
+                entry.Entity.Deleted = DateTimeOffset.UtcNow;
             }
         }
+
         #endregion
     }
 }

@@ -1,4 +1,4 @@
-﻿using FileShare.DataAccess.Base.Model.BaseIdentityUser;
+﻿using FileShare.DataAccess.Base.Model.IdentityUser;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -6,9 +6,9 @@ namespace FileShare.DataAccess.Models.Primary.User
 {
     public class User : BaseIdentityUser
     {
-        public bool Enabled { get; set; }
+        public bool IsEnabled { get; set; }
 
-        public bool Verified { get; set; }
+        public bool IsVerified { get; set; }
 
 
         #region Navigation Properties

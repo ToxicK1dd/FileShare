@@ -41,8 +41,8 @@ namespace FileShare.DataAccess.Migrations.Primary
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    Enabled = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    Verified = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    IsEnabled = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    IsVerified = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     UserName = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     NormalizedUserName = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true)
@@ -66,8 +66,10 @@ namespace FileShare.DataAccess.Migrations.Primary
                     LockoutEnabled = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     AccessFailedCount = table.Column<int>(type: "int", nullable: false),
                     Created = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
+                    Retrieved = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
                     Changed = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
-                    Deleted = table.Column<bool>(type: "tinyint(1)", nullable: false)
+                    IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    Deleted = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -121,8 +123,10 @@ namespace FileShare.DataAccess.Migrations.Primary
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     UserId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     Created = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
+                    Retrieved = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
                     Changed = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
-                    Deleted = table.Column<bool>(type: "tinyint(1)", nullable: false)
+                    IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    Deleted = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -174,8 +178,10 @@ namespace FileShare.DataAccess.Migrations.Primary
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     UserId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     Created = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
+                    Retrieved = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
                     Changed = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
-                    Deleted = table.Column<bool>(type: "tinyint(1)", nullable: false)
+                    IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    Deleted = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -201,8 +207,10 @@ namespace FileShare.DataAccess.Migrations.Primary
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     UserId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     Created = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
+                    Retrieved = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
                     Changed = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
-                    Deleted = table.Column<bool>(type: "tinyint(1)", nullable: false)
+                    IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    Deleted = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -223,13 +231,15 @@ namespace FileShare.DataAccess.Migrations.Primary
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    Success = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    IsSuccessful = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     DeviceType = table.Column<int>(type: "int", nullable: false),
                     Time = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
                     UserId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     Created = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
+                    Retrieved = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
                     Changed = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
-                    Deleted = table.Column<bool>(type: "tinyint(1)", nullable: false)
+                    IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    Deleted = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -278,11 +288,13 @@ namespace FileShare.DataAccess.Migrations.Primary
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     Token = table.Column<string>(type: "varchar(512)", maxLength: 512, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Expiration = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
+                    Expires = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
                     UserId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     Created = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
+                    Retrieved = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
                     Changed = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
-                    Deleted = table.Column<bool>(type: "tinyint(1)", nullable: false)
+                    IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    Deleted = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -303,11 +315,13 @@ namespace FileShare.DataAccess.Migrations.Primary
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    Expiration = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
+                    Expires = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
                     UserId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     Created = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
+                    Retrieved = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
                     Changed = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
-                    Deleted = table.Column<bool>(type: "tinyint(1)", nullable: false)
+                    IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    Deleted = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -333,8 +347,10 @@ namespace FileShare.DataAccess.Migrations.Primary
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     UserId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     Created = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
+                    Retrieved = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
                     Changed = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
-                    Deleted = table.Column<bool>(type: "tinyint(1)", nullable: false)
+                    IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    Deleted = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -393,8 +409,10 @@ namespace FileShare.DataAccess.Migrations.Primary
                     Sex = table.Column<int>(type: "int", nullable: false),
                     UserId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     Created = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
+                    Retrieved = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
                     Changed = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
-                    Deleted = table.Column<bool>(type: "tinyint(1)", nullable: false)
+                    IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    Deleted = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -448,8 +466,10 @@ namespace FileShare.DataAccess.Migrations.Primary
                     Type = table.Column<byte>(type: "tinyint unsigned", nullable: false),
                     UserId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     Created = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
+                    Retrieved = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
                     Changed = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
-                    Deleted = table.Column<bool>(type: "tinyint(1)", nullable: false)
+                    IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    Deleted = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -479,8 +499,10 @@ namespace FileShare.DataAccess.Migrations.Primary
                     Length = table.Column<long>(type: "bigint", nullable: false),
                     DocumentId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     Created = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
+                    Retrieved = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
                     Changed = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
-                    Deleted = table.Column<bool>(type: "tinyint(1)", nullable: false)
+                    IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    Deleted = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -503,8 +525,10 @@ namespace FileShare.DataAccess.Migrations.Primary
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     DocumentId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     Created = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
+                    Retrieved = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
                     Changed = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
-                    Deleted = table.Column<bool>(type: "tinyint(1)", nullable: false)
+                    IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    Deleted = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -558,8 +582,10 @@ namespace FileShare.DataAccess.Migrations.Primary
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     ShareId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     Created = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
+                    Retrieved = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
                     Changed = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
-                    Deleted = table.Column<bool>(type: "tinyint(1)", nullable: false)
+                    IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    Deleted = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false)
                 },
                 constraints: table =>
                 {

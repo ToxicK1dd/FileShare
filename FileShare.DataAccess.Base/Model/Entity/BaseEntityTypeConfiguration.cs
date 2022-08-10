@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
 
-namespace FileShare.DataAccess.Base.Model.BaseEntity
+namespace FileShare.DataAccess.Base.Model.Entity
 {
     /// <summary>
     /// Base entity type configuration for database models.
@@ -17,7 +17,7 @@ namespace FileShare.DataAccess.Base.Model.BaseEntity
             builder.HasIndex(x => x.Id).IsUnique();
 
             // Soft delete query filter
-            builder.HasQueryFilter(x => !x.Deleted);
+            builder.HasQueryFilter(x => !x.IsDeleted);
         }
     }
 }

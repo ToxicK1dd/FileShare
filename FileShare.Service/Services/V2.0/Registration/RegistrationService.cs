@@ -43,8 +43,8 @@ namespace FileShare.Service.Services.V2._0.Registration
                 Email = email,
                 SecurityStamp = Guid.NewGuid().ToString(),
                 UserName = username,
-                Enabled = true,
-                Verified = false
+                IsEnabled = true,
+                IsVerified = false
             };
 
             if (!await _roleManager.RoleExistsAsync(UserRoles.User))

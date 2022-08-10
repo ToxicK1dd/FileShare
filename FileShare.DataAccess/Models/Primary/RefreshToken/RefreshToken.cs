@@ -1,4 +1,4 @@
-﻿using FileShare.DataAccess.Base.Model.BaseEntity;
+﻿using FileShare.DataAccess.Base.Model.Entity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -14,7 +14,12 @@ namespace FileShare.DataAccess.Models.Primary.RefreshToken
         /// <summary>
         /// When the token expires
         /// </summary>
-        public DateTimeOffset Expiration { get; set; }
+        public DateTimeOffset Expires { get; set; }
+
+        /// <summary>
+        /// Is the token expired
+        /// </summary>
+        public bool IsExpired { get => Expires < DateTimeOffset.UtcNow; }
 
 
         #region Navigation Properties
@@ -38,8 +43,10 @@ namespace FileShare.DataAccess.Models.Primary.RefreshToken
                 .HasMaxLength(512)
                 .IsRequired();
 
-            builder.Property(x => x.Expiration)
+            builder.Property(x => x.Expires)
                 .IsRequired();
+
+            builder.Ignore(x => x.IsExpired);
 
             builder.HasOne(x => x.User)
                 .WithMany(x => x.RefreshTokens)
