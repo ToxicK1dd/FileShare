@@ -72,7 +72,7 @@ namespace FileShare.DataAccess
                     .WithScopedLifetime());
         }
 
-        internal class ConnectionStrings
+        private class ConnectionStrings
         {
             public string Primary { get; set; }
         }

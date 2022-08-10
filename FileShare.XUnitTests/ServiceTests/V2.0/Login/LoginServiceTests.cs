@@ -221,7 +221,7 @@ namespace FileShare.XUnitTests.ServiceTests.V2._0.Login
                 .Returns(new DefaultHttpContext());
 
             _mockUnitOfWork.Setup(repo => repo.RefreshTokenRepository.GetFromTokenAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
-                .ReturnsAsync(new DataAccess.Models.Primary.RefreshToken.RefreshToken());
+                .ReturnsAsync(new DataAccess.Models.Primary.RefreshToken.RefreshToken() { Expires = DateTime.Now.AddDays(1) });
 
             _mockRandomGenerator.Setup(generator => generator.GenerateBase64String(It.IsAny<int>()))
                 .Returns("12345");
@@ -235,6 +235,26 @@ namespace FileShare.XUnitTests.ServiceTests.V2._0.Login
 
             _mockUnitOfWork.Verify(repo => repo.RefreshTokenRepository.GetFromTokenAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Once);
             _mockRandomGenerator.Verify(generator => generator.GenerateBase64String(It.IsAny<int>()), Times.Once);
+        }
+
+        [Fact]
+        public async Task ValidateRefreshToken_ShouldReturnNull_WhenOldTokenIsExpired()
+        {
+            // Arrange
+            _mockHttpContextAccessor.Setup(accessor => accessor.HttpContext)
+                .Returns(new DefaultHttpContext());
+
+            _mockUnitOfWork.Setup(repo => repo.RefreshTokenRepository.GetFromTokenAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(new DataAccess.Models.Primary.RefreshToken.RefreshToken() { Expires = DateTime.Now.AddDays(-1) });
+
+            // Act
+            var result = await _loginService.ValidateRefreshTokenAsync(string.Empty);
+
+            // Assert
+            Assert.Null(result);
+
+            _mockUnitOfWork.Verify(repo => repo.RefreshTokenRepository.GetFromTokenAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Once);
+            _mockRandomGenerator.Verify(generator => generator.GenerateBase64String(It.IsAny<int>()), Times.Never);
         }
 
         [Fact]

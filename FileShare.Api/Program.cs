@@ -7,6 +7,11 @@ using AspNetCoreRateLimit;
 using Hangfire;
 
 var builder = WebApplication.CreateBuilder(args);
+if (builder.Environment.EnvironmentName == "Development" ||
+    builder.Environment.EnvironmentName == "Local")
+{
+    builder.Configuration.AddUserSecrets<Program>(true);
+}
 
 // Setup services in the container
 
@@ -17,6 +22,7 @@ builder.Services.SetupHangfire(builder.Configuration);
 builder.Services.SetupSwagger();
 builder.Services.SetupVersioning();
 builder.Services.SetupRateLimiting();
+builder.Services.SetupPostmark(builder.Configuration);
 
 // Add DI to the container
 builder.Services.AddHttpContextAccessor();

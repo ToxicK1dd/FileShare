@@ -32,7 +32,7 @@ namespace FileShare.Api.Setup
 
                 // User settings.  
                 options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+#";
-                options.User.RequireUniqueEmail = false;
+                options.User.RequireUniqueEmail = true;
 
                 // SignIn settings.
                 options.SignIn.RequireConfirmedAccount = false;

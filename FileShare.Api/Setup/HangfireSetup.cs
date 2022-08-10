@@ -32,7 +32,7 @@ namespace FileShare.Api.Setup
         }
 
 
-        internal class ConnectionStrings
+        private class ConnectionStrings
         {
             public string Hangfire { get; set; }
         }

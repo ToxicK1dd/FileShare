@@ -153,20 +153,5 @@ namespace FileShare.XUnitTests.ControllerTests.V2._0.Login
             // Assert
             Assert.IsType<NotFoundObjectResult>(result);
         }
-
-
-        [Fact]
-        public async Task ChangeCredentials_Returns_NoContent()
-        {
-            // Arrange
-            _mockLoginService.Setup(service => service.ChangeCredentialsAsync(It.IsAny<string>(), It.IsAny<string>()))
-                .ReturnsAsync(true);
-
-            // Act
-            var result = await _controller.ChangeCredentials(new() { NewPassword = It.IsAny<string>(), OldPassword = It.IsAny<string>() });
-
-            // Assert
-            Assert.IsType<NoContentResult>(result);
-        }
     }
 }

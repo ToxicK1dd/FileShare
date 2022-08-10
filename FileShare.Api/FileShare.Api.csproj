@@ -6,10 +6,12 @@
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
 		<NoWarn>$(NoWarn);1591</NoWarn>
+		<UserSecretsId>8a8015fb-2fae-4ddd-b755-3c9fd2472507</UserSecretsId>
 	</PropertyGroup>
 
 	<ItemGroup>
 		<PackageReference Include="AspNetCoreRateLimit" Version="4.0.2" />
+		<PackageReference Include="FluentEmail.Postmark" Version="1.1.11" />
 		<PackageReference Include="Hangfire.AspNetCore" Version="1.7.30" />
 		<PackageReference Include="Hangfire.Core" Version="1.7.30" />
 		<PackageReference Include="Hangfire.MySqlStorage" Version="2.0.3" />

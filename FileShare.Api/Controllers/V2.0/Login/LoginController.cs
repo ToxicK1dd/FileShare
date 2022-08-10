@@ -154,20 +154,5 @@ namespace FileShare.Api.Controllers.V2._0.Login
                 refreshToken = newRefreshToken
             });
         }
-
-        /// <summary>
-        /// Change the current password of the user.
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
-        [HttpPut]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public async Task<IActionResult> ChangeCredentials([FromBody] ChangePasswordModel model)
-        {
-            await _loginService.ChangeCredentialsAsync(model.NewPassword, model.OldPassword);
-            await _unitOfWork.SaveChangesAsync();
-
-            return NoContent();
-        }
     }
 }

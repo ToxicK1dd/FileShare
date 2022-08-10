@@ -25,7 +25,7 @@ namespace FileShare.Api.Setup
                     {
                         Name = "ToxicK1dd",
                         Url = new Uri("https://baek.pro/"),
-                        Email = "contact@baek.pro"
+                        Email = "kontact@baek.pro"
                     },
                     License = new OpenApiLicense
                     {

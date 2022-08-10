@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 
 namespace FileShare.Service
 {
@@ -11,7 +10,6 @@ namespace FileShare.Service
         public static void AddServices(this IServiceCollection services)
         {
             services.ScanServices();
-            services.AddScoped<IPasswordHasher<object>, PasswordHasher<object>>();
         }
 
 
