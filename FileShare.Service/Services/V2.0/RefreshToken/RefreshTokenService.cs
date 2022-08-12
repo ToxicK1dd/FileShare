@@ -2,7 +2,6 @@
 using FileShare.Service.Services.V2._0.RefreshToken.Interface;
 using FileShare.Utilities.Generators.Random.Interface;
 using Microsoft.AspNetCore.Http;
-using System.Reflection.PortableExecutable;
 
 namespace FileShare.Service.Services.V2._0.RefreshToken
 {
