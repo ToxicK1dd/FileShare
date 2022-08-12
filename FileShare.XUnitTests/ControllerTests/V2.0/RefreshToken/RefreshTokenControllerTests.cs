@@ -25,54 +25,47 @@ namespace FileShare.XUnitTests.ControllerTests.V2._0.RefreshToken
 
 
         [Fact]
-        public async Task DeleteRefreshToken_Returns_NoContent()
+        public async Task Revoke_ShouldReturnNoContent_WhenTokenIsValid()
         {
             // Arrange
             _mockUnitOfWork.Setup(repo => repo.RefreshTokenRepository.GetFromTokenAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(new DataAccess.Models.Primary.RefreshToken.RefreshToken());
+
+            _mockRefreshTokenService.Setup(service => service.RevokeRefreshTokenAsync(It.IsAny<string>()))
+                .ReturnsAsync(true);
 
             // Act
             var result = await _controller.Revoke(It.IsAny<string>());
 
             // Assert
             Assert.IsType<NoContentResult>(result);
+
+            _mockRefreshTokenService.Verify(service => service.RevokeRefreshTokenAsync(It.IsAny<string>()), Times.Once);
         }
 
         [Fact]
-        public async Task DeleteRefreshToken_Returns_NotFound()
+        public async Task Revoke_ShouldReturnNotFound_WhenTokenIsInvalid()
         {
             // Arrange
-            _mockUnitOfWork.Setup(repo => repo.RefreshTokenRepository.GetFromTokenAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
-                .ReturnsAsync((DataAccess.Models.Primary.RefreshToken.RefreshToken)null);
+            _mockRefreshTokenService.Setup(service => service.RevokeRefreshTokenAsync(It.IsAny<string>()))
+                .ReturnsAsync(false);
 
             // Act
             var result = await _controller.Revoke(It.IsAny<string>());
 
             // Assert
             Assert.IsType<NotFoundObjectResult>(result);
-        }
 
-        [Fact]
-        public async Task DeleteRefreshToken_NeverExecutes_Remove()
-        {
-            // Arrange
-            _mockUnitOfWork.Setup(repo => repo.RefreshTokenRepository.GetFromTokenAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
-                .ReturnsAsync((DataAccess.Models.Primary.RefreshToken.RefreshToken)null);
-
-            // Act
-            var result = await _controller.Revoke(It.IsAny<string>());
-
-            // Assert
-            _mockUnitOfWork.Verify(repo => repo.RefreshTokenRepository.Remove(It.IsAny<DataAccess.Models.Primary.RefreshToken.RefreshToken>()), Times.Never);
+            _mockRefreshTokenService.Verify(service => service.RevokeRefreshTokenAsync(It.IsAny<string>()), Times.Once);
         }
 
 
         [Fact]
-        public async Task UpdateRefreshToken_Returns_Created()
+        public async Task Refresh_ShouldReturnCreated_WhenTokenIsValid()
         {
             // Arrange
             _mockRefreshTokenService.Setup(service => service.ValidateRefreshTokenAsync(It.IsAny<string>()))
-                .ReturnsAsync(string.Empty);
+                .ReturnsAsync(true);
 
             _mockTokenService.Setup(service => service.GetAccessTokenFromUserIdAsync(It.IsAny<Guid>()))
                 .ReturnsAsync(string.Empty);
@@ -88,17 +81,17 @@ namespace FileShare.XUnitTests.ControllerTests.V2._0.RefreshToken
         }
 
         [Fact]
-        public async Task UpdateRefreshToken_Returns_NotFound()
+        public async Task Refresh_ShouldReturnNotFound_WhenTokenIsInvalid()
         {
             // Arrange
             _mockRefreshTokenService.Setup(service => service.ValidateRefreshTokenAsync(It.IsAny<string>()))
-                .ReturnsAsync((string)null);
+                .ReturnsAsync(false);
 
             // Act
             var result = await _controller.Refresh(It.IsAny<string>());
 
             // Assert
-            Assert.IsType<NotFoundObjectResult>(result);
+            Assert.IsType<BadRequestObjectResult>(result);
         }
     }
 }

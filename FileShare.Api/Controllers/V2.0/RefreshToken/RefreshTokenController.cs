@@ -32,18 +32,18 @@ namespace FileShare.Api.Controllers.V2._0.RefreshToken
         [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<IActionResult> Refresh([FromQuery] string oldRefreshToken)
         {
-            var newRefreshToken = await _refreshTokenService.ValidateRefreshTokenAsync(oldRefreshToken);
-            if (newRefreshToken is null)
-                return NotFound("Refresh token is invalid.");
+            var isRefreshTokenValid = await _refreshTokenService.ValidateRefreshTokenAsync(oldRefreshToken);
+            if (isRefreshTokenValid is false)
+                return BadRequest("The refresh token is not valid.");
 
-            var userId = await _unitOfWork.RefreshTokenRepository.GetUserIdFromToken(oldRefreshToken);
-            var token = _tokenService.GetAccessTokenFromUserIdAsync(userId);
+            var newRefreshToken = await _refreshTokenService.RotateRefreshTokenAsync(oldRefreshToken);
+            var newAccessToken = _tokenService.GetAccessTokenFromRefreshToken(newRefreshToken);
 
             await _unitOfWork.SaveChangesAsync();
 
             return Created(string.Empty, new
             {
-                token,
+                token = newAccessToken,
                 refreshToken = newRefreshToken
             });
         }
@@ -59,11 +59,10 @@ namespace FileShare.Api.Controllers.V2._0.RefreshToken
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<IActionResult> Revoke([FromQuery] string refreshToken)
         {
-            var token = await _unitOfWork.RefreshTokenRepository.GetFromTokenAsync(refreshToken);
-            if (token is null)
-                return NotFound("Refresh token could not be found.");
+            var isRevokedSuccessfully = await _refreshTokenService.RevokeRefreshTokenAsync(refreshToken);
+            if (isRevokedSuccessfully is false)
+                return NotFound("The refresh token could not be found.");
 
-            _unitOfWork.RefreshTokenRepository.Remove(token);
             await _unitOfWork.SaveChangesAsync();
 
             return NoContent();

@@ -68,13 +68,26 @@ namespace FileShare.Service.Services.V2._0.Token
         public async Task<string> GetAccessTokenFromUsernameAsync(string username)
         {
             var userId = await _unitOfWork.UserRepository.GetIdByUsernameAsync(username, _httpContextAccessor.HttpContext.RequestAborted);
+            if (userId == Guid.Empty)
+                return null;
 
             return await GetAccessTokenFromUserIdAsync(userId);
+        }
+
+        public async Task<string> GetAccessTokenFromRefreshToken(string refreshToken)
+        {
+            var userId = await _unitOfWork.RefreshTokenRepository.GetUserIdFromToken(refreshToken);
+            if (userId == Guid.Empty)
+                return null;
+
+            return await GetRefreshTokenFromUserIdAsync(userId);
         }
 
         public async Task<string> GetRefreshTokenFromUsernameAsync(string username)
         {
             var userId = await _unitOfWork.UserRepository.GetIdByUsernameAsync(username, _httpContextAccessor.HttpContext.RequestAborted);
+            if (userId == Guid.Empty)
+                return null;
 
             return await GetRefreshTokenFromUserIdAsync(userId);
         }

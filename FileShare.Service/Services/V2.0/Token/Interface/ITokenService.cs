@@ -18,6 +18,13 @@
         Task<string> GetAccessTokenFromUsernameAsync(string username);
 
         /// <summary>
+        /// Generate JWT from refresh token.
+        /// </summary>
+        /// <param name="refreshToken"></param>
+        /// <returns></returns>
+        Task<string> GetAccessTokenFromRefreshToken(string refreshToken);
+
+        /// <summary>
         /// Generate refresh tokem for authenticating.
         /// </summary>
         /// <param name="userId"></param>

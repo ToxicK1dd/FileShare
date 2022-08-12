@@ -21,6 +21,15 @@ namespace FileShare.DataAccess.Models.Primary.RefreshToken
         /// </summary>
         public bool IsExpired { get => Expires < DateTimeOffset.UtcNow; }
 
+        /// <summary>
+        /// When the token was revoked
+        /// </summary>
+        public DateTimeOffset Revoked { get; set; }
+
+        /// <summary>
+        /// Has the token been revoked
+        /// </summary>
+        public bool IsRevoked { get; set; }
 
         #region Navigation Properties
 

@@ -2,6 +2,7 @@
 using FileShare.Service.Services.V2._0.RefreshToken.Interface;
 using FileShare.Utilities.Generators.Random.Interface;
 using Microsoft.AspNetCore.Http;
+using System.Reflection.PortableExecutable;
 
 namespace FileShare.Service.Services.V2._0.RefreshToken
 {
@@ -22,18 +23,45 @@ namespace FileShare.Service.Services.V2._0.RefreshToken
         }
 
 
-        public async Task<string> ValidateRefreshTokenAsync(string oldRefreshToken)
+        public async Task<bool> ValidateRefreshTokenAsync(string oldRefreshToken)
         {
-            var refreshToken = await _unitOfWork.RefreshTokenRepository.GetFromTokenAsync(oldRefreshToken, _httpContextAccessor.HttpContext.RequestAborted);
-            if (refreshToken is null)
+            var dbRefreshToken = await _unitOfWork.RefreshTokenRepository.GetFromTokenAsync(oldRefreshToken, _httpContextAccessor.HttpContext.RequestAborted);
+            if (dbRefreshToken is null)
+                return false;
+            if (dbRefreshToken.IsExpired)
+                return false;
+            if (dbRefreshToken.IsRevoked)
+                return false;
+
+            return true;
+        }
+
+        public async Task<string> RotateRefreshTokenAsync(string oldRefreshToken)
+        {
+            var dbRefreshToken = await _unitOfWork.RefreshTokenRepository.GetFromTokenAsync(oldRefreshToken, _httpContextAccessor.HttpContext.RequestAborted);
+            if (dbRefreshToken is null)
                 return null;
-            if (refreshToken.IsExpired)
+            if (dbRefreshToken.IsExpired)
+                return null;
+            if (dbRefreshToken.IsRevoked)
                 return null;
 
-            refreshToken.Token = _randomGenerator.GenerateBase64String();
-            refreshToken.Expires = DateTimeOffset.UtcNow.AddDays(30);
+            dbRefreshToken.Token = _randomGenerator.GenerateBase64String();
+            dbRefreshToken.Expires = DateTimeOffset.UtcNow.AddDays(30);
 
-            return refreshToken.Token;
+            return dbRefreshToken.Token;
+        }
+
+        public async Task<bool> RevokeRefreshTokenAsync(string refreshToken)
+        {
+            var dbRefreshToken = await _unitOfWork.RefreshTokenRepository.GetFromTokenAsync(refreshToken, _httpContextAccessor.HttpContext.RequestAborted);
+            if (dbRefreshToken is null)
+                return false;
+
+            dbRefreshToken.IsRevoked = true;
+            dbRefreshToken.Revoked = DateTimeOffset.UtcNow;
+
+            return true;
         }
     }
 }

@@ -28,7 +28,7 @@ namespace FileShare.XUnitTests.ServiceTests.V2._0.RefreshToken
 
 
         [Fact]
-        public async Task ValidateRefreshToken_ShouldReturnString_WhenOldTokenIsValid()
+        public async Task ValidateRefreshToken_ShouldReturnTrue_WhenOldTokenIsValid()
         {
             // Arrange
             _mockHttpContextAccessor.Setup(accessor => accessor.HttpContext)
@@ -37,22 +37,17 @@ namespace FileShare.XUnitTests.ServiceTests.V2._0.RefreshToken
             _mockUnitOfWork.Setup(repo => repo.RefreshTokenRepository.GetFromTokenAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(new DataAccess.Models.Primary.RefreshToken.RefreshToken() { Expires = DateTime.Now.AddDays(1) });
 
-            _mockRandomGenerator.Setup(generator => generator.GenerateBase64String(It.IsAny<int>()))
-                .Returns("12345");
-
             // Act
-            var result = await _refreshTokenService.ValidateRefreshTokenAsync(string.Empty);
+            var isValid = await _refreshTokenService.ValidateRefreshTokenAsync(string.Empty);
 
             // Assert
-            Assert.NotNull(result);
-            Assert.NotEqual(string.Empty, result);
+            Assert.True(isValid);
 
             _mockUnitOfWork.Verify(repo => repo.RefreshTokenRepository.GetFromTokenAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Once);
-            _mockRandomGenerator.Verify(generator => generator.GenerateBase64String(It.IsAny<int>()), Times.Once);
         }
 
         [Fact]
-        public async Task ValidateRefreshToken_ShouldReturnNull_WhenOldTokenIsExpired()
+        public async Task ValidateRefreshToken_ShouldReturnFalse_WhenOldTokenIsExpired()
         {
             // Arrange
             _mockHttpContextAccessor.Setup(accessor => accessor.HttpContext)
@@ -62,17 +57,35 @@ namespace FileShare.XUnitTests.ServiceTests.V2._0.RefreshToken
                 .ReturnsAsync(new DataAccess.Models.Primary.RefreshToken.RefreshToken() { Expires = DateTime.Now.AddDays(-1) });
 
             // Act
-            var result = await _refreshTokenService.ValidateRefreshTokenAsync(string.Empty);
+            var isValid = await _refreshTokenService.ValidateRefreshTokenAsync(string.Empty);
 
             // Assert
-            Assert.Null(result);
+            Assert.False(isValid);
 
             _mockUnitOfWork.Verify(repo => repo.RefreshTokenRepository.GetFromTokenAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Once);
-            _mockRandomGenerator.Verify(generator => generator.GenerateBase64String(It.IsAny<int>()), Times.Never);
         }
 
         [Fact]
-        public async Task ValidateRefreshToken_ShouldReturnNull_WhenOldTokenIsInvalid()
+        public async Task ValidateRefreshToken_ShouldReturnFalse_WhenOldTokenIsRevoked()
+        {
+            // Arrange
+            _mockHttpContextAccessor.Setup(accessor => accessor.HttpContext)
+                .Returns(new DefaultHttpContext());
+
+            _mockUnitOfWork.Setup(repo => repo.RefreshTokenRepository.GetFromTokenAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(new DataAccess.Models.Primary.RefreshToken.RefreshToken() { Expires = DateTime.Now.AddDays(1), IsRevoked = true });
+
+            // Act
+            var isValid = await _refreshTokenService.ValidateRefreshTokenAsync(string.Empty);
+
+            // Assert
+            Assert.False(isValid);
+
+            _mockUnitOfWork.Verify(repo => repo.RefreshTokenRepository.GetFromTokenAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Once);
+        }
+
+        [Fact]
+        public async Task ValidateRefreshToken_ShouldReturnFalse_WhenOldTokenIsNull()
         {
             // Arrange
             _mockHttpContextAccessor.Setup(accessor => accessor.HttpContext)
@@ -82,13 +95,12 @@ namespace FileShare.XUnitTests.ServiceTests.V2._0.RefreshToken
                 .ReturnsAsync((DataAccess.Models.Primary.RefreshToken.RefreshToken)null);
 
             // Act
-            var result = await _refreshTokenService.ValidateRefreshTokenAsync(string.Empty);
+            var isValid = await _refreshTokenService.ValidateRefreshTokenAsync(string.Empty);
 
             // Assert
-            Assert.Null(result);
+            Assert.False(isValid);
 
             _mockUnitOfWork.Verify(repo => repo.RefreshTokenRepository.GetFromTokenAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Once);
-            _mockRandomGenerator.Verify(generator => generator.GenerateBase64String(It.IsAny<int>()), Times.Never);
         }
     }
 }
