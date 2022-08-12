@@ -7,7 +7,7 @@ namespace FileShare.DataAccess.Models.Primary.RefreshToken
     public class RefreshToken : BaseEntity
     {
         /// <summary>
-        /// Token used for optaining a new JWT
+        /// Token used for optaining a new access token
         /// </summary>
         public string Token { get; set; }
 

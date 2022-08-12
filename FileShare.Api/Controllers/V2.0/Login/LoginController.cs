@@ -29,7 +29,7 @@ namespace FileShare.Api.Controllers.V2._0.Login
 
 
         /// <summary>
-        /// Get a new JWT, and refresh token using user credentials.
+        /// Obtain an access token, and refresh token using user credentials.
         /// </summary>
         /// <param name="model"></param>
         /// <remarks>
@@ -42,7 +42,7 @@ namespace FileShare.Api.Controllers.V2._0.Login
         ///     }
         ///
         /// </remarks>
-        /// <response code="201">A new JWt, and refresh token has been created.</response>
+        /// <response code="201">A new access token, and refresh token has been created.</response>
         /// <response code="401">The credentials are incorrect.</response>
         [HttpPost]
         [AllowAnonymous]
@@ -53,20 +53,20 @@ namespace FileShare.Api.Controllers.V2._0.Login
             if (!isValidated)
                 return Unauthorized("Password is incorrect.");
 
-            var token = await _tokenService.GetAccessTokenFromUsernameAsync(model.Username);
+            var accessToken = await _tokenService.GetAccessTokenFromUsernameAsync(model.Username);
             var refreshToken = await _tokenService.GetRefreshTokenFromUsernameAsync(model.Username);
 
             await _unitOfWork.SaveChangesAsync();
 
             return Created(string.Empty, new
             {
-                token,
+                accessToken,
                 refreshToken
             });
         }
 
         /// <summary>
-        /// Get a new JWT, and refresh token using user credentials and TOTP code.
+        /// Obtain an access token, and refresh token using user credentials, and TOTP code.
         /// </summary>
         /// <param name="model"></param>
         /// <remarks>
@@ -80,7 +80,7 @@ namespace FileShare.Api.Controllers.V2._0.Login
         ///     }
         ///
         /// </remarks>
-        /// <response code="201">A new JWt, and refresh token has been created.</response>
+        /// <response code="201">A new access token, and refresh token has been created.</response>
         /// <response code="401">The credentials are incorrect.</response>
         [HttpPost]
         [AllowAnonymous]
@@ -95,14 +95,14 @@ namespace FileShare.Api.Controllers.V2._0.Login
             if (isCodeValidated is false)
                 return Unauthorized("2FA code is incorrect.");
 
-            var token = await _tokenService.GetAccessTokenFromUsernameAsync(model.Username);
+            var accessToken = await _tokenService.GetAccessTokenFromUsernameAsync(model.Username);
             var refreshToken = await _tokenService.GetRefreshTokenFromUsernameAsync(model.Username);
 
             await _unitOfWork.SaveChangesAsync();
 
             return Created(string.Empty, new
             {
-                token,
+                accessToken,
                 refreshToken
             });
         }

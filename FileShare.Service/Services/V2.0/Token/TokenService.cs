@@ -13,7 +13,7 @@ using System.Text;
 namespace FileShare.Service.Services.V2._0.Token
 {
     /// <summary>
-    /// Methods for generating JWT's and refresh tokens.
+    /// Methods for generating access tokens and refresh tokens.
     /// </summary>
     public class TokenService : ITokenService
     {
@@ -40,7 +40,7 @@ namespace FileShare.Service.Services.V2._0.Token
 
         public async Task<string> GetAccessTokenFromUserIdAsync(Guid userId)
         {
-            var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
+            var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Bearer:SigningKey"]));
             var signingCredentials = new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha512);
 
             var user = await _userManager.FindByIdAsync(userId.ToString());

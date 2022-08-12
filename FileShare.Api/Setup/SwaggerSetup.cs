@@ -53,7 +53,7 @@ namespace FileShare.Api.Setup
                     Type = SecuritySchemeType.Http,
                     Scheme = "Bearer",
                     BearerFormat = "JWT",
-                    Description = "JWT Authorization using bearer scheme. Enter only the JWT."
+                    Description = "JWT Authorization using bearer scheme. Enter only the access token."
                 });
                 options.AddSecurityRequirement(new()
                 {

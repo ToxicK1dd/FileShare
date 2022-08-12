@@ -1,5 +1,4 @@
-﻿using FileShare.DataAccess.Models.Primary.RefreshToken;
-using FileShare.DataAccess.UnitOfWork.Primary.Interface;
+﻿using FileShare.DataAccess.UnitOfWork.Primary.Interface;
 using FileShare.Service.Services.V2._0.RefreshToken.Interface;
 using FileShare.Service.Services.V2._0.Token.Interface;
 using Microsoft.AspNetCore.Authorization;
@@ -22,12 +21,12 @@ namespace FileShare.Api.Controllers.V2._0.RefreshToken
 
 
         /// <summary>
-        /// Get a new JWT, using the refresh token. This will also replace the refresh token with a new one.
+        /// Get a new access token using the refresh token. This will also rotate the refresh token.
         /// </summary>
         /// <param name="oldRefreshToken"></param>
-        /// <response code="201">A new JWt, and refresh token has been created.</response>
+        /// <response code="201">An access token has been generated, and refresh token has been rotated.</response>
         /// <response code="404">The specified refresh token could not be found.</response>
-        [HttpPost]
+        [HttpPut]
         [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<IActionResult> Refresh([FromQuery] string oldRefreshToken)
@@ -43,13 +42,13 @@ namespace FileShare.Api.Controllers.V2._0.RefreshToken
 
             return Created(string.Empty, new
             {
-                token = newAccessToken,
+                accesstoken = newAccessToken,
                 refreshToken = newRefreshToken
             });
         }
 
         /// <summary>
-        /// Remove the specified refresh token, to prevent the user from optaining a new JWT.
+        /// Revoke the specified refresh token, to prevent the user from optaining a new access token.
         /// </summary>
         /// <param name="refreshToken"></param>
         /// <response code="204">The refresh token has been deleted.</response>

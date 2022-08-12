@@ -43,7 +43,7 @@ namespace FileShare.Api.Controllers.V2._0.Registration
         ///     }
         ///
         /// </remarks>
-        /// <response code="201">Returns a newly created JWt, and refresh token.</response>
+        /// <response code="201">Returns a newly created access token, and refresh token.</response>
         /// <response code="500">The username, or email is already in use.</response>
         [HttpPost]
         [AllowAnonymous]

@@ -1,14 +1,14 @@
 # File Share Api
 ASP&#46;NET Core Web API built with .NET 6, and Swagger
 
-### Getting Started
+## Getting Started
 
 To run this you will need a MySQL database. The easiest way is using [Xampp](https://www.apachefriends.org/).\
 You will also need to run the [EF Core migration](https://docs.microsoft.com/en-us/ef/core/managing-schemas/migrations/?tabs=dotnet-core-cli), to create the database, and schema.
 
 It's recomended that you open, and run the project in [Visual Studio Community 2022](https://visualstudio.microsoft.com/vs/).
 
-#### Installing
+### Installing
 
 To run the migrations you will need the package manager console.\
 In the top of Visual Studio go to:\
@@ -50,7 +50,7 @@ if you are running it on your local machine.
 ### Authentication
 
 The api is configured to use JWT bearer authentication.\
-Tokens are signed using a HMAC512 signature.
+Tokens are short-lived, and signed using a HMAC512 signature.
 
 When calling the api, the authorization header must be set,\
 and have to follow this specific format:
@@ -58,7 +58,7 @@ and have to follow this specific format:
 Authorization: 'Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiU3VwZXJtYW4iLCJqdGkiOiJiNmQ2MTYxZi0zNzJlLTQ2MWUtOWZiNi1iMWM0YWFkZGUwYjQiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJVc2VyIiwiZXhwIjoxNjYwMTU4MjM2fQ.djvSea7mS10zVF2JYq5I-p2VkOnPJ8jqUQsigAYxKRAaKTRDh8ibhu-EBcP3r1rAWrltKl-7bZGd8VQb5cE3LQ'
 ```
 
-The api also utilize refresh tokens for obtaining a new JWT,\
+The api also utilize long-lived refresh tokens for obtaining a new JWT,\
 without the need for re-authentication.
 
 Refresh tokens are valid for 30 days, and after each use\
