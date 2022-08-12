@@ -40,10 +40,6 @@ namespace FileShare.Service.Services.V2._0.RefreshToken
             var dbRefreshToken = await _unitOfWork.RefreshTokenRepository.GetFromTokenAsync(oldRefreshToken, _httpContextAccessor.HttpContext.RequestAborted);
             if (dbRefreshToken is null)
                 return null;
-            if (dbRefreshToken.IsExpired)
-                return null;
-            if (dbRefreshToken.IsRevoked)
-                return null;
 
             dbRefreshToken.Token = _randomGenerator.GenerateBase64String();
             dbRefreshToken.Expires = DateTimeOffset.UtcNow.AddDays(30);
