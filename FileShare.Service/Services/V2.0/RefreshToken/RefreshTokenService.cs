@@ -27,6 +27,7 @@ namespace FileShare.Service.Services.V2._0.RefreshToken
             var dbRefreshToken = await _unitOfWork.RefreshTokenRepository.GetFromTokenAsync(oldRefreshToken, _httpContextAccessor.HttpContext.RequestAborted);
             if (dbRefreshToken is null)
                 return false;
+
             if (dbRefreshToken.IsExpired)
                 return false;
             if (dbRefreshToken.IsRevoked)
