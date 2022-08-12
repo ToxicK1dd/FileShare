@@ -1,7 +1,5 @@
 ﻿using FileShare.DataAccess.Models.Primary.User;
-using FileShare.DataAccess.UnitOfWork.Primary.Interface;
 using FileShare.Service.Services.V2._0.Login;
-using FileShare.Utilities.Generators.Random.Interface;
 using FileShare.Utilities.Helpers.IdentityClaims.Interface;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -13,9 +11,7 @@ namespace FileShare.XUnitTests.ServiceTests.V2._0.Login
     public class LoginServiceTests
     {
         private readonly Mock<IHttpContextAccessor> _mockHttpContextAccessor;
-        private readonly Mock<IPrimaryUnitOfWork> _mockUnitOfWork;
         private readonly Mock<IIdentityClaimsHelper> _mockIdentityClaimsHelper;
-        private readonly Mock<IRandomGenerator> _mockRandomGenerator;
         private readonly Mock<IPasswordHasher<User>> _mockPasswordHasher;
         private readonly Mock<IUserStore<User>> _mockUserStore;
         private readonly Mock<UserManager<User>> _mockUserManager;
@@ -24,18 +20,14 @@ namespace FileShare.XUnitTests.ServiceTests.V2._0.Login
         public LoginServiceTests()
         {
             _mockHttpContextAccessor = new Mock<IHttpContextAccessor>();
-            _mockUnitOfWork = new Mock<IPrimaryUnitOfWork>();
             _mockIdentityClaimsHelper = new Mock<IIdentityClaimsHelper>();
-            _mockRandomGenerator = new Mock<IRandomGenerator>();
             _mockPasswordHasher = new Mock<IPasswordHasher<User>>();
             _mockUserStore = new Mock<IUserStore<User>>();
             _mockUserManager = new Mock<UserManager<User>>(_mockUserStore.Object, null, _mockPasswordHasher.Object, null, null, null, null, null, null);
 
             _loginService = new LoginService(
                 _mockHttpContextAccessor.Object,
-                _mockUnitOfWork.Object,
                 _mockIdentityClaimsHelper.Object,
-                _mockRandomGenerator.Object,
                 _mockUserManager.Object);
         }
 
@@ -210,71 +202,6 @@ namespace FileShare.XUnitTests.ServiceTests.V2._0.Login
             _mockPasswordHasher.Verify(hasher => hasher.VerifyHashedPassword(It.IsAny<User>(), It.IsAny<string>(), It.IsAny<string>()), Times.Once);
             _mockUserManager.Verify(manager => manager.RemovePasswordAsync(It.IsAny<User>()), Times.Never);
             _mockUserManager.Verify(manager => manager.AddPasswordAsync(It.IsAny<User>(), It.IsAny<string>()), Times.Never);
-        }
-
-
-        [Fact]
-        public async Task ValidateRefreshToken_ShouldReturnString_WhenOldTokenIsValid()
-        {
-            // Arrange
-            _mockHttpContextAccessor.Setup(accessor => accessor.HttpContext)
-                .Returns(new DefaultHttpContext());
-
-            _mockUnitOfWork.Setup(repo => repo.RefreshTokenRepository.GetFromTokenAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
-                .ReturnsAsync(new DataAccess.Models.Primary.RefreshToken.RefreshToken() { Expires = DateTime.Now.AddDays(1) });
-
-            _mockRandomGenerator.Setup(generator => generator.GenerateBase64String(It.IsAny<int>()))
-                .Returns("12345");
-
-            // Act
-            var result = await _loginService.ValidateRefreshTokenAsync(string.Empty);
-
-            // Assert
-            Assert.NotNull(result);
-            Assert.NotEqual(string.Empty, result);
-
-            _mockUnitOfWork.Verify(repo => repo.RefreshTokenRepository.GetFromTokenAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Once);
-            _mockRandomGenerator.Verify(generator => generator.GenerateBase64String(It.IsAny<int>()), Times.Once);
-        }
-
-        [Fact]
-        public async Task ValidateRefreshToken_ShouldReturnNull_WhenOldTokenIsExpired()
-        {
-            // Arrange
-            _mockHttpContextAccessor.Setup(accessor => accessor.HttpContext)
-                .Returns(new DefaultHttpContext());
-
-            _mockUnitOfWork.Setup(repo => repo.RefreshTokenRepository.GetFromTokenAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
-                .ReturnsAsync(new DataAccess.Models.Primary.RefreshToken.RefreshToken() { Expires = DateTime.Now.AddDays(-1) });
-
-            // Act
-            var result = await _loginService.ValidateRefreshTokenAsync(string.Empty);
-
-            // Assert
-            Assert.Null(result);
-
-            _mockUnitOfWork.Verify(repo => repo.RefreshTokenRepository.GetFromTokenAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Once);
-            _mockRandomGenerator.Verify(generator => generator.GenerateBase64String(It.IsAny<int>()), Times.Never);
-        }
-
-        [Fact]
-        public async Task ValidateRefreshToken_ShouldReturnNull_WhenOldTokenIsInvalid()
-        {
-            // Arrange
-            _mockHttpContextAccessor.Setup(accessor => accessor.HttpContext)
-                .Returns(new DefaultHttpContext());
-
-            _mockUnitOfWork.Setup(repo => repo.RefreshTokenRepository.GetFromTokenAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
-                .ReturnsAsync((DataAccess.Models.Primary.RefreshToken.RefreshToken)null);
-
-            // Act
-            var result = await _loginService.ValidateRefreshTokenAsync(string.Empty);
-
-            // Assert
-            Assert.Null(result);
-
-            _mockUnitOfWork.Verify(repo => repo.RefreshTokenRepository.GetFromTokenAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Once);
-            _mockRandomGenerator.Verify(generator => generator.GenerateBase64String(It.IsAny<int>()), Times.Never);
         }
     }
 }

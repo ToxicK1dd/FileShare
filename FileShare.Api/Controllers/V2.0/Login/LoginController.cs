@@ -106,53 +106,5 @@ namespace FileShare.Api.Controllers.V2._0.Login
                 refreshToken
             });
         }
-
-        /// <summary>
-        /// Remove the specified refresh token, to prevent the user from optaining a new JWT.
-        /// </summary>
-        /// <param name="refreshToken"></param>
-        /// <response code="204">The refresh token has been deleted.</response>
-        /// <response code="404">The specified refresh token could not be found.</response>
-        [HttpDelete]
-        [AllowAnonymous]
-        [ActionName("RefreshToken")]
-        public async Task<IActionResult> DeleteRefreshToken([FromQuery] string refreshToken)
-        {
-            var token = await _unitOfWork.RefreshTokenRepository.GetFromTokenAsync(refreshToken);
-            if (token is null)
-                return NotFound("Refresh token could not be found.");
-
-            _unitOfWork.RefreshTokenRepository.Remove(token);
-            await _unitOfWork.SaveChangesAsync();
-
-            return NoContent();
-        }
-
-        /// <summary>
-        /// Get a new JWT, using the refresh token. This will also replace the refresh token with a new one.
-        /// </summary>
-        /// <param name="refreshToken"></param>
-        /// <response code="201">A new JWt, and refresh token has been created.</response>
-        /// <response code="404">The specified refresh token could not be found.</response>
-        [HttpPut]
-        [AllowAnonymous]
-        [ActionName("RefreshToken")]
-        public async Task<IActionResult> UpdateRefreshToken([FromQuery] string refreshToken)
-        {
-            var newRefreshToken = await _loginService.ValidateRefreshTokenAsync(refreshToken);
-            if (newRefreshToken is null)
-                return NotFound("Refresh token is invalid.");
-
-            var userId = await _unitOfWork.RefreshTokenRepository.GetUserIdFromToken(refreshToken);
-            var token = _tokenService.GetAccessTokenFromUserIdAsync(userId);
-
-            await _unitOfWork.SaveChangesAsync();
-
-            return Created(string.Empty, new
-            {
-                token,
-                refreshToken = newRefreshToken
-            });
-        }
     }
 }

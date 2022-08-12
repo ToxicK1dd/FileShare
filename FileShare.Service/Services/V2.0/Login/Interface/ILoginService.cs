@@ -29,14 +29,6 @@
         Task<bool> ValidateTotpCodeAsync(string username, string code);
 
         /// <summary>
-        /// Ensure the refresh token are correct.
-        /// </summary>
-        /// <param name="oldRefreshToken"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns>An updated refresh token, or null if the old refresh token did not exist.</returns>
-        Task<string> ValidateRefreshTokenAsync(string oldRefreshToken);
-
-        /// <summary>
         /// Change the password for the user.
         /// </summary>
         /// <param name="newPassword"></param>

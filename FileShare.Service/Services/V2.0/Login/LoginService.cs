@@ -13,23 +13,17 @@ namespace FileShare.Service.Services.V2._0.Login
     public class LoginService : ILoginService
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly IPrimaryUnitOfWork _unitOfWork;
         private readonly IIdentityClaimsHelper _identityClaimsHelper;
-        private readonly IRandomGenerator _randomGenerator;
         private readonly UserManager<DataAccess.Models.Primary.User.User> _userManager;
 
 
         public LoginService(
             IHttpContextAccessor httpContextAccessor,
-            IPrimaryUnitOfWork unitOfWork,
             IIdentityClaimsHelper identityClaimsHelper,
-            IRandomGenerator randomGenerator,
             UserManager<DataAccess.Models.Primary.User.User> userManager)
         {
-            _httpContextAccessor = httpContextAccessor;
-            _unitOfWork = unitOfWork;
+            _httpContextAccessor = httpContextAccessor;;
             _identityClaimsHelper = identityClaimsHelper;
-            _randomGenerator = randomGenerator;
             _userManager = userManager;
         }
 
@@ -59,20 +53,6 @@ namespace FileShare.Service.Services.V2._0.Login
                 return false;
 
             return await _userManager.VerifyTwoFactorTokenAsync(user, "Authenticator", code);
-        }
-
-        public async Task<string> ValidateRefreshTokenAsync(string oldRefreshToken)
-        {
-            var refreshToken = await _unitOfWork.RefreshTokenRepository.GetFromTokenAsync(oldRefreshToken, _httpContextAccessor.HttpContext.RequestAborted);
-            if (refreshToken is null)
-                return null;
-            if (refreshToken.IsExpired)
-                return null;
-
-            refreshToken.Token = _randomGenerator.GenerateBase64String();
-            refreshToken.Expires = DateTimeOffset.UtcNow.AddDays(30);
-
-            return refreshToken.Token;
         }
 
         public async Task<bool> ChangeCredentialsAsync(string newPassword, string oldPassword)
