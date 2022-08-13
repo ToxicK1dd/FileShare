@@ -1,5 +1,6 @@
 ﻿using FileShare.DataAccess.Base.Model.Entity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace FileShare.DataAccess.Models.Primary.VerificationCode
 {
@@ -25,9 +26,10 @@ namespace FileShare.DataAccess.Models.Primary.VerificationCode
         #endregion
     }
 
+
     public class VerificationCodeEntitityTypeConfiguration : BaseEntityTypeConfiguration<VerificationCode>
     {
-        public override void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<VerificationCode> builder)
+        public override void Configure(EntityTypeBuilder<VerificationCode> builder)
         {
             base.Configure(builder);
 
@@ -41,6 +43,7 @@ namespace FileShare.DataAccess.Models.Primary.VerificationCode
                 .WithMany(x => x.VerificationCodes);
         }
     }
+
 
     public enum VerificationCodeType : byte
     {

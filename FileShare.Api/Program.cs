@@ -1,10 +1,11 @@
+using AspNetCoreRateLimit;
+using FileShare.Api.Middleware;
 using FileShare.Api.Setup;
 using FileShare.DataAccess;
 using FileShare.Service;
 using FileShare.Utilities;
-using Swashbuckle.AspNetCore.SwaggerUI;
-using AspNetCoreRateLimit;
 using Hangfire;
+using Swashbuckle.AspNetCore.SwaggerUI;
 
 var builder = WebApplication.CreateBuilder(args);
 if (builder.Environment.EnvironmentName == "Development" ||
@@ -32,7 +33,6 @@ builder.Services.AddDataAccess(builder.Configuration);
 builder.Services.AddServices();
 builder.Services.AddUtillities();
 
-
 // Configure the HTTP request pipeline.
 var app = builder.Build();
 
@@ -42,6 +42,7 @@ if (app.Environment.EnvironmentName != "Production")
     app.UseHangfireDashboard();
 }
 
+app.UseMiddleware<SwaggerBasicAuthMiddleware>();
 app.UseSwagger(options =>
 {
     options.RouteTemplate = "/{documentName}/swagger.json";
