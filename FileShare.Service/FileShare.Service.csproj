@@ -8,8 +8,6 @@
 	<ItemGroup>
 		<PackageReference Include="Mapster" Version="7.3.0" />
 		<PackageReference Include="Mapster.DependencyInjection" Version="1.0.0" />
-		<PackageReference Include="Mapster.Immutable" Version="1.0.0" />
-		<PackageReference Include="Mapster.JsonNet" Version="1.1.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
 		<PackageReference Include="Microsoft.Extensions.Identity.Core" Version="6.0.8" />
 		<PackageReference Include="QRCoder" Version="1.4.3" />

@@ -33,10 +33,6 @@ namespace FileShare.Service
         {
             var config = TypeAdapterConfig.GlobalSettings;
 
-            // Enable settings
-            config.EnableImmutableMapping();
-            config.EnableJsonMapping();
-
             // Apply mappings
             Assembly applicationAssembly = typeof(BaseDto<,>).Assembly;
             config.Scan(applicationAssembly);
