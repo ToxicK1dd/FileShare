@@ -1,12 +1,20 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace FileShare.Api.Models.V2._0.Registration
+namespace FileShare.Service.Dtos.V2._0.Registration
 {
-    /// <summary>
-    /// Model for registering a new user.
-    /// </summary>
-    public record RegistrationModel
+    public record RegisterDto
     {
+        public RegisterDto() { }
+
+        public RegisterDto(string username, string email, string password, string confirmPassword)
+        {
+            Username = username;
+            Email = email;
+            Password = password;
+            ConfirmPassword = confirmPassword;
+        }
+
+
         [Required]
         public string Username { get; init; }
 

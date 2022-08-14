@@ -1,7 +1,7 @@
 ﻿using FileShare.DataAccess.Base.Model.Entity;
 using Mapster;
 
-namespace FileShare.DataAccess.Base.Dto
+namespace FileShare.Service.Dtos
 {
     // https://medium.com/@M-S-2/enjoy-using-mapster-in-net-6-2d3f287a0989
     public abstract class BaseDto<TDto, TModel> : IRegister

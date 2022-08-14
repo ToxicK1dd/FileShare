@@ -4,6 +4,9 @@ using FileShare.Service.Services.V2._0.Registration.Interface;
 using FileShare.Service.Services.V2._0.Token.Interface;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using MapsterMapper;
+using FileShare.Service.Dtos.V2._0.Registration;
+using Mapster;
 
 namespace FileShare.Api.Controllers.V2._0.Registration
 {
@@ -16,15 +19,18 @@ namespace FileShare.Api.Controllers.V2._0.Registration
         private readonly IPrimaryUnitOfWork _unitOfWork;
         private readonly IRegistrationService _registrationService;
         private readonly ITokenService _tokenService;
+        private readonly IMapper _mapper;
 
         public RegistrationController(
             IPrimaryUnitOfWork unitOfWork,
             IRegistrationService registrationService,
-            ITokenService tokenService)
+            ITokenService tokenService,
+            IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _registrationService = registrationService;
             _tokenService = tokenService;
+            _mapper = mapper;
         }
 
 
@@ -50,7 +56,10 @@ namespace FileShare.Api.Controllers.V2._0.Registration
         [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<IActionResult> Register([FromBody] RegistrationModel model)
         {
-            var result = await _registrationService.RegisterAsync(model.Username, model.Email, model.Password);
+            var dto = await _mapper.From(model)
+                .AdaptToTypeAsync<RegisterDto>();
+
+            var result = await _registrationService.RegisterAsync(dto);
             if (result.Successful is false)
                 return Problem(result.ErrorMessage, statusCode: 400);
 

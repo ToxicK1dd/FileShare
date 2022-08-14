@@ -23,26 +23,29 @@ namespace FileShare.Service.Services.V2._0.Registration
         }
 
 
-        public async Task<RegistrationResultDto> RegisterAsync(string username, string email, string password)
+        public async Task<RegistrationResultDto> RegisterAsync(RegisterDto dto)
         {
-            var emailValid = IsValidEmailAddress(email);
+            var emailValid = IsValidEmailAddress(dto.Email);
             if (emailValid is false)
                 return new(false, "Email is not valid format.");
 
-            var emailExists = await _userManager.FindByEmailAsync(email);
+            var emailExists = await _userManager.FindByEmailAsync(dto.Email);
             if (emailExists is not null)
                 return new(false, "Email is already taken.");
 
-            var userExists = await _userManager.FindByNameAsync(username);
+            var userExists = await _userManager.FindByNameAsync(dto.Username);
             if (userExists is not null)
                 return new(false, "Username is already taken.");
+
+            if (string.Equals(dto.Password, dto.ConfirmPassword) is false)
+                return new(false, "The passwords doesn't match.");
 
             DataAccess.Models.Primary.User.User user = new()
             {
                 Id = Guid.NewGuid(),
-                Email = email,
+                Email = dto.Email,
                 SecurityStamp = Guid.NewGuid().ToString(),
-                UserName = username,
+                UserName = dto.Username,
                 IsEnabled = true,
                 IsVerified = false
             };
@@ -55,7 +58,7 @@ namespace FileShare.Service.Services.V2._0.Registration
                 await _userManager.AddToRoleAsync(user, UserRoles.User);
             }
 
-            var result = await _userManager.CreateAsync(user, password);
+            var result = await _userManager.CreateAsync(user, dto.Password);
             return new(result.Succeeded, string.Empty);
         }
 

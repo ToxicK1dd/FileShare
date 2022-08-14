@@ -24,14 +24,14 @@ builder.Services.SetupSwagger();
 builder.Services.SetupVersioning();
 builder.Services.SetupRateLimiting();
 builder.Services.SetupPostmark(builder.Configuration);
-builder.Services.SetupOptions(builder.Configuration);
 
 // Add DI to the container
+builder.Services.AddOptions();
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddDataAccess(builder.Configuration);
 builder.Services.AddServices();
-builder.Services.AddUtillities();
+builder.Services.AddUtillities(builder.Configuration);
 
 // Configure the HTTP request pipeline.
 var app = builder.Build();

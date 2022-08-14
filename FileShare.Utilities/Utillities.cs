@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using FileShare.Utilities.Options;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace FileShare.Utilities
 {
@@ -7,10 +9,12 @@ namespace FileShare.Utilities
     /// </summary>
     public static class Utillities
     {
-        public static void AddUtillities(this IServiceCollection services)
+        public static void AddUtillities(this IServiceCollection services, IConfiguration configuration)
         {
             services.ScanHelpers();
             services.ScanGenerators();
+
+            services.Configure<GatewayApiOptions>(configuration.GetSection("GatewayApi"));
         }
 
 

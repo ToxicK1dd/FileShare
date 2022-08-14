@@ -1,13 +1,9 @@
-﻿using FileShare.DataAccess.Base.Dto;
-using FileShare.DataAccess.Models.Primary;
-using Mapster;
-using MapsterMapper;
+﻿using FileShare.DataAccess.Models.Primary;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
-using System.Reflection;
 
 namespace FileShare.DataAccess
 {
@@ -20,7 +16,6 @@ namespace FileShare.DataAccess
         {
             services.AddPrimaryDatabase(configuration);
             services.AddUnitOfWork();
-            services.AddMapster();
         }
 
 
@@ -47,20 +42,6 @@ namespace FileShare.DataAccess
                 .EnableSensitiveDataLogging()
                 .EnableDetailedErrors();
             }, ServiceLifetime.Scoped);
-        }
-
-        private static void AddMapster(this IServiceCollection services)
-        {
-            TypeAdapterConfig.GlobalSettings.EnableJsonMapping();
-            var typeAdapterConfig = TypeAdapterConfig.GlobalSettings;
-
-            // Apply mappings
-            Assembly applicationAssembly = typeof(BaseDto<,>).Assembly;
-            typeAdapterConfig.Scan(applicationAssembly);
-
-            // Add dependency injection
-            services.AddSingleton(typeAdapterConfig);
-            services.AddScoped<IMapper, ServiceMapper>();
         }
 
         private static void AddUnitOfWork(this IServiceCollection services)
