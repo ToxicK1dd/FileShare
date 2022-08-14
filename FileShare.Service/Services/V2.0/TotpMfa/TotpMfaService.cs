@@ -27,21 +27,30 @@ namespace FileShare.Service.Services.V2._0.TotpMfa
         }
 
 
-        public async Task<bool> EnableTwoFactor()
+        public async Task<bool> EnableTwoFactorAsync()
         {
             var user = await GetCurrentUser();
             return await ToggleTwoFactor(user, true);
         }
 
-        public async Task<bool> DisableTwoFactor()
+        public async Task<bool> DisableTwoFactorAsync()
         {
             var user = await GetCurrentUser();
             return await ToggleTwoFactor(user, false);
         }
 
-        public async Task<bool> IsTwoFactorEnabled()
+        public async Task<bool> IsTwoFactorEnabledAsync()
         {
             var user = await GetCurrentUser();
+            return user.TwoFactorEnabled;
+        }
+
+        public async Task<bool> IsTwoFactorEnabledAsync(string username)
+        {
+            var user = await _userManager.FindByNameAsync(username);
+            if (user is null)
+                return false;
+
             return user.TwoFactorEnabled;
         }
 
@@ -50,26 +59,18 @@ namespace FileShare.Service.Services.V2._0.TotpMfa
         {
             var user = await GetCurrentUser();
 
+            // Reset totp key
+            var resetAuthResult = await _userManager.ResetAuthenticatorKeyAsync(user);
+            if (resetAuthResult.Succeeded is false)
+                return null;
+
             // Generate totp key
             var key = await _userManager.GetAuthenticatorKeyAsync(user);
-            if (string.IsNullOrEmpty(key))
-            {
-                var resetAuthResult = await _userManager.ResetAuthenticatorKeyAsync(user);
-                if (resetAuthResult.Succeeded is false)
-                    return null;
-
-                key = await _userManager.GetAuthenticatorKeyAsync(user);
-            }
 
             // Generate recovery codes
-            IEnumerable<string> recoveryCodes = new List<string>();
-            var remainingCodes = await _userManager.CountRecoveryCodesAsync(user);
-            if (remainingCodes < 1)
-            {
-                recoveryCodes = await _userManager.GenerateNewTwoFactorRecoveryCodesAsync(user, 10);
-                if (recoveryCodes.Any() is false)
-                    return null;
-            }
+            var recoveryCodes = await _userManager.GenerateNewTwoFactorRecoveryCodesAsync(user, 10);
+            if (recoveryCodes.Any() is false)
+                return null;
 
             return new(key, recoveryCodes);
         }

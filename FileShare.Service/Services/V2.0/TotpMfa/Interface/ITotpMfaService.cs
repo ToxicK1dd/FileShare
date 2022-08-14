@@ -8,19 +8,26 @@ namespace FileShare.Service.Services.V2._0.TotpMfa.Interface
         /// Enable 2FA for the user.
         /// </summary>
         /// <returns><see langword="bool"/> indicating if 2FA was successfully enabled.</returns>
-        Task<bool> EnableTwoFactor();
+        Task<bool> EnableTwoFactorAsync();
 
         /// <summary>
         /// Disable 2FA for the user.
         /// </summary>
         /// <returns><see langword="bool"/> indicating if 2FA was successfully disabled.</returns>
-        Task<bool> DisableTwoFactor();
+        Task<bool> DisableTwoFactorAsync();
 
         /// <summary>
-        /// Get if 2FA is currently enabled.
+        /// Get if 2FA is enabled for the current authenticated user.
         /// </summary>
         /// <returns><see langword="bool"/> indicating if 2FA is currently enabled.</returns>
-        Task<bool> IsTwoFactorEnabled();
+        Task<bool> IsTwoFactorEnabledAsync();
+
+        /// <summary>
+        /// Get if 2FA is enabled from username.
+        /// </summary>
+        /// <param name="username"></param>
+        /// <returns><see langword="bool"/> indicating if 2FA is currently enabled.</returns>
+        Task<bool> IsTwoFactorEnabledAsync(string username);
 
 
         /// <summary>

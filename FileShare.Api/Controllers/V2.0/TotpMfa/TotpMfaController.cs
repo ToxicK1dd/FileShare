@@ -29,11 +29,11 @@ namespace FileShare.Api.Controllers.V2._0.TotpMfa
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> EnableTotpMfa()
         {
-            var isEnabled = await _totpMfaService.IsTwoFactorEnabled();
+            var isEnabled = await _totpMfaService.IsTwoFactorEnabledAsync();
             if (isEnabled)
                 return BadRequest("2FA is already enabled.");
 
-            var isSuccessful = await _totpMfaService.EnableTwoFactor();
+            var isSuccessful = await _totpMfaService.EnableTwoFactorAsync();
             if (isSuccessful is false)
                 return BadRequest("Failed to enable 2FA");
 
@@ -59,15 +59,15 @@ namespace FileShare.Api.Controllers.V2._0.TotpMfa
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> DisableTotpMfa([FromQuery] string authenticationCode)
         {
-            var isEnabled = await _totpMfaService.IsTwoFactorEnabled();
+            var isEnabled = await _totpMfaService.IsTwoFactorEnabledAsync();
             if (isEnabled is false)
                 return BadRequest("2FA is already disabled.");
 
             var isReset = await _totpMfaService.ResetTotpMfaKeyAsync(authenticationCode);
             if (isReset is false)
-                return BadRequest("Invalid code");
+                return BadRequest("Invalid code authentication code.");
 
-            var isSuccessful = await _totpMfaService.DisableTwoFactor();
+            var isSuccessful = await _totpMfaService.DisableTwoFactorAsync();
             if (isSuccessful is false)
                 return BadRequest("Failed to disable 2FA");
 

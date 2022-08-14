@@ -1,7 +1,8 @@
-﻿using FileShare.DataAccess.UnitOfWork.Primary.Interface;
-using FileShare.Api.Models.V2._0.Login;
+﻿using FileShare.Api.Models.V2._0.Login;
+using FileShare.DataAccess.UnitOfWork.Primary.Interface;
 using FileShare.Service.Services.V2._0.Login.Interface;
 using FileShare.Service.Services.V2._0.Token.Interface;
+using FileShare.Service.Services.V2._0.TotpMfa.Interface;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,15 +15,18 @@ namespace FileShare.Api.Controllers.V2._0.Login
     public class LoginController : BaseController
     {
         private readonly IPrimaryUnitOfWork _unitOfWork;
+        private readonly ITotpMfaService _totpMfaService;
         private readonly ILoginService _loginService;
         private readonly ITokenService _tokenService;
 
         public LoginController(
             IPrimaryUnitOfWork unitOfWork,
+            ITotpMfaService totpMfaService,
             ILoginService loginService,
             ITokenService tokenService)
         {
             _unitOfWork = unitOfWork;
+            _totpMfaService = totpMfaService;
             _loginService = loginService;
             _tokenService = tokenService;
         }
@@ -49,6 +53,10 @@ namespace FileShare.Api.Controllers.V2._0.Login
         [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<IActionResult> Authenticate([FromBody] AuthenticateLoginModel model)
         {
+            var isTwoFactorEnabled = await _totpMfaService.IsTwoFactorEnabledAsync(model.Username);
+            if (isTwoFactorEnabled)
+                return Unauthorized("Two factor authentication is enabled for this account.");
+
             var isValidated = await _loginService.ValidateCredentialsByUsernameAsync(model.Username, model.Password);
             if (!isValidated)
                 return Unauthorized("Password is incorrect.");
