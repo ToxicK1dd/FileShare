@@ -44,7 +44,8 @@ namespace FileShare.Api.Controllers.V2._0.Registration
         ///     {
         ///        "username": "Superman",
         ///        "email": "superman@kryptonmail.space",
-        ///        "password": "!Krypton1t3"
+        ///        "password": "!Krypton1t3",
+        ///        "confirmPassword": "!Krypton1t3"
         ///     }
         ///
         /// </remarks>
@@ -61,8 +62,8 @@ namespace FileShare.Api.Controllers.V2._0.Registration
             if (result.Successful is false)
                 return Problem(result.ErrorMessage, statusCode: 400);
 
-            var token = await _tokenService.GetAccessTokenFromUsernameAsync(model.Username);
-            var refreshToken = await _tokenService.GetRefreshTokenFromUsernameAsync(model.Username);
+            var token = await _tokenService.GetAccessTokenFromUsernameAsync(dto.Username);
+            var refreshToken = await _tokenService.GetRefreshTokenFromUsernameAsync(dto.Username);
 
             await _unitOfWork.SaveChangesAsync();
 
