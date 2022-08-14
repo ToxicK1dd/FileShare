@@ -1,7 +1,7 @@
 ﻿using FileShare.DataAccess.Base.Model.Entity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Newtonsoft.Json;
+using System.Text.Json;
 using System.Text.Json.Nodes;
 
 namespace FileShare.DataAccess.Models.Primary.Document
@@ -49,8 +49,8 @@ namespace FileShare.DataAccess.Models.Primary.Document
 
             builder.Property(e => e.Json)
                 .HasConversion(
-                    value => value == null ? "" : JsonConvert.SerializeObject(value),
-                    value => JsonConvert.DeserializeObject<JsonObject>(value))
+                    json => json == null ? "" : JsonSerializer.Serialize(json, new JsonSerializerOptions(JsonSerializerDefaults.Web)),
+                    json => JsonSerializer.Deserialize<JsonObject>(json, new JsonSerializerOptions(JsonSerializerDefaults.Web)))
                 .IsRequired(false);
 
             builder.HasOne(x => x.User)

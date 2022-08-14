@@ -7,6 +7,17 @@ namespace FileShare.Api.Models.V2._0.Registration
     /// </summary>
     public record RegistrationModel
     {
+        public RegistrationModel() { }
+
+        public RegistrationModel(string username, string email, string password, string confirmPassword)
+        {
+            Username = username;
+            Email = email;
+            Password = password;
+            ConfirmPassword = confirmPassword;
+        }
+
+
         [Required]
         public string Username { get; init; }
 

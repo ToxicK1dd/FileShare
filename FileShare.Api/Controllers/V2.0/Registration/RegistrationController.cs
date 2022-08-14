@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MapsterMapper;
 using FileShare.Service.Dtos.V2._0.Registration;
-using Mapster;
 
 namespace FileShare.Api.Controllers.V2._0.Registration
 {
@@ -56,8 +55,7 @@ namespace FileShare.Api.Controllers.V2._0.Registration
         [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<IActionResult> Register([FromBody] RegistrationModel model)
         {
-            var dto = await _mapper.From(model)
-                .AdaptToTypeAsync<RegisterDto>();
+            var dto = _mapper.Map<RegisterDto>(model);
 
             var result = await _registrationService.RegisterAsync(dto);
             if (result.Successful is false)
