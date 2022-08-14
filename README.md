@@ -71,8 +71,8 @@ Otherwise they remain valid until unused for 30 days.
 
 For easy documentation, and manual testing the API is using Swagger.
 
-The Swagger dashboard is password protected,\
-with a hardcoded password, found in the `SwaggerBasicAuthMiddleware` class.
+The Swagger dashboard is protected with a hardcoded username, and password.\
+This can be found in `FileShare.Api/Middleware/SwaggerBasicAuthMiddleware`.
 
 All interface methods in the service layer is documented with summaries,\
 which describes what the method is for, and what data it returns.
