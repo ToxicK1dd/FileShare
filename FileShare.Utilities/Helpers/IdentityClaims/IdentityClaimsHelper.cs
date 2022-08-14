@@ -10,10 +10,10 @@ namespace FileShare.Utilities.Helpers.IdentityClaims
     public class IdentityClaimsHelper : IIdentityClaimsHelper
     {
         /// <summary>
-        /// Static helper method to get account id from HTTP context.
+        /// Static helper method to get username from HTTP context.
         /// </summary>
         /// <param name="httpContext"></param>
-        /// <returns>The id of the account if found. Otherwise Guid.Empty.</returns>
+        /// <returns>The username if found. Otherwise <see langword="null"/>.</returns>
         public string GetUsernameFromHttpContext(HttpContext httpContext)
         {
             if (httpContext.User.Identity.IsAuthenticated is false)

@@ -23,7 +23,7 @@ This file contains a list of todo, and done tasks for the project.
 - [ ] TOTP Two-Factor
     - [x] Implement enable/disable 2FA
 	- [x] Implement generate qrcode key 
-	- [ ] Implement recovery codes
+	- [x] Implement recovery codes
 
 ### Account
 - [ ] Manage account

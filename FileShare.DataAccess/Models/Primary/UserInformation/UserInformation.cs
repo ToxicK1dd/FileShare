@@ -6,32 +6,32 @@ namespace FileShare.DataAccess.Models.Primary.UserInformation
     public class UserInformation : BaseEntity
     {
         /// <summary>
-        /// The firstname of the account
+        /// The firstname of the user
         /// </summary>
         public string Firstname { get; set; }
 
         /// <summary>
-        /// All middle names of the account
+        /// All middle names of the user
         /// </summary>
         public string Middlenames { get; set; }
 
         /// <summary>
-        /// The lastname of the account
+        /// The lastname of the user
         /// </summary>
         public string Lastname { get; set; }
 
         /// <summary>
-        /// The date of which the account was born
+        /// The date of which the user was born
         /// </summary>
         public DateTimeOffset DateOfBirth { get; set; }
 
         /// <summary>
-        /// The country of which the account resides
+        /// The country of which the user resides
         /// </summary>
         public string Nationality { get; set; }
 
         /// <summary>
-        /// The sex of the account
+        /// The sex of the user
         /// </summary>
         public SexType Sex { get; set; }
 
