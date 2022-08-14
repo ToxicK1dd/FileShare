@@ -67,6 +67,16 @@ the token is rotated, and expiration extended.
 If they are not used within 30 days, they will expire.\
 Otherwise they remain valid until unused for 30 days.
 
+### Documentation
+
+For easy documentation, and manual testing the API is using Swagger.
+
+The Swagger dashboard is password protected,\
+with a hardcoded password, found in the `SwaggerBasicAuthMiddleware` class.
+
+All interface methods in the service layer is documented with summaries,\
+which describes what the method is for, and what data it returns.
+
 ### License
 This project is available under the [MIT license](https://github.com/ToxicK1dd/FileShare/blob/master/LICENSE).
 
