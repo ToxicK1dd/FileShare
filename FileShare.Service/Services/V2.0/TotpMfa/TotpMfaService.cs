@@ -29,37 +29,26 @@ namespace FileShare.Service.Services.V2._0.TotpMfa
 
         public async Task<bool> EnableTwoFactor()
         {
-            // Find the current user
-            var username = _identityClaimsHelper.GetUsernameFromHttpContext(_httpContextAccessor.HttpContext);
-            var user = await _userManager.FindByNameAsync(username);
-
+            var user = await GetCurrentUser();
             return await ToggleTwoFactor(user, true);
         }
 
         public async Task<bool> DisableTwoFactor()
         {
-            // Find the current user
-            var username = _identityClaimsHelper.GetUsernameFromHttpContext(_httpContextAccessor.HttpContext);
-            var user = await _userManager.FindByNameAsync(username);
-
+            var user = await GetCurrentUser();
             return await ToggleTwoFactor(user, false);
         }
 
         public async Task<bool> IsTwoFactorEnabled()
         {
-            // Find the current user
-            var username = _identityClaimsHelper.GetUsernameFromHttpContext(_httpContextAccessor.HttpContext);
-            var user = await _userManager.FindByNameAsync(username);
-
+            var user = await GetCurrentUser();
             return user.TwoFactorEnabled;
         }
 
 
         public async Task<TotpMfaCodesResultDto> GenerateTotpMfaKeyWithRecoveryCodesAsync()
         {
-            // Find the current user
-            var username = _identityClaimsHelper.GetUsernameFromHttpContext(_httpContextAccessor.HttpContext);
-            var user = await _userManager.FindByNameAsync(username);
+            var user = await GetCurrentUser();
 
             // Generate totp key
             var key = await _userManager.GetAuthenticatorKeyAsync(user);
@@ -87,9 +76,7 @@ namespace FileShare.Service.Services.V2._0.TotpMfa
 
         public async Task<string> GenerateTotpMfaKeyFromRecoveryCodeAsync(string recoveryCode)
         {
-            // Find the current user
-            var username = _identityClaimsHelper.GetUsernameFromHttpContext(_httpContextAccessor.HttpContext);
-            var user = await _userManager.FindByNameAsync(username);
+            var user = await GetCurrentUser();
 
             // Validate recovery code
             var result = await _userManager.RedeemTwoFactorRecoveryCodeAsync(user, recoveryCode);
@@ -103,9 +90,7 @@ namespace FileShare.Service.Services.V2._0.TotpMfa
 
         public async Task<bool> ResetTotpMfaKeyAsync(string code)
         {
-            // Find the current user
-            var username = _identityClaimsHelper.GetUsernameFromHttpContext(_httpContextAccessor.HttpContext);
-            var user = await _userManager.FindByNameAsync(username);
+            var user = await GetCurrentUser();
 
             // Validate totp code
             var result = await _userManager.VerifyTwoFactorTokenAsync(user, "Authenticator", code);
@@ -125,6 +110,12 @@ namespace FileShare.Service.Services.V2._0.TotpMfa
             // Toggle two factor authentication
             var enableTwoFactorResult = await _userManager.SetTwoFactorEnabledAsync(user, enabled);
             return enableTwoFactorResult.Succeeded;
+        }
+
+        private async Task<User> GetCurrentUser()
+        {
+            var username = _identityClaimsHelper.GetUsernameFromHttpContext(_httpContextAccessor.HttpContext);
+            return await _userManager.FindByNameAsync(username);
         }
 
         #endregion
