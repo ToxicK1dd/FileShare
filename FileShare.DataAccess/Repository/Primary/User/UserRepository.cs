@@ -1,10 +1,10 @@
 ﻿using FileShare.DataAccess.Base.Repository;
 using FileShare.DataAccess.Models.Primary;
-using FileShare.DataAccess.Repository.Primary.Account.Interface;
+using FileShare.DataAccess.Repository.Primary.User.Interface;
 using Microsoft.EntityFrameworkCore;
 using Model = FileShare.DataAccess.Models.Primary.User.User;
 
-namespace FileShare.DataAccess.Repository.Primary.Account
+namespace FileShare.DataAccess.Repository.Primary.User
 {
     public class UserRepository : RepositoryBase<Model, PrimaryContext>, IUserRepository
     {

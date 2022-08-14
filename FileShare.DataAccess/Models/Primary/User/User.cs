@@ -17,18 +17,12 @@ namespace FileShare.DataAccess.Models.Primary.User
 
         public ICollection<Share.Share> Shares { get; set; }
 
-        public ICollection<SocialSecurityNumber.SocialSecurityNumber> SocialSecurityNumbers { get; set; }
-
         public ICollection<VerificationCode.VerificationCode> VerificationCodes { get; set; }
-
-        public ICollection<DeviceToken.DeviceToken> DeviceTokens { get; set; }
 
         public ICollection<RefreshToken.RefreshToken> RefreshTokens { get; set; }
 
         public ICollection<LoginAttempt.LoginAttempt> LoginAttempts { get; set; }
 
-
-        public Address.Address Address { get; set; }
 
         public UserInformation.UserInformation UserInformation { get; set; }
 

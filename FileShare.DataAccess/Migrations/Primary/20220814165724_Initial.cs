@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Metadata;
+﻿using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
@@ -104,44 +103,6 @@ namespace FileShare.DataAccess.Migrations.Primary
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Address",
-                schema: "Identity",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    Street = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    AdditionalStreet = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    PostalCode = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    City = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    Region = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    Country = table.Column<string>(type: "longtext", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    UserId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    Created = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
-                    Retrieved = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
-                    Changed = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    Deleted = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Address", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Address_User_UserId",
-                        column: x => x.UserId,
-                        principalSchema: "Identity",
-                        principalTable: "User",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                })
-                .Annotation("MySql:CharSet", "utf8mb4");
-
-            migrationBuilder.CreateTable(
                 name: "Claims",
                 schema: "Identity",
                 columns: table => new
@@ -159,35 +120,6 @@ namespace FileShare.DataAccess.Migrations.Primary
                     table.PrimaryKey("PK_Claims", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Claims_User_UserId",
-                        column: x => x.UserId,
-                        principalSchema: "Identity",
-                        principalTable: "User",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                })
-                .Annotation("MySql:CharSet", "utf8mb4");
-
-            migrationBuilder.CreateTable(
-                name: "DeviceTokens",
-                schema: "Identity",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    DeviceType = table.Column<int>(type: "int", nullable: false),
-                    Token = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    UserId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    Created = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
-                    Retrieved = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
-                    Changed = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    Deleted = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_DeviceTokens", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_DeviceTokens_User_UserId",
                         column: x => x.UserId,
                         principalSchema: "Identity",
                         principalTable: "User",
@@ -289,6 +221,8 @@ namespace FileShare.DataAccess.Migrations.Primary
                     Token = table.Column<string>(type: "varchar(512)", maxLength: 512, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Expires = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
+                    Revoked = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
+                    IsRevoked = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     UserId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     Created = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
                     Retrieved = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
@@ -328,35 +262,6 @@ namespace FileShare.DataAccess.Migrations.Primary
                     table.PrimaryKey("PK_Shares", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Shares_User_UserId",
-                        column: x => x.UserId,
-                        principalSchema: "Identity",
-                        principalTable: "User",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                })
-                .Annotation("MySql:CharSet", "utf8mb4");
-
-            migrationBuilder.CreateTable(
-                name: "SocialSecurityNumbers",
-                schema: "Identity",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    Type = table.Column<int>(type: "int", nullable: false),
-                    Number = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    UserId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    Created = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
-                    Retrieved = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
-                    Changed = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    Deleted = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_SocialSecurityNumbers", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_SocialSecurityNumbers_User_UserId",
                         column: x => x.UserId,
                         principalSchema: "Identity",
                         principalTable: "User",
@@ -601,36 +506,9 @@ namespace FileShare.DataAccess.Migrations.Primary
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Address_Id",
-                schema: "Identity",
-                table: "Address",
-                column: "Id",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Address_UserId",
-                schema: "Identity",
-                table: "Address",
-                column: "UserId",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Claims_UserId",
                 schema: "Identity",
                 table: "Claims",
-                column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_DeviceTokens_Id",
-                schema: "Identity",
-                table: "DeviceTokens",
-                column: "Id",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_DeviceTokens_UserId",
-                schema: "Identity",
-                table: "DeviceTokens",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
@@ -751,19 +629,6 @@ namespace FileShare.DataAccess.Migrations.Primary
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_SocialSecurityNumbers_Id",
-                schema: "Identity",
-                table: "SocialSecurityNumbers",
-                column: "Id",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_SocialSecurityNumbers_UserId",
-                schema: "Identity",
-                table: "SocialSecurityNumbers",
-                column: "UserId");
-
-            migrationBuilder.CreateIndex(
                 name: "EmailIndex",
                 schema: "Identity",
                 table: "User",
@@ -835,15 +700,7 @@ namespace FileShare.DataAccess.Migrations.Primary
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Address",
-                schema: "Identity");
-
-            migrationBuilder.DropTable(
                 name: "Claims",
-                schema: "Identity");
-
-            migrationBuilder.DropTable(
-                name: "DeviceTokens",
                 schema: "Identity");
 
             migrationBuilder.DropTable(
@@ -876,10 +733,6 @@ namespace FileShare.DataAccess.Migrations.Primary
 
             migrationBuilder.DropTable(
                 name: "ShareDetails",
-                schema: "Identity");
-
-            migrationBuilder.DropTable(
-                name: "SocialSecurityNumbers",
                 schema: "Identity");
 
             migrationBuilder.DropTable(
