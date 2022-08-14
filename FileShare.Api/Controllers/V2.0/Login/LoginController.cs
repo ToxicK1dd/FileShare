@@ -1,8 +1,8 @@
 ﻿using FileShare.Api.Models.V2._0.Login;
 using FileShare.DataAccess.UnitOfWork.Primary.Interface;
-using FileShare.Service.Services.V2._0.Login.Interface;
-using FileShare.Service.Services.V2._0.Token.Interface;
-using FileShare.Service.Services.V2._0.TotpMfa.Interface;
+using FileShare.Service.Services.Login.Interface;
+using FileShare.Service.Services.Token.Interface;
+using FileShare.Service.Services.TotpMfa.Interface;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

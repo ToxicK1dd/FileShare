@@ -1,11 +1,11 @@
 ﻿using FileShare.DataAccess.UnitOfWork.Primary.Interface;
 using FileShare.Api.Models.V2._0.Registration;
-using FileShare.Service.Services.V2._0.Registration.Interface;
-using FileShare.Service.Services.V2._0.Token.Interface;
+using FileShare.Service.Services.Registration.Interface;
+using FileShare.Service.Services.Token.Interface;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MapsterMapper;
-using FileShare.Service.Dtos.V2._0.Registration;
+using FileShare.Service.Dtos.Registration;
 
 namespace FileShare.Api.Controllers.V2._0.Registration
 {

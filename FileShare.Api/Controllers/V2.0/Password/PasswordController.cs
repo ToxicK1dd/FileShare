@@ -1,6 +1,6 @@
 ﻿using FileShare.Api.Models.V2._0.Password;
 using FileShare.DataAccess.UnitOfWork.Primary.Interface;
-using FileShare.Service.Services.V2._0.Password.Interface;
+using FileShare.Service.Services.Password.Interface;
 using FluentEmail.Core;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

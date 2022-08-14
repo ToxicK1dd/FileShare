@@ -1,4 +1,4 @@
-﻿using FileShare.Service.Services.V2._0.Share.Interface;
+﻿using FileShare.Service.Services.Share.Interface;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FileShare.Api.Controllers.V2._0.Share

@@ -1,5 +1,5 @@
-﻿using FileShare.Service.Services.V2._0.TotpMfa.Interface;
-using FileShare.Service.Services.V2._0.QrCode.Interface;
+﻿using FileShare.Service.Services.TotpMfa.Interface;
+using FileShare.Service.Services.QrCode.Interface;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FileShare.Api.Controllers.V2._0.TotpMfa

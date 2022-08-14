@@ -1,6 +1,6 @@
 ﻿using FileShare.DataAccess.UnitOfWork.Primary.Interface;
-using FileShare.Service.Services.V2._0.RefreshToken.Interface;
-using FileShare.Service.Services.V2._0.Token.Interface;
+using FileShare.Service.Services.RefreshToken.Interface;
+using FileShare.Service.Services.Token.Interface;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

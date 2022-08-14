@@ -1,6 +1,6 @@
 ﻿using FileShare.Api.Attributes;
 using FileShare.DataAccess.UnitOfWork.Primary.Interface;
-using FileShare.Service.Services.V2._0.Document.Interface;
+using FileShare.Service.Services.Document.Interface;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Mime;
 using FileShare.Api.Models.V2._0.Document;

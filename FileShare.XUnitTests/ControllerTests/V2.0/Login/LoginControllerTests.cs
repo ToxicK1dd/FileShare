@@ -1,7 +1,8 @@
 ﻿using FileShare.Api.Controllers.V2._0.Login;
 using FileShare.DataAccess.UnitOfWork.Primary.Interface;
-using FileShare.Service.Services.V2._0.Login.Interface;
-using FileShare.Service.Services.V2._0.Token.Interface;
+using FileShare.Service.Services.Login.Interface;
+using FileShare.Service.Services.Token.Interface;
+using FileShare.Service.Services.TotpMfa.Interface;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Xunit;
@@ -11,6 +12,7 @@ namespace FileShare.XUnitTests.ControllerTests.V2._0.Login
     public class LoginControllerTests
     {
         private readonly Mock<IPrimaryUnitOfWork> _mockUnitOfWork;
+        private readonly Mock<ITotpMfaService> _mockTotpMfaService;
         private readonly Mock<ILoginService> _mockLoginService;
         private readonly Mock<ITokenService> _mockTokenService;
         private readonly LoginController _controller;
@@ -18,9 +20,10 @@ namespace FileShare.XUnitTests.ControllerTests.V2._0.Login
         public LoginControllerTests()
         {
             _mockUnitOfWork = new Mock<IPrimaryUnitOfWork>();
+            _mockTotpMfaService = new Mock<ITotpMfaService>();
             _mockLoginService = new Mock<ILoginService>();
             _mockTokenService = new Mock<ITokenService>();
-            _controller = new LoginController(_mockUnitOfWork.Object, _mockLoginService.Object, _mockTokenService.Object);
+            _controller = new LoginController(_mockUnitOfWork.Object, _mockTotpMfaService.Object, _mockLoginService.Object, _mockTokenService.Object);
         }
 
 

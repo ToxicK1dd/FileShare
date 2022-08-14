@@ -1,7 +1,7 @@
 ﻿using FileShare.Api.Controllers.V2._0.Document;
 using FileShare.Api.Models.V2._0.Document;
 using FileShare.DataAccess.UnitOfWork.Primary.Interface;
-using FileShare.Service.Services.V2._0.Document.Interface;
+using FileShare.Service.Services.Document.Interface;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;

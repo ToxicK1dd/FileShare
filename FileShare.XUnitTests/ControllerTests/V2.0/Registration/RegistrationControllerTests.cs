@@ -1,11 +1,9 @@
 ﻿using FileShare.Api.Controllers.V2._0.Registration;
 using FileShare.Api.Models.V2._0.Registration;
 using FileShare.DataAccess.UnitOfWork.Primary.Interface;
-using FileShare.Service.Dtos.V2._0.Registration;
-using FileShare.Service.Services.V2._0.Registration.Interface;
-using FileShare.Service.Services.V2._0.Token.Interface;
-using FluentEmail.Core;
-using Mapster;
+using FileShare.Service.Dtos.Registration;
+using FileShare.Service.Services.Registration.Interface;
+using FileShare.Service.Services.Token.Interface;
 using MapsterMapper;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
