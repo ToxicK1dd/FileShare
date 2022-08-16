@@ -17,6 +17,6 @@ namespace FileShare.Api.Models.V2._0.Password
         public string Email { get; init; }
 
         [Required]
-        public string Token { get; init; }
+        public string ResetToken { get; init; }
     }
 }

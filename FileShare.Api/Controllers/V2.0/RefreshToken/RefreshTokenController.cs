@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FileShare.Api.Controllers.V2._0.RefreshToken
 {
+    /// <summary>
+    /// Endpoints for managing refresh tokens.
+    /// </summary>
     public class RefreshTokenController : BaseController
     {
         private readonly IPrimaryUnitOfWork _unitOfWork;

@@ -42,13 +42,13 @@ namespace FileShare.Service.Services.Password
             return true;
         }
 
-        public async Task<bool> ConfirmResetPasswordAsync(string email, string password, string confirmPassword, string token)
+        public async Task<bool> ConfirmResetPasswordAsync(string email, string password, string confirmPassword, string resetToken)
         {
             var user = await _userManager.FindByEmailAsync(email);
             if (user is null)
                 return false;
 
-            var result = await _userManager.ResetPasswordAsync(user, token, password);
+            var result = await _userManager.ResetPasswordAsync(user, resetToken, password);
             if (result.Succeeded is false)
                 return false;
 

@@ -33,8 +33,8 @@ namespace FileShare.Api.Controllers.V2._0.Password
         public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordModel model)
         {
             await _passwordService.ChangePasswordAsync(model.NewPassword, model.OldPassword);
-            await _unitOfWork.SaveChangesAsync();
 
+            await _unitOfWork.SaveChangesAsync();
             return NoContent();
         }
 
@@ -60,7 +60,6 @@ namespace FileShare.Api.Controllers.V2._0.Password
             //    .SendAsync();
 
             await _unitOfWork.SaveChangesAsync();
-
             return NoContent();
         }
 
@@ -75,12 +74,11 @@ namespace FileShare.Api.Controllers.V2._0.Password
         public async Task<IActionResult> ConfirmResetPassword([FromBody] ResetPasswordModel model)
         {
             var isSuccessful = await _passwordService
-                .ConfirmResetPasswordAsync(model.Email, model.Password, model.ConfirmPassword, model.Token);
+                .ConfirmResetPasswordAsync(model.Email, model.Password, model.ConfirmPassword, model.ResetToken);
             if (isSuccessful is false)
                 return BadRequest("Email or token is invalid.");
 
             await _unitOfWork.SaveChangesAsync();
-
             return NoContent();
         }
     }
