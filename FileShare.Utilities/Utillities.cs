@@ -19,6 +19,7 @@ namespace FileShare.Utilities
 
 
         #region Helpers
+
         private static void ScanHelpers(this IServiceCollection services)
         {
             services.Scan(scan =>
@@ -36,6 +37,7 @@ namespace FileShare.Utilities
                     .AsMatchingInterface()
                     .WithScopedLifetime());
         }
+
         #endregion
     }
 }

@@ -22,7 +22,7 @@
         Task<TModel> GetByIdAsync(
             Guid id,
             CancellationToken cancellationToken = default);
-
+        
         /// <summary>
         /// Updates an entity.
         /// </summary>

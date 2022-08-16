@@ -35,7 +35,8 @@ namespace FileShare.Api.Controllers.V2._0.Login
         /// <summary>
         /// Obtain an access token, and refresh token using user credentials.
         /// </summary>
-        /// <param name="model"></param>
+        /// <param name="model">User credentials.</param>
+        /// <param name="isTemporary">If true, a refresh token will not be created.</param>
         /// <remarks>
         /// Sample request:
         ///
@@ -51,7 +52,7 @@ namespace FileShare.Api.Controllers.V2._0.Login
         [HttpPost]
         [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        public async Task<IActionResult> Authenticate([FromBody] AuthenticateLoginModel model)
+        public async Task<IActionResult> Authenticate([FromBody] AuthenticateLoginModel model, [FromQuery] bool isTemporary = false)
         {
             var isTwoFactorEnabled = await _totpMfaService.IsTwoFactorEnabledAsync(model.Username);
             if (isTwoFactorEnabled)
@@ -62,7 +63,10 @@ namespace FileShare.Api.Controllers.V2._0.Login
                 return Unauthorized("Password is incorrect.");
 
             var accessToken = await _tokenService.GetAccessTokenFromUsernameAsync(model.Username);
-            var refreshToken = await _tokenService.GetRefreshTokenFromUsernameAsync(model.Username);
+            var refreshToken = string.Empty;
+            if (isTemporary is false)          
+                refreshToken = await _tokenService.GetRefreshTokenFromUsernameAsync(model.Username); 
+            
 
             await _unitOfWork.SaveChangesAsync();
 
@@ -76,7 +80,8 @@ namespace FileShare.Api.Controllers.V2._0.Login
         /// <summary>
         /// Obtain an access token, and refresh token using user credentials, and TOTP code.
         /// </summary>
-        /// <param name="model"></param>
+        /// <param name="model">User credentials.</param>
+        /// <param name="isTemporary">If true, a refresh token will not be created.</param>
         /// <remarks>
         /// Sample request:
         ///
@@ -93,7 +98,7 @@ namespace FileShare.Api.Controllers.V2._0.Login
         [HttpPost]
         [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        public async Task<IActionResult> AuthenticateTotp([FromBody] AuthenticateTotpLoginModel model)
+        public async Task<IActionResult> AuthenticateTotp([FromBody] AuthenticateTotpLoginModel model, [FromQuery] bool isTemporary = false)
         {
             var isPasswordValidated = await _loginService.ValidateCredentialsByUsernameAsync(model.Username, model.Password);
             if (isPasswordValidated is false)
@@ -104,7 +109,9 @@ namespace FileShare.Api.Controllers.V2._0.Login
                 return Unauthorized("2FA code is incorrect.");
 
             var accessToken = await _tokenService.GetAccessTokenFromUsernameAsync(model.Username);
-            var refreshToken = await _tokenService.GetRefreshTokenFromUsernameAsync(model.Username);
+            var refreshToken = string.Empty;
+            if (isTemporary is false)
+                refreshToken = await _tokenService.GetRefreshTokenFromUsernameAsync(model.Username);
 
             await _unitOfWork.SaveChangesAsync();
 

@@ -31,6 +31,7 @@ namespace FileShare.DataAccess.Models.Primary.RefreshToken
         /// </summary>
         public bool IsRevoked { get; set; }
 
+        
         #region Navigation Properties
 
         public Guid UserId { get; set; }

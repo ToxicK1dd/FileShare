@@ -16,6 +16,7 @@ namespace FileShare.DataAccess.Models.Primary.Share
         /// </summary>
         public bool IsExpired { get => Expires < DateTimeOffset.UtcNow; }
 
+        
         #region Navigation Properties
 
         public Guid UserId { get; set; }
