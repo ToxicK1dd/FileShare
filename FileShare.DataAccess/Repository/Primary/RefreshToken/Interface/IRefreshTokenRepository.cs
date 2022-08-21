@@ -7,5 +7,6 @@ namespace FileShare.DataAccess.Repository.Primary.RefreshToken.Interface
     {
         Task<Model> GetFromTokenAsync(string token, CancellationToken cancellationToken = default);
         Task<Guid> GetUserIdFromToken(string token, CancellationToken cancellation = default);
+        Task<ICollection<Model>> GetAllByUserIdPaginatedAsync(Guid userId, int page, int size, CancellationToken cancellationToken = default);
     }
 }

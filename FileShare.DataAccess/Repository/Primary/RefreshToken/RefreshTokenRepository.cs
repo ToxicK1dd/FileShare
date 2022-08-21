@@ -25,5 +25,10 @@ namespace FileShare.DataAccess.Repository.Primary.RefreshToken
                 .Select(x => x.User.Id)
                 .FirstOrDefaultAsync(cancellation);
         }
+
+        public virtual async Task<ICollection<Model>> GetAllByUserIdPaginatedAsync(Guid userId, int page, int size, CancellationToken cancellationToken = default)
+        {
+            return await dbSet.Where(x => x.UserId == userId).Skip((page - 1) * size).Take(size).ToListAsync(cancellationToken);
+        }
     }
 }

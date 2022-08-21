@@ -25,6 +25,6 @@
         /// <param name="confirmPassword"></param>
         /// <param name="token"></param>
         /// <returns><see langword="true"/> if the arguments are valid, otherwise <see langword="false"/>.</returns>
-        Task<bool> ConfirmResetPasswordAsync(string email, string password, string confirmPassword, string token);
+        Task<bool> ConfirmResetPasswordAsync(string email, string password, string confirmPassword, string resetToken);
     }
 }
