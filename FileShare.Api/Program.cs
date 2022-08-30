@@ -64,6 +64,7 @@ app.UseSwaggerUI(options =>
     options.SwaggerEndpoint($"/v2/swagger.json", $"FileShare - v2");
 });
 
+app.UseHsts();
 app.UseHttpsRedirection();
 app.UseIpRateLimiting();
 
