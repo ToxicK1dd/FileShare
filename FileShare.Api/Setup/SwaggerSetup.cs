@@ -46,14 +46,14 @@ namespace FileShare.Api.Setup
                 options.ExampleFilters();
                 options.OperationFilter<AppendAuthorizeToSummaryOperationFilter>();
 
-                options.AddSecurityDefinition("Bearer", new()
+                options.AddSecurityDefinition("JWT", new()
                 {
                     Name = HeaderNames.Authorization,
                     In = ParameterLocation.Header,
                     Type = SecuritySchemeType.Http,
                     Scheme = "Bearer",
                     BearerFormat = "JWT",
-                    Description = "JWT Authorization using bearer scheme. Enter only the access token."
+                    Description = "JWT Authorization using JWT scheme. Enter only the access token."
                 });
                 options.AddSecurityRequirement(new()
                 {
@@ -63,7 +63,7 @@ namespace FileShare.Api.Setup
                             Reference = new()
                             {
                                 Type = ReferenceType.SecurityScheme,
-                                Id = "Bearer"
+                                Id = "JWT" // This references the definition name
                             }
                         },
                         Array.Empty<string>()

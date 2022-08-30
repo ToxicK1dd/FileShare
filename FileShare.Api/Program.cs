@@ -18,7 +18,7 @@ if (builder.Environment.EnvironmentName == "Development" ||
 
 builder.Services.SetupControllers();
 builder.Services.SetupIdentity();
-builder.Services.SetupBearer(builder.Configuration);
+builder.Services.SetupJWT(builder.Configuration);
 builder.Services.SetupHangfire(builder.Configuration);
 builder.Services.SetupSwagger();
 builder.Services.SetupVersioning();

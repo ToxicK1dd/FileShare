@@ -4,14 +4,14 @@ using System.Text;
 
 namespace FileShare.Api.Setup
 {
-    public static class BearerSetup
+    public static class JWTSetup
     {
         /// <summary>
         /// Configure authentication, and authorization.
         /// </summary>
         /// <param name="services"></param>
         /// <param name="configuration"></param>
-        public static void SetupBearer(this IServiceCollection services, IConfiguration configuration)
+        public static void SetupJWT(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddAuthentication(options =>
             {
@@ -29,7 +29,7 @@ namespace FileShare.Api.Setup
                         ValidateAudience = false,
                         RequireAudience = false,
                         RequireExpirationTime = true,
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Bearer:SigningKey"])),
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JWT:SigningKey"])),
                         ValidateIssuerSigningKey = true,
                         ValidateLifetime = true,
                         ClockSkew = TimeSpan.Zero

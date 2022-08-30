@@ -40,7 +40,7 @@ namespace FileShare.Service.Services.Token
 
         public async Task<string> GetAccessTokenFromUserIdAsync(Guid userId)
         {
-            var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Bearer:SigningKey"]));
+            var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:SigningKey"]));
             var signingCredentials = new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha512);
 
             var user = await _userManager.FindByIdAsync(userId.ToString());
