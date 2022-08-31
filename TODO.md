@@ -9,11 +9,12 @@ This file contains a list of todo, and done tasks for the project.
 - [x] Implement endpoint for registration confirmation 
 
 ### Authentication
-- [x] JWT Bearer
-    - [x] Setup swagger with bearer
+- [x] JWT
+    - [x] Setup swagger with JWT
     - [x] Implement login endpoint
     - [x] Implement jwt refresh token endpoint
     - [x] Implement endpoint for deletion of refresh token
+    - [x] Implement hashing of refresh tokens
 
 - [ ] Password Management
     - [x] Implement change password
