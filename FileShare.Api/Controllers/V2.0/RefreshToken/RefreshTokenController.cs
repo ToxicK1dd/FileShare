@@ -39,7 +39,9 @@ namespace FileShare.Api.Controllers.V2._0.RefreshToken
             if (newRefreshToken is null)
                 return BadRequest("The refresh token is not valid.");
 
-            var newAccessToken = _tokenService.GetAccessTokenFromRefreshToken(newRefreshToken);
+            // If you input new refresh token, this will be Guid.Empty, because save changes have yet to be called.
+            var userId = await _refreshTokenService.GetUserIdFromRefreshTokenAsync(oldRefreshToken);
+            var newAccessToken = await _tokenService.GetAccessTokenFromUserIdAsync(userId);
 
             await _unitOfWork.SaveChangesAsync();
             return Created(string.Empty, new
@@ -65,9 +67,9 @@ namespace FileShare.Api.Controllers.V2._0.RefreshToken
             {
                 var isRevokedSuccessfully = await _refreshTokenService.RevokeRefreshTokenAsync(refreshToken);
                 if (isRevokedSuccessfully is false)
-                    return NotFound("The refresh token could not be found."); 
+                    return NotFound("The refresh token could not be found.");
             }
-            if(id.HasValue)
+            if (id.HasValue)
             {
                 var isRevokedSuccessfully = await _refreshTokenService.RevokeRefreshTokenFromIdAsync(id.Value);
                 if (isRevokedSuccessfully is false)

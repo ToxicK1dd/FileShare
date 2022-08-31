@@ -1,6 +1,7 @@
 ﻿using FileShare.Api.Models.V2._0.Login;
 using FileShare.DataAccess.UnitOfWork.Primary.Interface;
 using FileShare.Service.Services.Login.Interface;
+using FileShare.Service.Services.RefreshToken.Interface;
 using FileShare.Service.Services.Token.Interface;
 using FileShare.Service.Services.TotpMfa.Interface;
 using Microsoft.AspNetCore.Authorization;
@@ -18,17 +19,20 @@ namespace FileShare.Api.Controllers.V2._0.Login
         private readonly ITotpMfaService _totpMfaService;
         private readonly ILoginService _loginService;
         private readonly ITokenService _tokenService;
+        private readonly IRefreshTokenService _refreshTokenService;
 
         public LoginController(
             IPrimaryUnitOfWork unitOfWork,
             ITotpMfaService totpMfaService,
             ILoginService loginService,
-            ITokenService tokenService)
+            ITokenService tokenService,
+            IRefreshTokenService refreshTokenService)
         {
             _unitOfWork = unitOfWork;
             _totpMfaService = totpMfaService;
             _loginService = loginService;
             _tokenService = tokenService;
+            _refreshTokenService = refreshTokenService;
         }
 
 
@@ -64,9 +68,9 @@ namespace FileShare.Api.Controllers.V2._0.Login
 
             var accessToken = await _tokenService.GetAccessTokenFromUsernameAsync(model.Username);
             var refreshToken = string.Empty;
-            if (isTemporary is false)          
-                refreshToken = await _tokenService.GetRefreshTokenFromUsernameAsync(model.Username); 
-            
+            if (isTemporary is false)
+                refreshToken = await _refreshTokenService.GetRefreshTokenFromUsernameAsync(model.Username);
+
 
             await _unitOfWork.SaveChangesAsync();
 
@@ -111,7 +115,7 @@ namespace FileShare.Api.Controllers.V2._0.Login
             var accessToken = await _tokenService.GetAccessTokenFromUsernameAsync(model.Username);
             var refreshToken = string.Empty;
             if (isTemporary is false)
-                refreshToken = await _tokenService.GetRefreshTokenFromUsernameAsync(model.Username);
+                refreshToken = await _refreshTokenService.GetRefreshTokenFromUsernameAsync(model.Username);
 
             await _unitOfWork.SaveChangesAsync();
 

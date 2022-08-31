@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MapsterMapper;
 using FileShare.Service.Dtos.Registration;
+using FileShare.Service.Services.RefreshToken.Interface;
 
 namespace FileShare.Api.Controllers.V2._0.Registration
 {
@@ -18,17 +19,20 @@ namespace FileShare.Api.Controllers.V2._0.Registration
         private readonly IPrimaryUnitOfWork _unitOfWork;
         private readonly IRegistrationService _registrationService;
         private readonly ITokenService _tokenService;
+        private readonly IRefreshTokenService _refreshTokenService;
         private readonly IMapper _mapper;
 
         public RegistrationController(
             IPrimaryUnitOfWork unitOfWork,
             IRegistrationService registrationService,
             ITokenService tokenService,
+            IRefreshTokenService refreshTokenService,
             IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _registrationService = registrationService;
             _tokenService = tokenService;
+            _refreshTokenService = refreshTokenService;
             _mapper = mapper;
         }
 
@@ -63,7 +67,7 @@ namespace FileShare.Api.Controllers.V2._0.Registration
                 return Problem(result.ErrorMessage, statusCode: 400);
 
             var token = await _tokenService.GetAccessTokenFromUsernameAsync(dto.Username);
-            var refreshToken = await _tokenService.GetRefreshTokenFromUsernameAsync(dto.Username);
+            var refreshToken = await _refreshTokenService.GetRefreshTokenFromUsernameAsync(dto.Username);
 
             await _unitOfWork.SaveChangesAsync();
 

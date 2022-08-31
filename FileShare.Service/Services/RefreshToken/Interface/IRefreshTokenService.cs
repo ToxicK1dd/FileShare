@@ -46,5 +46,28 @@ namespace FileShare.Service.Services.RefreshToken.Interface
         /// <param name="size"></param>
         /// <returns>List of tokens.</returns>
         Task<IEnumerable<RefreshTokenDto>> GetRefreshTokensAsync(int page, int size);
+
+        /// <summary>
+        /// Generate refresh token for authenticating.
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns>A new refresh token.</returns>
+        Task<string> GetRefreshTokenFromUserIdAsync(Guid userId);
+
+        /// <summary>
+        /// Generate refresh token from username.
+        /// </summary>
+        /// <param name="username"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns>A new refresh token.</returns>
+        Task<string> GetRefreshTokenFromUsernameAsync(string username);
+
+        /// <summary>
+        /// Get the id of a user from a refresh token
+        /// </summary>
+        /// <param name="refreshToken"></param>
+        /// <returns>User id if found. Otherwise <see cref="Guid.Empty"/></returns>
+        Task<Guid> GetUserIdFromRefreshTokenAsync(string refreshToken);
     }
 }

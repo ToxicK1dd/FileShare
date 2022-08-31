@@ -40,6 +40,9 @@ namespace FileShare.Service.Services.Token
 
         public async Task<string> GetAccessTokenFromUserIdAsync(Guid userId)
         {
+            if (userId == Guid.Empty)
+                return null;
+
             var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:SigningKey"]));
             var signingCredentials = new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha512);
 
@@ -72,39 +75,6 @@ namespace FileShare.Service.Services.Token
                 return null;
 
             return await GetAccessTokenFromUserIdAsync(userId);
-        }
-
-        public async Task<string> GetAccessTokenFromRefreshToken(string refreshToken)
-        {
-            var userId = await _unitOfWork.RefreshTokenRepository.GetUserIdFromToken(refreshToken);
-            if (userId == Guid.Empty)
-                return null;
-
-            return await GetRefreshTokenFromUserIdAsync(userId);
-        }
-
-        public async Task<string> GetRefreshTokenFromUsernameAsync(string username)
-        {
-            var userId = await _unitOfWork.UserRepository.GetIdByUsernameAsync(username, _httpContextAccessor.HttpContext.RequestAborted);
-            if (userId == Guid.Empty)
-                return null;
-
-            return await GetRefreshTokenFromUserIdAsync(userId);
-        }
-
-        public async Task<string> GetRefreshTokenFromUserIdAsync(Guid userId)
-        {
-            var refreshTokenString = _randomGenerator.GenerateBase64String();
-
-            var refreshToken = new DataAccess.Models.Primary.RefreshToken.RefreshToken()
-            {
-                Token = refreshTokenString,
-                Expires = DateTimeOffset.UtcNow.AddDays(30),
-                UserId = userId
-            };
-            await _unitOfWork.RefreshTokenRepository.AddAsync(refreshToken, _httpContextAccessor.HttpContext.RequestAborted);
-
-            return refreshToken.Token;
         }
     }
 }
